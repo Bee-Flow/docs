@@ -33,10 +33,10 @@ theme:
     - navigation.tabs
     - navigation.tabs.sticky
     - navigation.sections
-    - navigation.expand
     - navigation.top
     - navigation.indexes
     - navigation.footer
+    - navigation.prune
     - search.suggest
     - search.highlight
     - search.share
@@ -84,82 +84,105 @@ nav:
   - Home: index.md
   - Getting started:
       - getting-started/index.md
-      - Install on Nextcloud: getting-started/nextcloud.md
-      - First-run wizard: getting-started/wizard.md
+      - Install:
+          - On Nextcloud: getting-started/nextcloud.md
+          - First-run wizard: getting-started/wizard.md
+          - Run locally with NC: getting-started/local-development.md
       - Free vs paid features: getting-started/tiers.md
-      - Run locally with NC: getting-started/local-development.md
   - Nextcloud connector:
       - connector/index.md
-      - Architecture: connector/architecture.md
-      - Permissions & scopes: connector/permissions.md
-      - Privacy & data flow: connector/privacy.md
-      - Troubleshooting: connector/troubleshooting.md
+      - About:
+          - Architecture: connector/architecture.md
+          - Permissions & scopes: connector/permissions.md
+          - Privacy & data flow: connector/privacy.md
+      - Operations:
+          - Troubleshooting: connector/troubleshooting.md
   - Self-hosting:
       - self-hosting/index.md
-      - Docker Compose: self-hosting/docker-compose.md
-      - Kubernetes: self-hosting/kubernetes.md
-      - Environment variables: self-hosting/env.md
-      - Upgrades: self-hosting/upgrades.md
+      - Deploy:
+          - Docker Compose: self-hosting/docker-compose.md
+          - Kubernetes: self-hosting/kubernetes.md
+      - Operations:
+          - Environment variables: self-hosting/env.md
+          - Upgrades: self-hosting/upgrades.md
   - Features:
       - features/index.md
-      - Chat & agents: features/chat.md
-      - Knowledge bases: features/knowledge.md
-      - Automations: features/automations.md
-      - Privacy shield: features/privacy-shield.md
-      - DLP & guardrails: features/dlp.md
-      - Voice: features/voice.md
+      - Workspace:
+          - Chat & agents: features/chat.md
+          - Knowledge bases: features/knowledge.md
+          - Automations: features/automations.md
+          - Voice: features/voice.md
+      - Privacy & safety:
+          - Privacy shield: features/privacy-shield.md
+          - DLP & guardrails: features/dlp.md
   - Studio:
       - studio/index.md
-      - Agent designer: studio/agent-designer.md
-      - Agent wizard: studio/agent-wizard.md
-      - Templates: studio/templates.md
-      - Components: studio/components.md
-      - Knowledge bases: studio/knowledge-bases.md
-      - Skills: studio/skills.md
+      - Agents:
+          - Agent designer: studio/agent-designer.md
+          - Agent wizard: studio/agent-wizard.md
+          - Templates: studio/templates.md
+      - Building blocks:
+          - Components: studio/components.md
+          - Knowledge bases: studio/knowledge-bases.md
+          - Skills: studio/skills.md
   - Integrations:
       - integrations/index.md
-      - Nextcloud Files: integrations/nextcloud.md
-      - Nextcloud Mail: integrations/nextcloud-mail.md
-      - Nextcloud Calendar: integrations/nextcloud-calendar.md
-      - Nextcloud Contacts: integrations/nextcloud-contacts.md
-      - Nextcloud Deck: integrations/nextcloud-deck.md
-      - Nextcloud Talk: integrations/nextcloud-talk.md
-      - Nextcloud Notes: integrations/nextcloud-notes.md
-      - Nextcloud Tasks: integrations/nextcloud-tasks.md
-      - Nextcloud Activity: integrations/nextcloud-activity.md
-      - Nextcloud Notifications: integrations/nextcloud-notifications.md
-      - Nextcloud User Status: integrations/nextcloud-status.md
-      - Google Workspace: integrations/google.md
-      - Microsoft 365: integrations/microsoft.md
-      - GitHub: integrations/github.md
-      - n8n: integrations/n8n.md
-      - YouTrack: integrations/youtrack.md
-      - SignRequest: integrations/signrequest.md
-      - Fireflies: integrations/fireflies.md
-      - Gamma: integrations/gamma.md
-      - LinkedIn: integrations/linkedin.md
-      - WhatsApp: integrations/whatsapp.md
-      - Web search: integrations/web-search.md
-      - Maps: integrations/maps.md
+      - Nextcloud:
+          - Files & WebDAV: integrations/nextcloud.md
+          - Mail: integrations/nextcloud-mail.md
+          - Calendar: integrations/nextcloud-calendar.md
+          - Contacts: integrations/nextcloud-contacts.md
+          - Deck: integrations/nextcloud-deck.md
+          - Talk: integrations/nextcloud-talk.md
+          - Notes: integrations/nextcloud-notes.md
+          - Tasks: integrations/nextcloud-tasks.md
+          - Activity: integrations/nextcloud-activity.md
+          - Notifications: integrations/nextcloud-notifications.md
+          - User Status: integrations/nextcloud-status.md
+      - Productivity suites:
+          - Google Workspace: integrations/google.md
+          - Microsoft 365: integrations/microsoft.md
+      - DevOps & collab:
+          - GitHub: integrations/github.md
+          - n8n: integrations/n8n.md
+          - YouTrack: integrations/youtrack.md
+          - SignRequest: integrations/signrequest.md
+          - Fireflies: integrations/fireflies.md
+          - Gamma: integrations/gamma.md
+      - Social & messaging:
+          - LinkedIn: integrations/linkedin.md
+          - WhatsApp: integrations/whatsapp.md
+      - Search & maps:
+          - Web search: integrations/web-search.md
+          - Maps: integrations/maps.md
       - AI modules: integrations/ai-modules.md
   - Admin:
       - admin/index.md
-      - Users & groups: admin/users-and-groups.md
-      - Nextcloud integrations: admin/nc-integrations.md
-      - Organisation settings: admin/organisation-settings.md
-      - Beta features: admin/beta-features.md
-      - Audit & compliance: admin/audit-and-compliance.md
+      - People:
+          - Users & groups: admin/users-and-groups.md
+          - Nextcloud integrations: admin/nc-integrations.md
+      - Settings:
+          - Organisation settings: admin/organisation-settings.md
+          - Beta features: admin/beta-features.md
+      - Compliance:
+          - Audit & compliance: admin/audit-and-compliance.md
   - Licensing:
       - licensing/index.md
-      - Tiers: licensing/tiers.md
-      - Applying a license key: licensing/apply.md
-      - Fair-code FAQ: licensing/faq.md
+      - Plans:
+          - Tiers: licensing/tiers.md
+      - Setup:
+          - Applying a license key: licensing/apply.md
+      - About:
+          - Fair-code FAQ: licensing/faq.md
   - API:
       - api/index.md
-      - Authentication: api/auth.md
-      - REST reference: api/rest.md
-      - Streaming (SSE): api/sse.md
+      - Auth:
+          - Authentication: api/auth.md
+      - Reference:
+          - REST reference: api/rest.md
+          - Streaming (SSE): api/sse.md
   - Reference:
-      - reference/architecture.md
-      - reference/glossary.md
-      - reference/telemetry.md
+      - System:
+          - Architecture: reference/architecture.md
+          - Telemetry: reference/telemetry.md
+      - Glossary: reference/glossary.md
