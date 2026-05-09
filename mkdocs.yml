@@ -99,6 +99,7 @@ nav:
           - Permissions & scopes: connector/permissions.md
           - Privacy & data flow: connector/privacy.md
       - Operations:
+          - Setup picker (Cloud vs self-hosted): connector/setup-picker.md
           - Troubleshooting: connector/troubleshooting.md
   - Self-hosting:
       - self-hosting/index.md
