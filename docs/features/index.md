@@ -1,31 +1,55 @@
 # Features
 
-Bee Flow ships a layered feature set. Some are free at the Community tier; others are gated behind a license key. See [Tiers](../getting-started/tiers.md) for the full matrix.
+Bee Flow ships a layered feature set. Some are free at the Community tier; others are gated behind a licence key. See [Tiers](../getting-started/tiers.md) for the full matrix.
+
+## By feature
 
 <div class="grid cards" markdown>
 
 -   :material-chat:{ .lg .middle } [Chat & agents](chat.md)
 
-    Conversational UI on top of every integration. Agents are reusable, named personas with their own tool sets.
+    **Community+** — Conversational UI on top of every integration. Agents are reusable, named personas with their own tool sets. 10 system starter agents seeded out of the box.
 
 -   :material-book-open-variant:{ .lg .middle } [Knowledge bases](knowledge.md)
 
-    Drop documents in, ask questions across them. Local KB at Community; vector-indexed KBs at Pro.
+    **Community+** local · **Pro+** vector — Drop documents in, ask questions across them. Local KB at Community; vector / hybrid / reranked KBs at Pro.
 
 -   :material-robot-industrial:{ .lg .middle } [Automations](automations.md)
 
-    Trigger-based workflows ("when an email tagged urgent arrives, summarise and post in Talk"). Pro tier.
+    **Pro+** — Trigger-based workflows. When an email tagged urgent arrives, summarise and post in Talk. Cron / webhook / NC event / manual triggers.
 
 -   :material-shield-check:{ .lg .middle } [Privacy shield](privacy-shield.md)
 
-    Detect and redact emails, phone numbers, IBANs, BSNs, credit-card numbers before prompts reach the model.
+    **Community+** — Detect and redact emails, phone numbers, IBANs, BSNs, credit-card numbers and 14 other categories before prompts reach the model.
 
 -   :material-shield-lock:{ .lg .middle } [DLP & guardrails](dlp.md)
 
-    Stricter org-level policy: block prompts containing certain content, log policy hits. Enterprise tier.
+    **Enterprise+** — Stricter org-level policy: block prompts, log policy hits, audit-log export. Llama Guard or Azure Content Safety for moderation.
 
 -   :material-microphone:{ .lg .middle } [Voice](voice.md)
 
-    Talk to Bee Flow with your voice. Real-time transcription + synthesis. Pro tier.
+    **Pro+** — Full-duplex voice calls with the assistant. Voxtral STT/TTS, energy-VAD, barge-in.
 
 </div>
+
+## By use case
+
+| I want to… | Start here |
+|------------|------------|
+| Summarise a long email or PDF | [Chat & agents](chat.md) |
+| Ask questions across a folder of docs | [Knowledge bases](knowledge.md) |
+| Auto-triage my inbox every 10 min | [Automations](automations.md) |
+| Make sure customer data never leaves the tenant | [Privacy shield](privacy-shield.md) |
+| Log + audit every AI prompt for compliance | [DLP & guardrails](dlp.md) |
+| Talk to the assistant by voice | [Voice](voice.md) |
+| Build a custom agent for support tickets | [Studio → Agent designer](../studio/agent-designer.md) |
+| Embed Bee Flow chat into another product | [API → Authentication](../api/auth.md) |
+
+## How tier gating works
+
+Premium features are blocked at two layers:
+
+1. **UI** — gated nav entries are hidden at lower tiers (`<RequireTier>` wrapper).
+2. **API** — the `requireLicenseFeature()` middleware on the server returns 403 if the feature isn't allowed for the org's tier.
+
+If you reach a 403, your tier doesn't include that feature. Upgrade or contact <tomkooy@beeflow.nl>. Source of truth: [`server/license/tiers.js`](https://github.com/Bee-Flow/beeflow/blob/main/license/tiers.js).

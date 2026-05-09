@@ -107,6 +107,47 @@ nav:
       - Privacy shield: features/privacy-shield.md
       - DLP & guardrails: features/dlp.md
       - Voice: features/voice.md
+  - Studio:
+      - studio/index.md
+      - Agent designer: studio/agent-designer.md
+      - Agent wizard: studio/agent-wizard.md
+      - Templates: studio/templates.md
+      - Components: studio/components.md
+      - Knowledge bases: studio/knowledge-bases.md
+      - Skills: studio/skills.md
+  - Integrations:
+      - integrations/index.md
+      - Nextcloud Files: integrations/nextcloud.md
+      - Nextcloud Mail: integrations/nextcloud-mail.md
+      - Nextcloud Calendar: integrations/nextcloud-calendar.md
+      - Nextcloud Contacts: integrations/nextcloud-contacts.md
+      - Nextcloud Deck: integrations/nextcloud-deck.md
+      - Nextcloud Talk: integrations/nextcloud-talk.md
+      - Nextcloud Notes: integrations/nextcloud-notes.md
+      - Nextcloud Tasks: integrations/nextcloud-tasks.md
+      - Nextcloud Activity: integrations/nextcloud-activity.md
+      - Nextcloud Notifications: integrations/nextcloud-notifications.md
+      - Nextcloud User Status: integrations/nextcloud-status.md
+      - Google Workspace: integrations/google.md
+      - Microsoft 365: integrations/microsoft.md
+      - GitHub: integrations/github.md
+      - n8n: integrations/n8n.md
+      - YouTrack: integrations/youtrack.md
+      - SignRequest: integrations/signrequest.md
+      - Fireflies: integrations/fireflies.md
+      - Gamma: integrations/gamma.md
+      - LinkedIn: integrations/linkedin.md
+      - WhatsApp: integrations/whatsapp.md
+      - Web search: integrations/web-search.md
+      - Maps: integrations/maps.md
+      - AI modules: integrations/ai-modules.md
+  - Admin:
+      - admin/index.md
+      - Users & groups: admin/users-and-groups.md
+      - Nextcloud integrations: admin/nc-integrations.md
+      - Organisation settings: admin/organisation-settings.md
+      - Beta features: admin/beta-features.md
+      - Audit & compliance: admin/audit-and-compliance.md
   - Licensing:
       - licensing/index.md
       - Tiers: licensing/tiers.md
@@ -117,3 +158,7 @@ nav:
       - Authentication: api/auth.md
       - REST reference: api/rest.md
       - Streaming (SSE): api/sse.md
+  - Reference:
+      - reference/architecture.md
+      - reference/glossary.md
+      - reference/telemetry.md
