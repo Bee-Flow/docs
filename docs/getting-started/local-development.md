@@ -11,6 +11,19 @@ Two paths, pick one:
 - **Fast (recommended)** — run the [`local-sandbox.sh`](https://github.com/Bee-Flow/connector/blob/main/scripts/local-sandbox.sh) helper. One command does the whole setup.
 - **Manual** — every step, so you can swap in your own pieces.
 
+!!! tip "Working in the Bee Flow monorepo"
+    If you're working in the private Bee Flow monorepo (not the public connector clone), the same script is wrapped at `scripts/run-local-nc.sh` for convenience:
+
+    ```bash
+    ./scripts/run-local-nc.sh up        # build + run
+    ./scripts/run-local-nc.sh status    # state + heartbeat
+    ./scripts/run-local-nc.sh logs      # combined NC + connector tail
+    ./scripts/run-local-nc.sh down      # stop
+    ./scripts/run-local-nc.sh clean     # nuke everything
+    ```
+
+    Both wrappers call the same `local-sandbox.sh` underneath — pick whichever is closer to where you're working.
+
 ## Prerequisites
 
 | Tool | Version | Notes |
