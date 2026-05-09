@@ -1,0 +1,119 @@
+site_name: Bee Flow
+site_description: AI-native workspace for Nextcloud — chat with your Files, Mail, Calendar, Deck, Notes, Tasks, Contacts and Talk.
+site_url: https://docs.beeflow.ai
+repo_url: https://github.com/Bee-Flow/docs
+repo_name: Bee-Flow/docs
+edit_uri: edit/main/docs/
+copyright: Copyright &copy; Bee Flow B.V.
+
+theme:
+  name: material
+  language: en
+  logo: img/logo.svg
+  favicon: img/favicon.ico
+  font:
+    text: Inter
+    code: JetBrains Mono
+  palette:
+    - media: "(prefers-color-scheme: light)"
+      scheme: default
+      primary: amber
+      accent: amber
+      toggle:
+        icon: material/brightness-7
+        name: Switch to dark mode
+    - media: "(prefers-color-scheme: dark)"
+      scheme: slate
+      primary: amber
+      accent: amber
+      toggle:
+        icon: material/brightness-4
+        name: Switch to light mode
+  features:
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - navigation.indexes
+    - navigation.footer
+    - search.suggest
+    - search.highlight
+    - search.share
+    - content.code.copy
+    - content.code.annotate
+    - content.action.edit
+    - content.tabs.link
+    - toc.follow
+
+markdown_extensions:
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.highlight:
+      anchor_linenums: true
+      line_spans: __span
+      pygments_lang_class: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - pymdownx.emoji:
+      emoji_index: !!python/name:material.extensions.emoji.twemoji
+      emoji_generator: !!python/name:material.extensions.emoji.to_svg
+
+plugins:
+  - search
+
+extra:
+  social:
+    - icon: fontawesome/brands/github
+      link: https://github.com/Bee-Flow
+    - icon: fontawesome/brands/x-twitter
+      link: https://x.com/beeflow_ai
+  generator: false
+
+nav:
+  - Home: index.md
+  - Getting started:
+      - getting-started/index.md
+      - Install on Nextcloud: getting-started/nextcloud.md
+      - First-run wizard: getting-started/wizard.md
+      - Free vs paid features: getting-started/tiers.md
+  - Nextcloud connector:
+      - connector/index.md
+      - Architecture: connector/architecture.md
+      - Permissions & scopes: connector/permissions.md
+      - Privacy & data flow: connector/privacy.md
+      - Troubleshooting: connector/troubleshooting.md
+  - Self-hosting:
+      - self-hosting/index.md
+      - Docker Compose: self-hosting/docker-compose.md
+      - Kubernetes: self-hosting/kubernetes.md
+      - Environment variables: self-hosting/env.md
+      - Upgrades: self-hosting/upgrades.md
+  - Features:
+      - features/index.md
+      - Chat & agents: features/chat.md
+      - Knowledge bases: features/knowledge.md
+      - Automations: features/automations.md
+      - Privacy shield: features/privacy-shield.md
+      - DLP & guardrails: features/dlp.md
+      - Voice: features/voice.md
+  - Licensing:
+      - licensing/index.md
+      - Tiers: licensing/tiers.md
+      - Applying a license key: licensing/apply.md
+      - Fair-code FAQ: licensing/faq.md
+  - API:
+      - api/index.md
+      - Authentication: api/auth.md
+      - REST reference: api/rest.md
+      - Streaming (SSE): api/sse.md
