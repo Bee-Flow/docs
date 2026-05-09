@@ -59,7 +59,7 @@ sudo -u www-data php occ app_api:app:register \
 
 AppAPI pulls the connector image from `ghcr.io/bee-flow/connector:latest` and starts a container next to your Nextcloud. The first install typically takes **30–60 seconds** end-to-end on a stock VPS.
 
-![App Store listing](../img/screenshots/01-appstore.png)
+![App Store listing](../img/screenshots/getting-started/nextcloud-app-store/)
 
 ## 4. Verify the install
 
@@ -81,7 +81,7 @@ docker logs nc_app_bee_flow --tail 50
 
 A **bee icon** should now appear in your Nextcloud top bar.
 
-![Top-bar icon](../img/screenshots/02-topbar.png)
+![Top-bar icon](../img/screenshots/getting-started/nextcloud-topbar/)
 
 ## 5. First-time consent
 

@@ -45,6 +45,8 @@ Every new tenant gets 10 built-in system agents. They're seeded automatically, o
 
 These aren't visible to end users in the chat picker by default — they run behind the scenes for system features. Org admins can promote any of them to user-visible by editing in **Studio**.
 
+![Chat empty state with starter prompts](../img/screenshots/features/chat-empty-state/)
+
 ## Tool dispatch
 
 When you send a message, the server:
@@ -86,6 +88,8 @@ See [API → Streaming (SSE)](../api/sse.md) for the full event spec and reconne
 ## Tool-call visibility (audit-friendly)
 
 Every tool call shows up inline as a clickable row in the conversation. Click it to expand the full request and response. This makes every action auditable — for compliance you can also export the audit log (Enterprise+).
+
+![Inline tool-call row, expanded](../img/screenshots/features/chat-tool-call/)
 
 ## Conversation lifecycle
 

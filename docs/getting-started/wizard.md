@@ -23,7 +23,7 @@ What "sync" really does:
 - Sets `lastNcSync` timestamps on the user record
 - A 6-hourly **backstop job** re-runs sync to catch any missed webhook events
 
-![Step 1: user sync](../img/screenshots/wizard-01-sync.png)
+![Step 1: user sync](../img/screenshots/getting-started/wizard/step-1-user-sync/)
 
 ## Step 2 — Default integrations
 
@@ -45,7 +45,7 @@ Pick which Nextcloud integrations are enabled for new users **by default**. The 
 
 Per-group overrides are configurable later in **Admin → Nextcloud integrations**: any group can **disable** integrations for its members. The rule is **"enable wins"** — a user gets access if **any** of their groups still allows it. [Read more](../admin/nc-integrations.md).
 
-![Step 2: integrations](../img/screenshots/wizard-02-integrations.png)
+![Step 2: integrations](../img/screenshots/getting-started/wizard/step-2-integrations/)
 
 ## Step 3 — Privacy shield
 
@@ -60,7 +60,7 @@ The Privacy Shield scans every prompt for sensitive data and replaces matches wi
 
 The detection backend is configurable independently of the level (Azure AI Text Analytics, or a local CPU model). See [Privacy Shield](../features/privacy-shield.md) for the full category list and the underlying mechanism.
 
-![Step 3: privacy](../img/screenshots/wizard-03-privacy.png)
+![Step 3: privacy](../img/screenshots/getting-started/wizard/step-3-privacy/)
 
 ## Step 4 — License key (optional)
 
@@ -70,7 +70,7 @@ The server verifies the JWT signature against a bundled public key (`license/bun
 
 You can paste, rotate, or remove a key any time later under **Settings → Organisation → License & usage**. See [Applying a licence key](../licensing/apply.md).
 
-![Step 4: license](../img/screenshots/wizard-04-license.png)
+![Step 4: license](../img/screenshots/getting-started/wizard/step-4-license/)
 
 ## After the wizard
 

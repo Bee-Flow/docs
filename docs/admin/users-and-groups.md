@@ -6,6 +6,8 @@ Path: **Admin → Users & groups**.
 
 A list of all users in the org, with columns: avatar, name, email, role, groups, last seen, source (NC / signup / SSO / manual invite).
 
+![Users & groups panel](../img/screenshots/admin/users-and-groups/)
+
 ### Actions per user
 
 | Action | Effect |

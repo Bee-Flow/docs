@@ -112,6 +112,8 @@ If the moderator returns a violation, the reply is redacted (or blocked, dependi
 
 ## Policy editor
 
+![DLP policy editor](../img/screenshots/features/dlp-policy-editor/)
+
 Policies are defined in **Settings → Organisation → DLP**:
 
 - Built-in PII categories — toggle each on / off, set action per category.

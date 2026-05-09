@@ -4,6 +4,8 @@ A guided alternative to the [Agent Designer](agent-designer.md). The wizard asks
 
 URL: `/app/agent-wizard`.
 
+![Agent wizard](../img/screenshots/studio/agent-wizard/)
+
 ## Steps
 
 ### 1. What's this agent for?

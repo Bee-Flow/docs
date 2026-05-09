@@ -4,6 +4,8 @@ This page is the UI walkthrough. For the technical underpinnings (embeddings, ch
 
 URL: `/app/notebooks` (Knowledge Bases live alongside Notebooks under the same shell).
 
+![Knowledge bases list](../img/screenshots/studio/knowledge-bases-list/)
+
 ## Creating a KB
 
 1. **Studio → Knowledge bases → New**.

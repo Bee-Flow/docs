@@ -4,6 +4,8 @@ Path: **Admin → Beta features**.
 
 Beta features are flags for capabilities that are stable enough to ship but not ready for default-on. They're per-org — you opt in for your tenant only.
 
+![Beta features panel](../img/screenshots/admin/beta-features/)
+
 ## Available flags
 
 | Flag | What it enables | Status |

@@ -8,6 +8,8 @@ A grab-bag of org-wide configuration. Sub-pages within:
 
 The org's basic info: name, logo, primary contact email, default language, default timezone.
 
+![Organisation settings overview](../img/screenshots/admin/organisation-settings/)
+
 ## Branding (Full tier)
 
 White-label settings:

@@ -74,6 +74,8 @@ For scripts, automations, integrations:
 2. Pick a name + scope (full / read-only).
 3. Copy the key — it's shown once.
 
+![API keys panel](../img/screenshots/api/api-keys-panel/)
+
 ```http
 GET /api/agents
 Authorization: Bearer bfk_<long_random_string>

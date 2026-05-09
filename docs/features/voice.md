@@ -14,6 +14,8 @@ Bee Flow supports natural full-duplex voice conversations. You speak; the assist
 
 Voice call is the more interesting mode — most users land here after trying push-to-talk.
 
+![Voice call active state](../img/screenshots/features/voice-call-active/)
+
 ## Voice call state machine
 
 ```

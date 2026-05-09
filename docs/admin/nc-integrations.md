@@ -4,7 +4,7 @@ Path: **Admin → Nextcloud integrations**.
 
 This panel controls which of the 11 Nextcloud integrations are available, at three levels: org-wide default, per-group override, and ultimately what each user sees.
 
-![NC integrations panel](../img/screenshots/admin-nc-integrations.png)
+![NC integrations panel](../img/screenshots/admin/nc-integrations-org/)
 
 ## Three-layer model
 

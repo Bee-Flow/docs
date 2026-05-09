@@ -4,7 +4,7 @@ The Agent Designer is the advanced UI for building and editing agents. URL: `/ap
 
 For a guided alternative aimed at non-technical creators, use the [Agent Wizard](agent-wizard.md).
 
-![Agent designer](../img/screenshots/studio-agent-designer.png)
+![Agent designer](../img/screenshots/studio/agent-designer/)
 
 ## Layout
 

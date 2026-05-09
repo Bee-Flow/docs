@@ -38,6 +38,8 @@ Schema:
 
 ## Querying
 
+![Guardrail event browser](../img/screenshots/admin/audit-log/)
+
 In the admin UI:
 
 | Filter | Notes |

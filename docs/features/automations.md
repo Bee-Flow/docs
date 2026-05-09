@@ -104,7 +104,11 @@ Step rows (`automation_run_steps`) record `step_id`, `step_type`, `attempts`, `s
 
 ## Builder
 
-Automations are authored in a visual dataflow graph in **Studio → Routines** (URL: `/app/routines`). Drag nodes, connect them, validate. The validation pill highlights:
+Automations are authored in a visual dataflow graph in **Studio → Routines** (URL: `/app/routines`). Drag nodes, connect them, validate.
+
+![Automation visual graph editor](../img/screenshots/features/automation-builder/)
+
+The validation pill highlights:
 
 - Disconnected outputs
 - Tools the user lacks access to

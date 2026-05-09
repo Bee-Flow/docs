@@ -77,6 +77,8 @@ If the agent's `config.includeSourceReferences = true`, citations are rendered a
 
 Click a citation card to jump to the original document.
 
+![KB-cited reply with source cards](../img/screenshots/features/knowledge-citations/)
+
 ## Pinning a KB to a conversation
 
 ```

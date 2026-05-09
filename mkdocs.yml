@@ -72,6 +72,9 @@ markdown_extensions:
 plugins:
   - search
 
+hooks:
+  - hooks/screenshots.py
+
 extra:
   social:
     - icon: fontawesome/brands/github

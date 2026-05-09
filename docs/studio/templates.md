@@ -4,6 +4,8 @@ Templates are pre-built agent recipes. Each one ships with a name, prompt, recom
 
 URL: `/app/templates`.
 
+![Templates marketplace](../img/screenshots/studio/templates-marketplace/)
+
 ## Browsing
 
 Templates are organised by category:

@@ -10,7 +10,7 @@ After purchase, you receive a JWT in your inbox. To apply it:
 
 The server verifies the signature against the bundled public key (`license/bundled-public-key.pem`) and updates the active tier immediately. Premium features become available without a restart.
 
-![Applying a licence key](../img/screenshots/license-apply.png)
+![Applying a licence key](../img/screenshots/admin/license-apply/)
 
 ## Via env var (self-hosted)
 

@@ -4,6 +4,8 @@ A **Skill** is a bundle of prompt + tool selection + KB pointer that any agent c
 
 URL: `/app/skills` · Min tier: **Pro**.
 
+![Skills marketplace](../img/screenshots/studio/skills-marketplace/)
+
 ## Why skills exist
 
 You'd build the same "extract action items from a meeting transcript" flow into 3 different agents. Skills let you build it once, share it, and have all 3 agents stay in sync as you improve it.

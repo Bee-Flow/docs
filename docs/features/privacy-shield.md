@@ -41,6 +41,8 @@ Two detection paths run in tandem with priority:
 
 A configurable confidence threshold (default 0.7) filters out low-confidence matches. Lower it for stricter detection (more false positives), raise it for more permissive.
 
+![Privacy Shield settings panel](../img/screenshots/features/privacy-shield-settings/)
+
 ## Levels
 
 | Level | Active categories |

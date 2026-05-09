@@ -4,6 +4,8 @@ Components are AI-generated UI building blocks you can drop into chat replies, a
 
 URL: `/app/components`.
 
+![Component designer](../img/screenshots/studio/component-designer/)
+
 ## What a component looks like
 
 A component is a self-contained, sandboxed React fragment with:
