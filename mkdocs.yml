@@ -87,6 +87,7 @@ nav:
       - Install on Nextcloud: getting-started/nextcloud.md
       - First-run wizard: getting-started/wizard.md
       - Free vs paid features: getting-started/tiers.md
+      - Run locally with NC: getting-started/local-development.md
   - Nextcloud connector:
       - connector/index.md
       - Architecture: connector/architecture.md
