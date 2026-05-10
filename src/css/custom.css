@@ -398,20 +398,14 @@ div[class*='codeBlockContainer'] {
     font-size: 1rem;
   }
 
-  /* Items are hidden behind the hamburger on mobile, but Docusaurus still
-     renders the right-side items inline. Keep the CTA visible but compact. */
-  .navbar__items--right .navbar-cta {
-    padding: 0.35rem 0.75rem !important;
-    font-size: 0.85rem;
-    margin: 0 0.25rem;
-  }
-
-  .navbar__items--right .header-github-link {
-    padding: 0.4rem;
-  }
-  .navbar__items--right .header-github-link::before {
-    width: 20px;
-    height: 20px;
+  /* On mobile the navbar bar gets crowded: hamburger, logo, theme toggle,
+     CTA pill, GitHub icon — and they start overlapping. Hide the CTA and
+     GitHub link from the bar; they're still reachable from the drawer
+     (rendered in .navbar-sidebar__items--bottom). The theme toggle and
+     hamburger keep their tap targets clear. */
+  .navbar__items.navbar__items--right > .navbar-cta,
+  .navbar__items.navbar__items--right > .header-github-link {
+    display: none !important;
   }
 }
 
