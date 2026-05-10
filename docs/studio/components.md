@@ -1,3 +1,7 @@
+---
+title: Components
+---
+
 # Components
 
 Components are AI-generated UI building blocks you can drop into chat replies, automation outputs, or webpages. They're built by the **Component Designer** — an agent that converts a description into a working React component.

@@ -1,3 +1,7 @@
+---
+title: REST reference
+---
+
 # REST reference
 
 The most-used endpoints, grouped by area. Auth column abbreviations: **P** = public · **U** = user JWT · **A** = admin JWT · **S** = signed (HMAC / AppAPI).

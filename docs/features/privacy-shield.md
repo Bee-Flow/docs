@@ -1,3 +1,7 @@
+---
+title: Privacy shield
+---
+
 # Privacy shield
 
 The Privacy Shield is the in-tenant filter that scans every prompt and tool result before it reaches the language model. It's available in **every tier**, including Community.

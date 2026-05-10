@@ -1,3 +1,7 @@
+---
+title: Getting started
+---
+
 # Getting started
 
 There are three common ways to run Bee Flow:

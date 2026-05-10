@@ -1,3 +1,7 @@
+---
+title: Admin
+---
+
 # Admin
 
 Org-admin operations live under **Settings → Organisation** in the SPA. This section is the reference for what each panel does.

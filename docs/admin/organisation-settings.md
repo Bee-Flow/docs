@@ -1,3 +1,7 @@
+---
+title: Organisation settings
+---
+
 # Organisation settings
 
 Path: **Settings → Organisation** (URL `/app/org-settings`).

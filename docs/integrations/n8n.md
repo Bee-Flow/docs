@@ -1,3 +1,7 @@
+---
+title: n8n
+---
+
 # n8n
 
 [n8n](https://n8n.io) is a fair-code workflow automation platform. Bee Flow can list and trigger n8n workflows — useful for orchestrating cross-system pipelines that go beyond Bee Flow's built-in [Automations](../features/automations.md).

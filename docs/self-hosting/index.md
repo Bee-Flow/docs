@@ -1,3 +1,7 @@
+---
+title: Self-hosting
+---
+
 # Self-hosting
 
 Bee Flow's server and frontend are open-source under the Sustainable Use Licence. You can run the entire stack on your own infrastructure for free, for your own organisation.

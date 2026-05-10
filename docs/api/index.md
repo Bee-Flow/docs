@@ -1,3 +1,7 @@
+---
+title: API
+---
+
 # API
 
 Bee Flow exposes a REST + Server-Sent Events API. The frontend (`hive`) is one client; you can build others.

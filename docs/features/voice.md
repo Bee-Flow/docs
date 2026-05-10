@@ -1,3 +1,7 @@
+---
+title: Voice
+---
+
 # Voice
 
 :::warning[Pro tier feature]

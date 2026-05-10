@@ -1,3 +1,7 @@
+---
+title: Templates
+---
+
 # Templates
 
 Templates are pre-built agent recipes. Each one ships with a name, prompt, recommended tool set, and (optionally) a starter KB.

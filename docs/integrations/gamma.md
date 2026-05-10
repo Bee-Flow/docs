@@ -1,3 +1,7 @@
+---
+title: Gamma
+---
+
 # Gamma
 
 [Gamma](https://gamma.app) generates beautiful presentations from a prompt. Bee Flow's Gamma integration lets the assistant create / edit decks on the fly.

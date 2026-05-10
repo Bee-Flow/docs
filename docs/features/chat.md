@@ -1,3 +1,7 @@
+---
+title: "Chat & agents"
+---
+
 # Chat & agents
 
 The chat surface is the entry point for every Bee Flow interaction. Every conversation runs against an **agent** — a named persona with a system prompt, a model choice, and an explicit set of tools.

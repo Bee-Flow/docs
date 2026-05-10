@@ -1,3 +1,7 @@
+---
+title: GitHub
+---
+
 # GitHub
 
 Bee Flow connects to GitHub via OAuth or a personal access token.

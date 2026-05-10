@@ -1,3 +1,7 @@
+---
+title: Agent wizard
+---
+
 # Agent wizard
 
 A guided alternative to the [Agent Designer](agent-designer.md). The wizard asks 6 questions and produces a working agent without exposing the full surface area.

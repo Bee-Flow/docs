@@ -1,3 +1,7 @@
+---
+title: Architecture
+---
+
 # Architecture
 
 ## Routes and access levels

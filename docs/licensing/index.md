@@ -1,3 +1,7 @@
+---
+title: Licensing
+---
+
 # Licensing
 
 Bee Flow uses **fair-code** licensing. The frontend (`hive`) and server (`beeflow`) are released under the **Sustainable Use Licence** (SUL). The Nextcloud connector (`connector`) is **AGPL-3.0-or-later**.

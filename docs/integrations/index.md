@@ -1,3 +1,7 @@
+---
+title: Integrations
+---
+
 # Integrations
 
 Bee Flow ships connectors for ~30 external services. Each integration exposes one or more **tools** to the agent — a tool is a typed function call the model can issue.

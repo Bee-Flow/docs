@@ -1,3 +1,7 @@
+---
+title: Fair-code FAQ
+---
+
 # Fair-code FAQ
 
 ## What is "fair-code"?

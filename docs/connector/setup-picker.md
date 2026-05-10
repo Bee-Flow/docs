@@ -1,3 +1,7 @@
+---
+title: Connect to Bee Flow Cloud or self-hosted
+---
+
 # Connect to Bee Flow Cloud or self-hosted
 
 The connector ships with a **setup picker** — a small page hosted by the connector itself where an admin chooses whether this Nextcloud talks to **Bee Flow Cloud** (`api.beeflow.ai`) or to a **self-hosted Bee Flow server**.

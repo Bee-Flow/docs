@@ -1,3 +1,7 @@
+---
+title: Web search
+---
+
 # Web search
 
 Two providers are supported: **Bing** and **Tavily**. Either is enough — pick whichever you have an account for. Tavily is preferred for AI-tuned results; Bing for general-purpose web indexing.

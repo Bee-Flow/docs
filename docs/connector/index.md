@@ -1,3 +1,7 @@
+---
+title: Nextcloud connector
+---
+
 # Nextcloud connector
 
 The connector is the Nextcloud ExApp that bridges your Nextcloud to the Bee Flow service. It runs as a Docker container next to your Nextcloud, deployed and managed by [AppAPI](https://apps.nextcloud.com/apps/app_api).

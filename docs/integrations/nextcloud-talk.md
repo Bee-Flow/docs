@@ -1,3 +1,7 @@
+---
+title: Nextcloud — Talk
+---
+
 # Nextcloud — Talk
 
 [Nextcloud Talk](https://apps.nextcloud.com/apps/spreed) (Spreed) is the chat / video-meeting app. Bee Flow can list rooms, post messages, react.

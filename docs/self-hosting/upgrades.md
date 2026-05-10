@@ -1,3 +1,7 @@
+---
+title: Upgrades
+---
+
 # Upgrades
 
 ## Version skew policy

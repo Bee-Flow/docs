@@ -1,3 +1,7 @@
+---
+title: YouTrack
+---
+
 # YouTrack
 
 JetBrains' issue tracker. Bee Flow can search, read, create issues, and add comments.

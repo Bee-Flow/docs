@@ -1,3 +1,7 @@
+---
+title: Architecture
+---
+
 # Architecture
 
 A 30 000 ft view of the Bee Flow stack.

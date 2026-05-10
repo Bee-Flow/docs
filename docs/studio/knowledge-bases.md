@@ -1,3 +1,7 @@
+---
+title: Knowledge bases (Studio)
+---
+
 # Knowledge bases (Studio)
 
 This page is the UI walkthrough. For the technical underpinnings (embeddings, chunking, search modes), see [Features → Knowledge bases](../features/knowledge.md).

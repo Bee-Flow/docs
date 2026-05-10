@@ -1,3 +1,7 @@
+---
+title: "Permissions & scopes"
+---
+
 # Permissions & scopes
 
 The connector declares its data-access scopes in [`appinfo/info.xml`](https://github.com/Bee-Flow/connector/blob/main/appinfo/info.xml). AppAPI surfaces these to the admin at install time. Reviewers and auditors can read the manifest to audit exactly what access the connector requests, before installing.

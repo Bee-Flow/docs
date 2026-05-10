@@ -1,3 +1,7 @@
+---
+title: Glossary
+---
+
 # Glossary
 
 | Term | Meaning |

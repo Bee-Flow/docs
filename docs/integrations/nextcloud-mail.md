@@ -1,3 +1,7 @@
+---
+title: Nextcloud — Mail
+---
+
 # Nextcloud — Mail
 
 Read, draft and send mail through the [Nextcloud Mail app](https://apps.nextcloud.com/apps/mail).

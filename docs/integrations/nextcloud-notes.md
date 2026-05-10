@@ -1,3 +1,7 @@
+---
+title: Nextcloud — Notes
+---
+
 # Nextcloud — Notes
 
 [Nextcloud Notes](https://apps.nextcloud.com/apps/notes) — plain-text / Markdown notes synced to a `Notes/` folder.

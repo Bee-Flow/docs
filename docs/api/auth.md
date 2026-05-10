@@ -1,3 +1,7 @@
+---
+title: Authentication
+---
+
 # Authentication
 
 Bee Flow accepts session JWTs in either:

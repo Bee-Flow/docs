@@ -1,3 +1,7 @@
+---
+title: Applying a licence key
+---
+
 # Applying a licence key
 
 After purchase, you receive a JWT in your inbox. To apply it:

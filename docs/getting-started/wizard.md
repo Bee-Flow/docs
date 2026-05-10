@@ -1,3 +1,7 @@
+---
+title: First-run wizard
+---
+
 # First-run wizard
 
 The first time an organisation admin opens Bee Flow, a 4-step onboarding wizard runs. It saves the org's first sane defaults so other users land on a working chat instead of an empty config screen.

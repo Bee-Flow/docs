@@ -1,3 +1,7 @@
+---
+title: Kubernetes
+---
+
 # Kubernetes
 
 A Helm chart will be published at [Bee-Flow/helm](https://github.com/Bee-Flow/helm) once stable. Until then, the manifests below are a working starting point.

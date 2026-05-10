@@ -1,3 +1,7 @@
+---
+title: Streaming (SSE)
+---
+
 # Streaming (SSE)
 
 Chat responses stream over Server-Sent Events. The connection stays open until the assistant finishes its turn (including tool calls).

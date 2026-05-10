@@ -1,3 +1,7 @@
+---
+title: AI modules
+---
+
 # AI modules
 
 Built-in AI capabilities exposed as tools — image generation, video generation, music, TTS, transcription, and the local agent-search engine. No external OAuth required; gated only by the corresponding API keys you set in `.env`.

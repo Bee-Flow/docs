@@ -1,3 +1,7 @@
+---
+title: Run locally with a local Nextcloud
+---
+
 # Run locally with a local Nextcloud
 
 This page walks you through running the Bee Flow connector on your laptop, against a local Nextcloud, **without** publishing anything to the Nextcloud App Store. Useful for:

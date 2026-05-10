@@ -1,3 +1,7 @@
+---
+title: Skills
+---
+
 # Skills
 
 A **Skill** is a bundle of prompt + tool selection + KB pointer that any agent can absorb. Think of it as a reusable "talent" — drop it into an agent and the agent gains that capability.

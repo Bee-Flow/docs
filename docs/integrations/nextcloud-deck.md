@@ -1,3 +1,7 @@
+---
+title: Nextcloud — Deck
+---
+
 # Nextcloud — Deck
 
 [Nextcloud Deck](https://apps.nextcloud.com/apps/deck) is a kanban-board app. Bee Flow can read and write boards, stacks, cards, labels, comments.

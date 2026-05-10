@@ -1,3 +1,7 @@
+---
+title: Agent designer
+---
+
 # Agent designer
 
 The Agent Designer is the advanced UI for building and editing agents. URL: `/app/agent-designer-advanced`.

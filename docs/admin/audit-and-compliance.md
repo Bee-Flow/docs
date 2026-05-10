@@ -1,3 +1,7 @@
+---
+title: "Audit & compliance"
+---
+
 # Audit & compliance
 
 :::warning[Enterprise tier feature]

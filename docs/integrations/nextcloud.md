@@ -1,3 +1,7 @@
+---
+title: "Nextcloud — Files & WebDAV"
+---
+
 # Nextcloud — Files & WebDAV
 
 The umbrella Nextcloud integration. Backs all file operations the assistant performs against your Nextcloud.

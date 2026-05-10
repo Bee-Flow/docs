@@ -1,3 +1,7 @@
+---
+title: Docker Compose
+---
+
 # Docker Compose
 
 The fastest way to self-host Bee Flow on a single host. Production-ready for small/mid orgs.

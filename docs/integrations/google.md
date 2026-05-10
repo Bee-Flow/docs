@@ -1,3 +1,7 @@
+---
+title: Google Workspace
+---
+
 # Google Workspace
 
 Bee Flow connects to Google Workspace via OAuth 2.0. Each Workspace service is a separate integration ID with its own OAuth scopes.

@@ -1,3 +1,7 @@
+---
+title: Knowledge bases
+---
+
 # Knowledge bases
 
 A **Knowledge Base** (KB) is a collection of documents the assistant can search. Drop in PDFs, Markdown, Word, plain text, HTML, or point at a Nextcloud folder — Bee Flow chunks, embeds, indexes, and serves citations.

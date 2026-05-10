@@ -1,3 +1,7 @@
+---
+title: Environment variables
+---
+
 # Environment variables
 
 Every variable the Bee Flow server reads, grouped by area. Defaults are shown where they exist; **bold** vars are required for that area to work.

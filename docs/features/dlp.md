@@ -1,3 +1,7 @@
+---
+title: "DLP & guardrails"
+---
+
 # DLP & guardrails
 
 :::warning[Enterprise tier feature]

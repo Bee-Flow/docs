@@ -1,3 +1,7 @@
+---
+title: Beta features
+---
+
 # Beta features
 
 Path: **Admin → Beta features**.

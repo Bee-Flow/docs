@@ -1,3 +1,7 @@
+---
+title: Free vs paid features
+---
+
 # Free vs paid features
 
 :::warning[Subject to change]

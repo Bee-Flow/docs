@@ -1,3 +1,7 @@
+---
+title: Nextcloud — User Status
+---
+
 # Nextcloud — User Status
 
 Get and set the user's availability and custom status message.

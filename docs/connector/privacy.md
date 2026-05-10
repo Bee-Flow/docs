@@ -1,3 +1,7 @@
+---
+title: "Privacy & data flow"
+---
+
 # Privacy & data flow
 
 When you act on a Nextcloud item, the connector sends the item to the Bee Flow service over TLS. This page is the authoritative description of what's sent, when, and what is **never** sent.

@@ -1,3 +1,7 @@
+---
+title: Fireflies
+---
+
 # Fireflies
 
 [Fireflies.ai](https://fireflies.ai) joins meetings as a bot and produces transcripts. Bee Flow reads them so the assistant can answer "what did we agree on Tuesday's call?"-style questions.

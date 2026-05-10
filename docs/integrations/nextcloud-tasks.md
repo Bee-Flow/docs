@@ -1,3 +1,7 @@
+---
+title: Nextcloud — Tasks
+---
+
 # Nextcloud — Tasks
 
 [Nextcloud Tasks](https://apps.nextcloud.com/apps/tasks) — VTODO-based to-do lists synced via CalDAV.

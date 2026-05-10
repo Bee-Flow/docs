@@ -1,3 +1,7 @@
+---
+title: Nextcloud — Contacts
+---
+
 # Nextcloud — Contacts
 
 CardDAV-backed contact lookup.

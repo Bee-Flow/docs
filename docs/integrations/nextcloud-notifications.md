@@ -1,3 +1,7 @@
+---
+title: Nextcloud — Notifications
+---
+
 # Nextcloud — Notifications
 
 Read and dismiss native NC notifications, and (with the right scope) send new ones.

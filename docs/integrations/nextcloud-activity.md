@@ -1,3 +1,7 @@
+---
+title: Nextcloud — Activity
+---
+
 # Nextcloud — Activity
 
 The [Activity](https://apps.nextcloud.com/apps/activity) app surfaces a unified feed of file changes, shares, comments, mentions. Bee Flow reads it (read-only) so the assistant can answer "what changed yesterday?" type questions.

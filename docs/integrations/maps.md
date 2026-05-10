@@ -1,3 +1,7 @@
+---
+title: Maps
+---
+
 # Maps
 
 Google Maps integration for location lookup and directions.

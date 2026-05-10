@@ -1,3 +1,7 @@
+---
+title: Microsoft 365
+---
+
 # Microsoft 365
 
 Bee Flow connects to Microsoft 365 via OAuth 2.0 against Microsoft Graph.

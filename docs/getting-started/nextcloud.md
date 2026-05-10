@@ -1,3 +1,7 @@
+---
+title: Install on Nextcloud
+---
+
 # Install on Nextcloud
 
 This page walks an admin through installing the Bee Flow connector via the Nextcloud App Store.

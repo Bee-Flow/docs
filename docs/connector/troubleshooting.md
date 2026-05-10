@@ -1,3 +1,7 @@
+---
+title: Troubleshooting
+---
+
 # Troubleshooting
 
 A reference of common problems with the connector. For each: symptom → cause → fix.

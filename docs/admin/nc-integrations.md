@@ -1,3 +1,7 @@
+---
+title: Nextcloud integrations
+---
+
 # Nextcloud integrations
 
 Path: **Admin → Nextcloud integrations**.

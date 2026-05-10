@@ -1,3 +1,7 @@
+---
+title: Nextcloud — Calendar
+---
+
 # Nextcloud — Calendar
 
 CalDAV-backed access to the user's calendars.

@@ -1,3 +1,7 @@
+---
+title: "Users & groups"
+---
+
 # Users & groups
 
 Path: **Admin → Users & groups**.

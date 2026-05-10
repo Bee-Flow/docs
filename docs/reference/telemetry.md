@@ -1,3 +1,7 @@
+---
+title: Telemetry
+---
+
 # Telemetry
 
 What Bee Flow logs, how to ship it elsewhere, and what guarantees we make about PII in logs.

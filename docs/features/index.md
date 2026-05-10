@@ -1,3 +1,7 @@
+---
+title: Features
+---
+
 # Features
 
 Bee Flow ships a layered feature set. Some are free at the Community tier; others are gated behind a licence key. See [Tiers](../getting-started/tiers.md) for the full matrix.

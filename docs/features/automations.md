@@ -1,3 +1,7 @@
+---
+title: Automations
+---
+
 # Automations
 
 :::warning[Pro tier feature]

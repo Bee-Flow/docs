@@ -1,3 +1,7 @@
+---
+title: LinkedIn
+---
+
 # LinkedIn
 
 Read-only LinkedIn lookups via OAuth.

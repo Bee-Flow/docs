@@ -1,3 +1,7 @@
+---
+title: Studio
+---
+
 # Studio
 
 Studio is where you build, configure and ship the AI workspace your team uses every day. It's the home of agents, knowledge bases, automations, skills, components and templates.
