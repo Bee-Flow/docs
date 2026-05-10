@@ -1,5 +1,11 @@
 # Free vs paid features
 
+:::warning[Subject to change]
+
+Tier limits, pricing and feature gates on this page are being reworked over the coming weeks. Treat the numbers below as indicative — we'll update this page when the new structure lands.
+
+:::
+
 Bee Flow ships in four tiers. The **Community** tier is fully functional with no licence key — basic chat, agents, knowledge bases and the Nextcloud connector all work out of the box.
 
 ## At a glance

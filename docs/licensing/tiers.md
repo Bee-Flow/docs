@@ -1,5 +1,11 @@
 # Tiers
 
+:::warning[Subject to change]
+
+Tier limits, pricing and feature gates on this page are being reworked over the coming weeks. Treat the numbers below as indicative — we'll update this page when the new structure lands.
+
+:::
+
 Source of truth: [`server/license/tiers.js`](https://github.com/Bee-Flow/beeflow/blob/main/license/tiers.js).
 
 ## Limits
