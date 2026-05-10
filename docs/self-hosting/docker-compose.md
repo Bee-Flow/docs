@@ -233,7 +233,7 @@ docker compose up -d beeflow-server
 docker compose logs -f beeflow-server
 ```
 
-[More on upgrades :material-arrow-right:](upgrades.md)
+[More on upgrades →](upgrades.md)
 
 ## Production hardening checklist
 

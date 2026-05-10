@@ -1,0 +1,390 @@
+/* ==========================================================================
+   Bee Flow docs — amber brand, modern, motion-friendly
+   ========================================================================== */
+
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap');
+
+/* --------------------------------------------------------------------------
+   1. Tokens — amber palette, neutral grays, semantic colors
+   -------------------------------------------------------------------------- */
+:root {
+  /* Amber scale (brand) */
+  --bf-amber-50:  #fff8e0;
+  --bf-amber-100: #fff0bf;
+  --bf-amber-200: #ffe487;
+  --bf-amber-300: #ffd24f;
+  --bf-amber-400: #ffbe1f;
+  --bf-amber-500: #f5b300;  /* primary */
+  --bf-amber-600: #d99800;
+  --bf-amber-700: #b07a00;
+  --bf-amber-800: #815900;
+  --bf-amber-900: #4d3500;
+
+  /* Warm accent — honey/orange (no purple, ever) */
+  --bf-honey-400: #ff9f1a;
+  --bf-honey-500: #ff8c1a;
+  --bf-honey-600: #e07300;
+
+  /* Neutrals */
+  --bf-ink-50:  #fafaf9;
+  --bf-ink-100: #f4f4f3;
+  --bf-ink-200: #e7e6e4;
+  --bf-ink-300: #d4d3d0;
+  --bf-ink-400: #9a9893;
+  --bf-ink-500: #6b6863;
+  --bf-ink-600: #4c4a45;
+  --bf-ink-700: #34322e;
+  --bf-ink-800: #1f1e1b;
+  --bf-ink-900: #131210;
+
+  /* Docusaurus-mapped tokens */
+  --ifm-color-primary: var(--bf-amber-600);
+  --ifm-color-primary-dark: var(--bf-amber-700);
+  --ifm-color-primary-darker: var(--bf-amber-700);
+  --ifm-color-primary-darkest: var(--bf-amber-800);
+  --ifm-color-primary-light: var(--bf-amber-500);
+  --ifm-color-primary-lighter: var(--bf-amber-400);
+  --ifm-color-primary-lightest: var(--bf-amber-300);
+
+  --ifm-font-family-base: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  --ifm-font-family-monospace: 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+  --ifm-heading-font-weight: 700;
+  --ifm-h1-font-size: 2.6rem;
+  --ifm-h2-font-size: 1.8rem;
+  --ifm-line-height-base: 1.65;
+  --ifm-spacing-horizontal: 1.25rem;
+
+  --ifm-code-font-size: 92%;
+  --ifm-code-background: var(--bf-ink-100);
+  --docusaurus-highlighted-code-line-bg: rgba(245, 179, 0, 0.14);
+
+  --ifm-link-color: var(--bf-amber-700);
+  --ifm-link-hover-color: var(--bf-amber-800);
+  --ifm-link-hover-decoration: none;
+
+  --ifm-navbar-background-color: rgba(255, 255, 255, 0.78);
+  --ifm-navbar-shadow: 0 1px 0 rgba(20, 20, 20, 0.06);
+  --ifm-footer-background-color: var(--bf-ink-50);
+  --ifm-footer-color: var(--bf-ink-600);
+
+  --bf-radius-sm: 8px;
+  --bf-radius:    14px;
+  --bf-radius-lg: 20px;
+
+  --bf-shadow-sm: 0 1px 2px rgba(20, 20, 20, 0.04);
+  --bf-shadow:    0 8px 24px -8px rgba(20, 20, 20, 0.10), 0 2px 6px -2px rgba(20, 20, 20, 0.06);
+  --bf-shadow-lg: 0 24px 60px -20px rgba(245, 179, 0, 0.30), 0 8px 24px -8px rgba(20, 20, 20, 0.12);
+
+  --bf-grad-amber: linear-gradient(135deg, #ffd24f 0%, #f5b300 45%, #ff8c1a 100%);
+  --bf-grad-amber-soft: linear-gradient(135deg, #fff0bf 0%, #ffe487 100%);
+}
+
+/* Dark mode */
+[data-theme='dark'] {
+  --ifm-color-primary: var(--bf-amber-400);
+  --ifm-color-primary-dark: var(--bf-amber-500);
+  --ifm-color-primary-darker: var(--bf-amber-500);
+  --ifm-color-primary-darkest: var(--bf-amber-600);
+  --ifm-color-primary-light: var(--bf-amber-300);
+  --ifm-color-primary-lighter: var(--bf-amber-200);
+  --ifm-color-primary-lightest: var(--bf-amber-100);
+
+  --ifm-background-color: #0e0d0b;
+  --ifm-background-surface-color: #16140f;
+
+  --ifm-code-background: rgba(245, 179, 0, 0.08);
+  --docusaurus-highlighted-code-line-bg: rgba(245, 179, 0, 0.18);
+
+  --ifm-link-color: var(--bf-amber-300);
+  --ifm-link-hover-color: var(--bf-amber-200);
+
+  --ifm-navbar-background-color: rgba(14, 13, 11, 0.78);
+  --ifm-navbar-shadow: 0 1px 0 rgba(255, 255, 255, 0.06);
+  --ifm-footer-background-color: #0a0908;
+  --ifm-footer-color: var(--bf-ink-300);
+
+  --bf-shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.5);
+  --bf-shadow:    0 8px 24px -8px rgba(0, 0, 0, 0.6), 0 2px 6px -2px rgba(0, 0, 0, 0.4);
+  --bf-shadow-lg: 0 24px 60px -20px rgba(255, 190, 31, 0.18), 0 8px 24px -8px rgba(0, 0, 0, 0.5);
+}
+
+/* --------------------------------------------------------------------------
+   2. Global polish
+   -------------------------------------------------------------------------- */
+html { scroll-behavior: smooth; }
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-feature-settings: 'cv02', 'cv03', 'cv04', 'cv11';
+}
+
+::selection { background: var(--bf-amber-200); color: var(--bf-ink-900); }
+[data-theme='dark'] ::selection { background: var(--bf-amber-500); color: var(--bf-ink-900); }
+
+h1, h2, h3 { letter-spacing: -0.02em; }
+h1 { font-weight: 800; }
+
+article a:not(.button):not(.card) {
+  text-decoration: none;
+  background-image: linear-gradient(transparent 60%, rgba(245, 179, 0, 0.28) 60%);
+  background-size: 100% 100%;
+  transition: background-size 160ms ease;
+}
+article a:not(.button):not(.card):hover {
+  background-size: 100% 100%;
+  background-image: linear-gradient(transparent 0%, rgba(245, 179, 0, 0.28) 0%);
+}
+
+/* --------------------------------------------------------------------------
+   3. Navbar — translucent, sticky, modern
+   -------------------------------------------------------------------------- */
+.navbar {
+  backdrop-filter: saturate(180%) blur(14px);
+  -webkit-backdrop-filter: saturate(180%) blur(14px);
+  border-bottom: 1px solid transparent;
+}
+
+.navbar__title { font-weight: 700; letter-spacing: -0.01em; }
+
+.navbar__link {
+  font-weight: 500;
+  color: var(--bf-ink-700);
+  transition: color 140ms ease;
+}
+[data-theme='dark'] .navbar__link { color: var(--bf-ink-200); }
+
+.navbar__link:hover { color: var(--bf-amber-700); }
+[data-theme='dark'] .navbar__link:hover { color: var(--bf-amber-300); }
+
+.navbar__link--active {
+  color: var(--bf-amber-700);
+}
+[data-theme='dark'] .navbar__link--active { color: var(--bf-amber-300); }
+
+.navbar-cta {
+  background: var(--bf-grad-amber);
+  color: #1a1408 !important;
+  font-weight: 600;
+  padding: 0.4rem 0.95rem !important;
+  border-radius: 999px;
+  margin: 0 0.5rem;
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.04), 0 8px 18px -10px rgba(245, 179, 0, 0.7);
+  transition: transform 140ms ease, box-shadow 140ms ease;
+}
+.navbar-cta:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 2px 0 rgba(0, 0, 0, 0.06), 0 14px 28px -10px rgba(245, 179, 0, 0.9);
+  color: #1a1408 !important;
+}
+
+.header-github-link::before {
+  content: '';
+  display: inline-block;
+  width: 22px;
+  height: 22px;
+  background: currentColor;
+  mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.7.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3'/></svg>");
+  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'><path d='M12 .3a12 12 0 0 0-3.8 23.4c.6.1.8-.3.8-.6v-2c-3.3.7-4-1.6-4-1.6-.5-1.4-1.3-1.7-1.3-1.7-1.1-.7.1-.7.1-.7 1.2.1 1.8 1.2 1.8 1.2 1.1 1.8 2.8 1.3 3.5 1 .1-.8.4-1.3.8-1.6-2.7-.3-5.5-1.3-5.5-5.9 0-1.3.5-2.4 1.2-3.2-.1-.3-.5-1.5.1-3.2 0 0 1-.3 3.3 1.2a11.5 11.5 0 0 1 6 0c2.3-1.5 3.3-1.2 3.3-1.2.6 1.7.2 2.9.1 3.2.7.8 1.2 1.9 1.2 3.2 0 4.6-2.8 5.6-5.5 5.9.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A12 12 0 0 0 12 .3'/></svg>");
+}
+
+/* --------------------------------------------------------------------------
+   4. Sidebar
+   -------------------------------------------------------------------------- */
+.menu__link {
+  border-radius: 8px;
+  font-weight: 500;
+  transition: background 120ms ease, color 120ms ease;
+}
+.menu__link:hover {
+  background: var(--bf-amber-50);
+  color: var(--bf-amber-800);
+}
+[data-theme='dark'] .menu__link:hover {
+  background: rgba(245, 179, 0, 0.10);
+  color: var(--bf-amber-200);
+}
+.menu__link--active {
+  background: var(--bf-amber-50);
+  color: var(--bf-amber-800) !important;
+  font-weight: 600;
+}
+[data-theme='dark'] .menu__link--active {
+  background: rgba(245, 179, 0, 0.16);
+  color: var(--bf-amber-200) !important;
+}
+
+/* --------------------------------------------------------------------------
+   5. Cards (used in markdown via :::card / .bf-card)
+   -------------------------------------------------------------------------- */
+.bf-card {
+  display: block;
+  padding: 1.25rem 1.4rem;
+  border-radius: var(--bf-radius);
+  background: var(--ifm-background-surface-color, #fff);
+  border: 1px solid var(--bf-ink-200);
+  box-shadow: var(--bf-shadow-sm);
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+  text-decoration: none !important;
+  color: inherit;
+}
+[data-theme='dark'] .bf-card { border-color: rgba(255,255,255,0.08); }
+
+.bf-card:hover {
+  transform: translateY(-2px);
+  border-color: var(--bf-amber-300);
+  box-shadow: var(--bf-shadow);
+}
+
+/* --------------------------------------------------------------------------
+   5b. .bf-grid — markdown grid card replacement (renders the list inside as
+   a responsive card grid; works for the converted MkDocs grid-cards blocks)
+   -------------------------------------------------------------------------- */
+.bf-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1rem;
+  margin: 1.5rem 0;
+}
+
+.bf-grid > ul {
+  display: contents;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+.bf-grid > ul > li,
+.bf-grid > p {
+  display: block;
+  padding: 1.25rem 1.4rem;
+  border-radius: var(--bf-radius);
+  background: var(--ifm-background-surface-color, #fff);
+  border: 1px solid var(--bf-ink-200);
+  box-shadow: var(--bf-shadow-sm);
+  transition: transform 180ms ease, box-shadow 180ms ease, border-color 180ms ease;
+  margin: 0;
+}
+
+[data-theme='dark'] .bf-grid > ul > li,
+[data-theme='dark'] .bf-grid > p {
+  border-color: rgba(255,255,255,0.08);
+  background: rgba(255,255,255,0.02);
+}
+
+.bf-grid > ul > li:hover,
+.bf-grid > p:hover {
+  transform: translateY(-2px);
+  border-color: var(--bf-amber-300);
+  box-shadow: var(--bf-shadow);
+}
+
+.bf-grid > ul > li > strong:first-child {
+  display: block;
+  font-size: 1.1rem;
+  letter-spacing: -0.015em;
+  margin-bottom: 0.4rem;
+  color: var(--bf-ink-900);
+}
+
+[data-theme='dark'] .bf-grid > ul > li > strong:first-child {
+  color: var(--bf-ink-50);
+}
+
+.bf-grid > ul > li > hr {
+  margin: 0.6rem 0;
+  border: 0;
+  height: 1px;
+  background: var(--bf-ink-200);
+}
+
+[data-theme='dark'] .bf-grid > ul > li > hr {
+  background: rgba(255,255,255,0.08);
+}
+
+/* --------------------------------------------------------------------------
+   6. Buttons
+   -------------------------------------------------------------------------- */
+.button.button--primary {
+  background: var(--bf-grad-amber);
+  border: 0;
+  color: #1a1408;
+  font-weight: 600;
+  border-radius: 999px;
+  padding: 0.65rem 1.2rem;
+  box-shadow: 0 8px 22px -10px rgba(245, 179, 0, 0.7);
+  transition: transform 140ms ease, box-shadow 140ms ease;
+}
+.button.button--primary:hover {
+  transform: translateY(-1px);
+  color: #1a1408;
+  box-shadow: 0 16px 32px -12px rgba(245, 179, 0, 0.9);
+}
+
+.button.button--secondary {
+  background: transparent;
+  border: 1.5px solid var(--bf-amber-500);
+  color: var(--bf-amber-700);
+  border-radius: 999px;
+  padding: 0.65rem 1.2rem;
+  font-weight: 600;
+  transition: background 140ms ease, color 140ms ease, transform 140ms ease;
+}
+.button.button--secondary:hover {
+  background: var(--bf-amber-50);
+  color: var(--bf-amber-800);
+  transform: translateY(-1px);
+}
+[data-theme='dark'] .button.button--secondary {
+  border-color: var(--bf-amber-400);
+  color: var(--bf-amber-300);
+}
+[data-theme='dark'] .button.button--secondary:hover {
+  background: rgba(245, 179, 0, 0.10);
+  color: var(--bf-amber-200);
+}
+
+/* --------------------------------------------------------------------------
+   7. Code blocks
+   -------------------------------------------------------------------------- */
+.theme-code-block {
+  border-radius: var(--bf-radius) !important;
+  box-shadow: var(--bf-shadow-sm);
+}
+
+div[class*='codeBlockContainer'] {
+  border-radius: var(--bf-radius) !important;
+}
+
+/* --------------------------------------------------------------------------
+   8. Admonitions — softer, branded
+   -------------------------------------------------------------------------- */
+.theme-admonition {
+  border-radius: var(--bf-radius);
+  border-left-width: 4px;
+}
+
+/* --------------------------------------------------------------------------
+   9. Motion helpers
+   -------------------------------------------------------------------------- */
+@keyframes bf-fade-up {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+@keyframes bf-shimmer {
+  0%   { background-position: 0% 50%; }
+  100% { background-position: 200% 50%; }
+}
+@keyframes bf-float {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-8px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

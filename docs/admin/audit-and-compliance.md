@@ -1,7 +1,10 @@
 # Audit & compliance
 
-!!! warning "Enterprise tier feature"
-    Most audit-export functions require an Enterprise or Full licence.
+:::warning[Enterprise tier feature]
+
+Most audit-export functions require an Enterprise or Full licence.
+
+:::
 
 Path: **Admin → Audit**.
 

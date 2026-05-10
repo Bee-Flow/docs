@@ -53,4 +53,4 @@ The frontend and server are released under the **Sustainable Use Licence**. You 
 
 The Nextcloud connector is **AGPL-3.0-or-later** to comply with App Store requirements.
 
-[More on the licensing model :material-arrow-right:](../licensing/index.md)
+[More on the licensing model →](../licensing/index.md)

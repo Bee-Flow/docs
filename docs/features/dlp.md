@@ -1,7 +1,10 @@
 # DLP & guardrails
 
-!!! warning "Enterprise tier feature"
-    Requires an Enterprise or higher licence key.
+:::warning[Enterprise tier feature]
+
+Requires an Enterprise or higher licence key.
+
+:::
 
 DLP (Data Loss Prevention) is the org-wide policy layer on top of the [Privacy Shield](privacy-shield.md). Where the Privacy Shield silently redacts, DLP can **block**, **alert**, or **interactively prompt**.
 
@@ -101,14 +104,9 @@ If `webSearchGuardEnabled` is on (default), web-search results are passed throug
 
 Some prompt-injection attacks use zero-width Unicode characters (U+200B–U+200F, U+2060) to hide instructions. Bee Flow strips these from incoming payloads and logs each occurrence as a `unicode_smuggling` event. No user-visible action; pure defence.
 
-## Moderation backends
+## Moderation backend
 
-Optional output moderation runs every model reply through one of:
-
-- **Llama Guard** — self-hosted (`LLAMA_GUARD_URL`), open-weight.
-- **Azure Content Safety** — managed (`AZURE_CONTENT_SAFETY_*`).
-
-If the moderator returns a violation, the reply is redacted (or blocked, depending on policy), and an `audit log` row is written. Useful for customer-facing agents where the org has reputational exposure.
+Optional output moderation runs every model reply through **Azure Content Safety** (`AZURE_CONTENT_SAFETY_*`). If the moderator returns a violation, the reply is redacted (or blocked, depending on policy), and an `audit log` row is written. Useful for customer-facing agents where the org has reputational exposure.
 
 ## Policy editor
 

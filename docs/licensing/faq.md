@@ -55,7 +55,7 @@ No. SUL is fair-code, not OSS. We picked fair-code consciously — see "Why not 
 
 ❌ **No**, if you stand up a single instance of Bee Flow and charge multiple unrelated customers per-seat to use it. That's resale; you need a commercial agreement.
 
-If unsure, email <tomkooy@beeflow.nl> with a description and we'll respond within a couple of business days.
+If unsure, email [tomkooy@beeflow.nl](mailto:tomkooy@beeflow.nl) with a description and we'll respond within a couple of business days.
 
 ## Can I contribute?
 
@@ -77,7 +77,7 @@ Yes — you must rename it (drop "Bee Flow" and the bee mark) and remove our tra
 
 ## Where do I email about licensing?
 
-<tomkooy@beeflow.nl> — we'll respond within 2 business days. For commercial / resale enquiries please mention your use case and expected scale.
+[tomkooy@beeflow.nl](mailto:tomkooy@beeflow.nl) — we'll respond within 2 business days. For commercial / resale enquiries please mention your use case and expected scale.
 
 ## What's the relationship to n8n's licence?
 

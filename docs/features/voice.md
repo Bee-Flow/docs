@@ -1,7 +1,10 @@
 # Voice
 
-!!! warning "Pro tier feature"
-    Requires a Pro or higher licence key.
+:::warning[Pro tier feature]
+
+Requires a Pro or higher licence key.
+
+:::
 
 Bee Flow supports natural full-duplex voice conversations. You speak; the assistant speaks back; either side can interrupt.
 

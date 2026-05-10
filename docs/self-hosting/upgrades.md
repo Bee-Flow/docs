@@ -101,8 +101,11 @@ The DB schema is forward-compatible within a minor version, so old + new can coe
 
 ## Rollback procedure
 
-!!! warning "Always back up Postgres first"
-    `docker exec -t $(docker compose ps -q postgres) pg_dump -U beeflow -d beeflow -Fc > /backups/pre-upgrade.dump` before any cross-major upgrade.
+:::warning[Always back up Postgres first]
+
+`docker exec -t $(docker compose ps -q postgres) pg_dump -U beeflow -d beeflow -Fc > /backups/pre-upgrade.dump` before any cross-major upgrade.
+
+:::
 
 Cross-major rollback is not supported — schema changes are forward-only. To roll back:
 

@@ -11,18 +11,21 @@ Two paths, pick one:
 - **Fast (recommended)** — run the [`local-sandbox.sh`](https://github.com/Bee-Flow/connector/blob/main/scripts/local-sandbox.sh) helper. One command does the whole setup.
 - **Manual** — every step, so you can swap in your own pieces.
 
-!!! tip "Working in the Bee Flow monorepo"
-    If you're working in the private Bee Flow monorepo (not the public connector clone), the same script is wrapped at `scripts/run-local-nc.sh` for convenience:
+:::tip[Working in the Bee Flow monorepo]
 
-    ```bash
-    ./scripts/run-local-nc.sh up        # build + run
-    ./scripts/run-local-nc.sh status    # state + heartbeat
-    ./scripts/run-local-nc.sh logs      # combined NC + connector tail
-    ./scripts/run-local-nc.sh down      # stop
-    ./scripts/run-local-nc.sh clean     # nuke everything
-    ```
+If you're working in the private Bee Flow monorepo (not the public connector clone), the same script is wrapped at `scripts/run-local-nc.sh` for convenience:
 
-    Both wrappers call the same `local-sandbox.sh` underneath — pick whichever is closer to where you're working.
+```bash
+./scripts/run-local-nc.sh up        # build + run
+./scripts/run-local-nc.sh status    # state + heartbeat
+./scripts/run-local-nc.sh logs      # combined NC + connector tail
+./scripts/run-local-nc.sh down      # stop
+./scripts/run-local-nc.sh clean     # nuke everything
+```
+
+Both wrappers call the same `local-sandbox.sh` underneath — pick whichever is closer to where you're working.
+
+:::
 
 ## Prerequisites
 
@@ -56,14 +59,14 @@ cd connector
 What it does, in order:
 
 1. **Builds** `bee-flow-connector:dev` from the local `Dockerfile`. The Dockerfile clones [`Bee-Flow/hive`](https://github.com/Bee-Flow/hive) anonymously over HTTPS at build time and bakes the SPA into the image — no SSH key or GitHub token required.
-2. **Launches** a `nextcloud:31` container at <http://localhost:8080> with admin/admin.
+2. **Launches** a `nextcloud:31` container at [http://localhost:8080](http://localhost:8080) with admin/admin.
 3. **Installs** AppAPI inside Nextcloud (`occ app:install app_api`).
 4. **Registers** a `manual_dev` deployment daemon — uses your host's Docker daemon directly, so HaRP / insecure-registry trust doesn't apply.
 5. **Registers** the ExApp via `occ app_api:app:register bee_flow manual_dev --info-xml /tmp/info.xml`.
 6. The connector container starts, runs the async `/init`, registers its top-bar entry + embed script, subscribes to NC events.
 7. Prints a final URL.
 
-End state: <http://localhost:8080>, log in `admin` / `admin`, click the bee in the top bar.
+End state: [http://localhost:8080](http://localhost:8080), log in `admin` / `admin`, click the bee in the top bar.
 
 ### 3. Useful subcommands
 
@@ -221,7 +224,7 @@ Log in as `admin` / `admin`, click the bee icon in the top bar. The Bee Flow SPA
 |--------------|-----|
 | AppAPI signature is honoured | Try `curl -i http://localhost:23000/init` (no auth) — expect 401. |
 | HMAC `/nc/*` proxy works | From a separate shell, sign a request with `dev-tenant-key` and POST to the connector's `/nc/ocs/v2.php/cloud/users` — expect a list. |
-| Async `/init` is fast | `time docker exec -u www-data bee-flow-nc-sandbox php occ app_api:app:enable bee_flow` — should return in <1 s. |
+| Async `/init` is fast | `time docker exec -u www-data bee-flow-nc-sandbox php occ app_api:app:enable bee_flow` — should return in &lt;1 s. |
 | Top-bar entry registers | Reload NC; bee icon visible. |
 | Embed script registers | Click the bee; SPA loads in the iframe. |
 | Event subscriptions work | Create a new NC user (`occ user:add`); see `[Webhook] user.created` in connector logs. |

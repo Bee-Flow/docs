@@ -75,4 +75,4 @@ Licences are **valid offline** for their `exp` window. The server periodically p
 
 ## Buying a key
 
-Pricing and signup live at <https://beeflow.ai/pricing>. For volume / non-profit / education discounts, email <tomkooy@beeflow.nl>.
+Pricing and signup live at [https://beeflow.ai/pricing](https://beeflow.ai/pricing). For volume / non-profit / education discounts, email [tomkooy@beeflow.nl](mailto:tomkooy@beeflow.nl).

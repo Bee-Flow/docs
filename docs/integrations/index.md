@@ -47,7 +47,6 @@ Available via the [Nextcloud connector](../connector/index.md). The 11 integrati
 | Integration | What it does |
 |-------------|--------------|
 | [LinkedIn](linkedin.md) | Profile lookup |
-| [WhatsApp](whatsapp.md) | Send messages (via Twilio) |
 
 ### Search & content
 
@@ -105,4 +104,4 @@ In **Admin → Nextcloud integrations** (and **Admin → Other integrations**) a
 - Override per-group (disable specific tools for specific groups)
 - Lock per-user override settings (so users can't re-enable disabled tools)
 
-[Read more :material-arrow-right:](../admin/nc-integrations.md)
+[Read more →](../admin/nc-integrations.md)

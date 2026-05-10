@@ -64,7 +64,7 @@ Set per-org in **Settings → Organisation → Privacy**, or per-agent in **Stud
 | `azurePiiEnabled` | `true` if env set | Use Azure detection. |
 | `localPiiEnabled` | `true` | Use local CPU model. |
 | `piiDetectionConfidenceThreshold` | `0.7` | Min confidence (0–1). |
-| `moderationEnabled` | `false` | Llama Guard / Azure Content Safety on outputs. |
+| `moderationEnabled` | `false` | Azure Content Safety on outputs. |
 | `showRawPayload` | `false` | Emit tokenised prompt + token map as SSE events for transparency (debug). |
 | `euModeEnabled` | `false` | GDPR-aware data handling (logs minimised). |
 | `webSearchGuardEnabled` | `true` | Apply PII filter to web-search results before injection. |

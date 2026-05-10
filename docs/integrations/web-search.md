@@ -13,7 +13,7 @@ Two providers are supported: **Bing** and **Tavily**. Either is enough — pick 
 
 ## Setup — Tavily
 
-1. Sign up at <https://tavily.com>.
+1. Sign up at [https://tavily.com](https://tavily.com).
 2. Get the API key.
 3. Set environment:
    ```bash

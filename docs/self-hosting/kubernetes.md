@@ -164,4 +164,4 @@ The `proxy-buffering: "off"` annotation is **required** for SSE chat streaming.
 
 ## Helm chart status
 
-A Helm chart (`bee-flow/beeflow`) is in progress. Track it at <https://github.com/Bee-Flow/helm>. PRs welcome.
+A Helm chart (`bee-flow/beeflow`) is in progress. Track it at [https://github.com/Bee-Flow/helm](https://github.com/Bee-Flow/helm). PRs welcome.

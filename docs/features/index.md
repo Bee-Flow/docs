@@ -4,29 +4,29 @@ Bee Flow ships a layered feature set. Some are free at the Community tier; other
 
 ## By feature
 
-<div class="grid cards" markdown>
+<div className="bf-grid">
 
--   :material-chat:{ .lg .middle } [Chat & agents](chat.md)
+-    [Chat & agents](chat.md)
 
     **Community+** — Conversational UI on top of every integration. Agents are reusable, named personas with their own tool sets. 10 system starter agents seeded out of the box.
 
--   :material-book-open-variant:{ .lg .middle } [Knowledge bases](knowledge.md)
+-    [Knowledge bases](knowledge.md)
 
     **Community+** local · **Pro+** vector — Drop documents in, ask questions across them. Local KB at Community; vector / hybrid / reranked KBs at Pro.
 
--   :material-robot-industrial:{ .lg .middle } [Automations](automations.md)
+-    [Automations](automations.md)
 
     **Pro+** — Trigger-based workflows. When an email tagged urgent arrives, summarise and post in Talk. Cron / webhook / NC event / manual triggers.
 
--   :material-shield-check:{ .lg .middle } [Privacy shield](privacy-shield.md)
+-    [Privacy shield](privacy-shield.md)
 
     **Community+** — Detect and redact emails, phone numbers, IBANs, BSNs, credit-card numbers and 14 other categories before prompts reach the model.
 
--   :material-shield-lock:{ .lg .middle } [DLP & guardrails](dlp.md)
+-    [DLP & guardrails](dlp.md)
 
-    **Enterprise+** — Stricter org-level policy: block prompts, log policy hits, audit-log export. Llama Guard or Azure Content Safety for moderation.
+    **Enterprise+** — Stricter org-level policy: block prompts, log policy hits, audit-log export. Azure Content Safety for moderation.
 
--   :material-microphone:{ .lg .middle } [Voice](voice.md)
+-    [Voice](voice.md)
 
     **Pro+** — Full-duplex voice calls with the assistant. Voxtral STT/TTS, energy-VAD, barge-in.
 
@@ -52,4 +52,4 @@ Premium features are blocked at two layers:
 1. **UI** — gated nav entries are hidden at lower tiers (`<RequireTier>` wrapper).
 2. **API** — the `requireLicenseFeature()` middleware on the server returns 403 if the feature isn't allowed for the org's tier.
 
-If you reach a 403, your tier doesn't include that feature. Upgrade or contact <tomkooy@beeflow.nl>. Source of truth: [`server/license/tiers.js`](https://github.com/Bee-Flow/beeflow/blob/main/license/tiers.js).
+If you reach a 403, your tier doesn't include that feature. Upgrade or contact [tomkooy@beeflow.nl](mailto:tomkooy@beeflow.nl). Source of truth: [`server/license/tiers.js`](https://github.com/Bee-Flow/beeflow/blob/main/license/tiers.js).

@@ -129,6 +129,6 @@ sudo -u www-data php occ app_api:app:update bee_flow --image-tag 0.2.0
 
 ## Where to ask
 
-- Bug reports: <https://github.com/Bee-Flow/connector/issues>
-- Security disclosure: <tomkooy@beeflow.nl>
-- Commercial: <tomkooy@beeflow.nl>
+- Bug reports: [https://github.com/Bee-Flow/connector/issues](https://github.com/Bee-Flow/connector/issues)
+- Security disclosure: [tomkooy@beeflow.nl](mailto:tomkooy@beeflow.nl)
+- Commercial: [tomkooy@beeflow.nl](mailto:tomkooy@beeflow.nl)

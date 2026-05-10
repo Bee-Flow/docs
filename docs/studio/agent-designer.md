@@ -74,7 +74,7 @@ The list of tools is computed live from the [three-layer access matrix](../integ
 | Field | Notes |
 |-------|-------|
 | Privacy Shield level | Override the org default for this agent. |
-| Llama Guard | Toggle moderation on responses. |
+| Moderation | Toggle Azure Content Safety moderation on responses. |
 | Web-search guard | Apply PII filter to search results. |
 | Memory access | Pull user's memory into context. Default: on. |
 | Conversation retention | Default / 30 days / 7 days / no retention. |

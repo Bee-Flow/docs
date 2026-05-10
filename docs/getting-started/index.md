@@ -8,31 +8,31 @@ There are three common ways to run Bee Flow:
 
 ## Pick your path
 
-<div class="grid cards" markdown>
+<div className="bf-grid">
 
--   :material-cloud:{ .lg .middle } **I have a Nextcloud**
+-    **I have a Nextcloud**
 
     ---
 
     Install Bee Flow from the App Store. Sign-in with your Nextcloud account. No second password.
 
-    [:octicons-arrow-right-24: Install on Nextcloud](nextcloud.md)
+    [→ Install on Nextcloud](nextcloud.md)
 
--   :material-docker:{ .lg .middle } **I want to self-host standalone**
+-    **I want to self-host standalone**
 
     ---
 
     Run the server in Docker, point a frontend at it. Community tier is free.
 
-    [:octicons-arrow-right-24: Self-hosting](../self-hosting/docker-compose.md)
+    [→ Self-hosting](../self-hosting/docker-compose.md)
 
--   :material-flash:{ .lg .middle } **I just want to try it**
+-    **I just want to try it**
 
     ---
 
     Sign up for the hosted SaaS. Free Community tier, no credit card.
 
-    [:octicons-arrow-right-24: app.beeflow.ai](https://app.beeflow.ai)
+    [→ app.beeflow.ai](https://app.beeflow.ai)
 
 </div>
 
@@ -91,7 +91,7 @@ There are no inbound webhooks required from the public internet — the server c
 
 - **For Nextcloud install**: admin permissions on the NC instance, AppAPI enabled, a deployment daemon (HaRP or `manual-install`), outbound access to `ghcr.io`.
 - **For self-hosting**: Docker + Docker Compose (or Kubernetes), a public hostname for OAuth callbacks, at least one model-provider key.
-- **For evaluating**: just a browser at <https://app.beeflow.ai>.
+- **For evaluating**: just a browser at [https://app.beeflow.ai](https://app.beeflow.ai).
 
 ## What's next
 

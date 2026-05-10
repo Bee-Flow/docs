@@ -37,7 +37,7 @@ For self-hosters, the *server-wide* default for each flag is set via env vars (s
 When a beta feature misbehaves:
 
 1. Reproduce + capture logs (Org → Audit if Enterprise+, otherwise `docker logs beeflow-server`).
-2. File at <https://github.com/Bee-Flow/beeflow/issues> with the feature flag in the title.
+2. File at [https://github.com/Bee-Flow/beeflow/issues](https://github.com/Bee-Flow/beeflow/issues) with the feature flag in the title.
 
 ## Promoting beta → stable
 

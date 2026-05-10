@@ -21,7 +21,7 @@ The chat surface is the entry point for every Bee Flow interaction. Every conver
 | `shared_groups` | array | NC groups that can use this agent. |
 | `config.knowledge_base_ids` | array | KBs auto-attached. |
 | `config.includeSourceReferences` | bool | Render citations as a separate UI block. |
-| `config.llamaGuardEnabled` | bool | Run Llama Guard moderation on inputs/outputs. |
+| `config.llamaGuardEnabled` | bool | Run Azure Content Safety moderation on inputs/outputs (legacy field name; provider is Azure). |
 | `config.webSearchGuardEnabled` | bool | Apply PII filter to web-search results before injection. |
 
 Agents live in Postgres (`agents` table). The fields above are exposed in **Studio → Agent designer** ([details](../studio/agent-designer.md)) and in **Studio → Agent wizard** for non-technical creators.

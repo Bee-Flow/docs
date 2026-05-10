@@ -17,25 +17,25 @@ The first user to register on a fresh install becomes an org admin automatically
 
 ## Pages
 
-<div class="grid cards" markdown>
+<div className="bf-grid">
 
--   :material-account-group:{ .lg .middle } [Users & groups](users-and-groups.md)
+-    [Users & groups](users-and-groups.md)
 
     User management, NC sync mode, manual invites, waitlist, signup settings.
 
--   :material-cloud-sync:{ .lg .middle } [Nextcloud integrations](nc-integrations.md)
+-    [Nextcloud integrations](nc-integrations.md)
 
     Org-level integration toggles + per-group overrides ("enable wins").
 
--   :material-cog:{ .lg .middle } [Organisation settings](organisation-settings.md)
+-    [Organisation settings](organisation-settings.md)
 
     Branding, defaults, integrations, License & usage.
 
--   :material-flask:{ .lg .middle } [Beta features](beta-features.md)
+-    [Beta features](beta-features.md)
 
     Feature flags — enable upcoming features per-org.
 
--   :material-clipboard-text-search:{ .lg .middle } [Audit & compliance](audit-and-compliance.md)
+-    [Audit & compliance](audit-and-compliance.md)
 
     Guardrail events, GDPR archive, audit log export (Enterprise+).
 

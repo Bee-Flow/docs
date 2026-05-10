@@ -2,36 +2,62 @@
 
 Source for [docs.beeflow.ai](https://docs.beeflow.ai).
 
-Built with [MkDocs Material](https://squidfunk.github.io/mkdocs-material/).
+Built with [Docusaurus 3](https://docusaurus.io/) — React-based, MDX-powered.
 
 ## Local development
 
 ```bash
-pip install -r requirements.txt
-mkdocs serve
+npm install
+npm start
 ```
 
-Open <http://localhost:8000>.
+Open <http://localhost:3000>.
+
+## Build
+
+```bash
+npm run build       # static site -> ./build
+npm run serve       # serve the build locally
+```
 
 ## Structure
 
 ```
-docs/
-├── index.md                 Landing page
-├── getting-started/         Install + first-run
-├── connector/               Nextcloud connector deep-dive
-├── self-hosting/            Docker, Kubernetes, env vars
-├── features/                Chat, agents, automations, privacy
-├── licensing/               Tiers + how to apply a key
-├── api/                     REST + SSE reference
-└── img/                     Screenshots and diagrams
+docs/                Markdown content (one folder per top-level section)
+├── getting-started/
+├── connector/
+├── self-hosting/
+├── features/
+├── studio/
+├── integrations/
+├── admin/
+├── licensing/
+├── api/
+└── reference/
+
+src/
+├── pages/index.tsx       Custom marketing landing
+├── components/           Hero, FeatureGrid, Pieces, WhoFor, CallToAction
+├── css/custom.css        Amber theme + motion
+└── remark/screenshots.mjs   Folder-as-screenshot resolver
+
+static/img/           Logo, favicon, social card
+docusaurus.config.ts  Site config
+sidebars.ts           Sidebar nav definition
 ```
+
+## Authoring
+
+- Drop `.md` files into the appropriate folder under `docs/`.
+- Add the new doc id to `sidebars.ts`.
+- Admonitions use Docusaurus syntax: `:::note`, `:::tip`, `:::warning`, `:::danger`, `:::info`.
+- Internal links can use either `.md` paths or relative URLs.
+- Screenshots: drop a PNG/JPG in `docs/img/screenshots/<topic>/`. Reference it with a folder path ending in `/`:
+  `![alt](../img/screenshots/<topic>/)` — the remark plugin picks the first image alphabetically.
 
 ## Contributing
 
-Fork → branch → PR. Each page has an "Edit this page" link in the top-right.
-
-Screenshots: PNG, max 1600px wide, drop in `docs/img/<section>/`.
+Fork → branch → PR. Every page has an "Edit this page" link.
 
 ## License
 

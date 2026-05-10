@@ -43,7 +43,7 @@ Source of truth: [`server/license/tiers.js`](https://github.com/Bee-Flow/beeflow
 | Privacy Shield (Strict / Custom) | ✅ | ✅ | ✅ | ✅ |
 | DLP gate (interactive / block) | — | — | ✅ | ✅ |
 | DLP audit log export | — | — | ✅ | ✅ |
-| Moderation (Llama Guard / Azure CS) | — | — | ✅ | ✅ |
+| Moderation (Azure Content Safety) | — | — | ✅ | ✅ |
 | **Admin** |
 | Org settings + branding | ✅ | ✅ | ✅ | ✅ |
 | User & group management | ✅ | ✅ | ✅ | ✅ |
@@ -97,4 +97,4 @@ Counters reset on the first day of each calendar month at 00:00 UTC.
 | Mid-market with compliance ask | Enterprise |
 | Reseller / private-label | Full |
 
-Custom plans (e.g. 100 users, no automations) are available — contact <tomkooy@beeflow.nl>.
+Custom plans (e.g. 100 users, no automations) are available — contact [tomkooy@beeflow.nl](mailto:tomkooy@beeflow.nl).

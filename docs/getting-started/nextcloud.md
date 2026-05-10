@@ -2,12 +2,15 @@
 
 This page walks an admin through installing the Bee Flow connector via the Nextcloud App Store.
 
-!!! info "Requirements"
-    - Nextcloud 31, 32, 33.0.1+, or 34
-    - [AppAPI](https://apps.nextcloud.com/apps/app_api) installed and enabled
-    - A deployment daemon configured (HaRP **or** `manual-install`)
-    - Admin permissions on the Nextcloud instance
-    - Outbound HTTPS to `ghcr.io` (image pull) and `api.beeflow.ai` (or your self-hosted Bee Flow server)
+:::info[Requirements]
+
+- Nextcloud 31, 32, 33.0.1+, or 34
+- [AppAPI](https://apps.nextcloud.com/apps/app_api) installed and enabled
+- A deployment daemon configured (HaRP **or** `manual-install`)
+- Admin permissions on the Nextcloud instance
+- Outbound HTTPS to `ghcr.io` (image pull) and `api.beeflow.ai` (or your self-hosted Bee Flow server)
+
+:::
 
 ## 1. Install AppAPI
 
@@ -91,7 +94,7 @@ The first time **each user** opens Bee Flow they see a privacy-disclosure modal.
 
 The first time the **organisation admin** opens Bee Flow, a 4-step wizard runs covering user-sync mode, default integrations, privacy shield level, and an optional licence key. Other users see a "Setup in progress" screen until the admin finishes.
 
-[Continue: First-run wizard walk-through :material-arrow-right:](wizard.md)
+[Continue: First-run wizard walk-through →](wizard.md)
 
 ## Updating the connector
 
@@ -106,7 +109,7 @@ Or:
 sudo -u www-data php occ app_api:app:update bee_flow
 ```
 
-[More about upgrades :material-arrow-right:](../self-hosting/upgrades.md)
+[More about upgrades →](../self-hosting/upgrades.md)
 
 ## Uninstalling
 

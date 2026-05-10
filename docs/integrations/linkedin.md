@@ -4,7 +4,7 @@ Read-only LinkedIn lookups via OAuth.
 
 ## Setup
 
-1. Create a LinkedIn Developer App at <https://www.linkedin.com/developers/apps>.
+1. Create a LinkedIn Developer App at [https://www.linkedin.com/developers/apps](https://www.linkedin.com/developers/apps).
 2. Add redirect URI: `https://your-host/auth/linkedin/callback`.
 3. Set environment:
    ```bash

@@ -6,29 +6,29 @@ URL inside Bee Flow: `/app/studio`.
 
 ## What's in Studio
 
-<div class="grid cards" markdown>
+<div className="bf-grid">
 
--   :material-pencil-box-outline:{ .lg .middle } [Agent designer](agent-designer.md)
+-    [Agent designer](agent-designer.md)
 
     Visual designer to build agents from scratch — name, model, prompt, tools, KB, sharing.
 
--   :material-magic-staff:{ .lg .middle } [Agent wizard](agent-wizard.md)
+-    [Agent wizard](agent-wizard.md)
 
     Guided flow for non-technical creators. Q&A → working agent.
 
--   :material-clipboard-text-multiple:{ .lg .middle } [Templates](templates.md)
+-    [Templates](templates.md)
 
     Browse and install agent templates from the public marketplace.
 
--   :material-puzzle:{ .lg .middle } [Components](components.md)
+-    [Components](components.md)
 
     AI-built UI components you can embed in workflows and conversations.
 
--   :material-book-multiple:{ .lg .middle } [Knowledge bases](knowledge-bases.md)
+-    [Knowledge bases](knowledge-bases.md)
 
     Create KBs, upload docs, attach to agents, browse the KB Marketplace.
 
--   :material-toolbox:{ .lg .middle } [Skills](skills.md)
+-    [Skills](skills.md)
 
     Reusable agent skills — drop into any agent for instant capability.
 

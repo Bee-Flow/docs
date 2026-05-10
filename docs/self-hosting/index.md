@@ -60,21 +60,21 @@ The server is stateless when Redis is configured — scale horizontally. Postgre
 
 ## Pick your deploy target
 
-<div class="grid cards" markdown>
+<div className="bf-grid">
 
--   :material-docker:{ .lg .middle } [Docker Compose](docker-compose.md)
+-    [Docker Compose](docker-compose.md)
 
     Single host, simplest. Production-ready for most small/mid orgs.
 
--   :material-kubernetes:{ .lg .middle } [Kubernetes](kubernetes.md)
+-    [Kubernetes](kubernetes.md)
 
     Multi-node, Helm chart in progress. Use the manual manifests until then.
 
--   :material-cog:{ .lg .middle } [Environment variables](env.md)
+-    [Environment variables](env.md)
 
     The full reference for every `BEEFLOW_*` and dependency knob.
 
--   :material-update:{ .lg .middle } [Upgrades](upgrades.md)
+-    [Upgrades](upgrades.md)
 
     Version skew policy, migration safety, rollback procedure.
 

@@ -33,7 +33,7 @@
 | **Knowledge Base (KB)** | A document collection the agent can search. Local (Postgres) or vector (pgvector / Qdrant). |
 | **Licence key** | A signed JWT that unlocks premium tiers. Verified against `bundled-public-key.pem`. |
 | **Memory** | Per-user (or per-agent) facts the **Memory Extractor** system agent populates over time. |
-| **Moderation** | Post-generation safety check via Llama Guard or Azure Content Safety. |
+| **Moderation** | Post-generation safety check via Azure Content Safety. |
 | **NC** | Nextcloud. |
 | **n8n** | Workflow automation tool, fair-code, separately runnable. Bee Flow integrates via API. |
 | **OCS** | Open Collaboration Services — Nextcloud's REST API style for non-DAV endpoints. |

@@ -49,4 +49,4 @@ Click **Fork** on any template (yours or someone else's) to create an editable c
 
 ## Curated templates
 
-A growing library of curated templates ships out of the box at every install. Updates land via the docs repo at <https://github.com/Bee-Flow/templates> (PRs welcome).
+A growing library of curated templates ships out of the box at every install. Updates land via the docs repo at [https://github.com/Bee-Flow/templates](https://github.com/Bee-Flow/templates) (PRs welcome).

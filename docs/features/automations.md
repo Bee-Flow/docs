@@ -1,7 +1,10 @@
 # Automations
 
-!!! warning "Pro tier feature"
-    Requires a Pro or higher licence key. See [Tiers](../getting-started/tiers.md).
+:::warning[Pro tier feature]
+
+Requires a Pro or higher licence key. See [Tiers](../getting-started/tiers.md).
+
+:::
 
 Automations are trigger-based workflows. When something happens, run an agent (or a more complex pipeline) and act on the output.
 

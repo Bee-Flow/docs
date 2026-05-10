@@ -77,7 +77,6 @@ Set **at least one**. Agents pick whichever is configured for their model.
 | `GUARD_SERVICE_URL` | (none) | Local CPU PII model service (`/pii` endpoint). |
 | `AZURE_CONTENT_SAFETY_ENDPOINT` | (none) | Azure Content Safety for moderation. |
 | `AZURE_CONTENT_SAFETY_KEY` | (none) | Azure Content Safety key. |
-| `LLAMA_GUARD_URL` | (none) | Self-hosted Llama Guard endpoint. Alternative moderation. |
 | `PII_DEFAULT_CONFIDENCE` | `0.7` | Default detection confidence (0–1). |
 | `PII_MAX_TOKENS_PER_CONVO` | `500` | Cap on placeholder-map size per conversation. |
 
@@ -121,9 +120,6 @@ For each provider you enable, register an OAuth app with redirect URI `https://<
 | `SIGNREQUEST_API_KEY` | SignRequest |
 | `FIREFLIES_API_KEY` | Fireflies |
 | `GAMMA_API_KEY` | Gamma |
-| `WHATSAPP_TWILIO_SID` | WhatsApp (Twilio backend) |
-| `WHATSAPP_TWILIO_TOKEN` | WhatsApp |
-| `WHATSAPP_FROM_NUMBER` | WhatsApp |
 
 ## License
 

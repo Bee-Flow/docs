@@ -4,7 +4,7 @@ Bee Flow connects to GitHub via OAuth or a personal access token.
 
 ## Setup (OAuth)
 
-1. **Settings → Developer settings → OAuth Apps → New OAuth App** at <https://github.com/settings/developers>.
+1. **Settings → Developer settings → OAuth Apps → New OAuth App** at [https://github.com/settings/developers](https://github.com/settings/developers).
 2. Authorisation callback URL: `https://your-host/auth/github/callback`.
 3. Set environment:
    ```bash

@@ -4,7 +4,7 @@ Bee Flow connects to Google Workspace via OAuth 2.0. Each Workspace service is a
 
 ## Setup
 
-1. Create a Google Cloud project at <https://console.cloud.google.com>.
+1. Create a Google Cloud project at [https://console.cloud.google.com](https://console.cloud.google.com).
 2. Enable the APIs you want: Gmail, Calendar, Drive, Docs, Keep, People, Admin SDK.
 3. **APIs & Services → Credentials → Create OAuth client ID** — type Web Application.
 4. Add redirect URI: `https://your-host/auth/google/callback`.
