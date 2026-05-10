@@ -216,34 +216,19 @@ If you'd rather see styled previews before merging, ask the team to add a Netlif
 
 ## Admin: one-time CMS setup
 
-The visual editor at [/cms/](/docs/cms/) uses [Sveltia CMS](https://github.com/sveltia/sveltia-cms) — a static admin UI that lives on GitHub Pages alongside the rest of the docs. The site itself is fully GitHub-Pages-hosted; the **only** external touchpoint is a tiny OAuth relay that handles the GitHub login handshake (GitHub's OAuth requires a server-side token exchange — there's no way around this for OAuth Apps).
+The visual editor at [/cms/](/docs/cms/) uses [Sveltia CMS](https://github.com/sveltia/sveltia-cms) — a static admin UI that lives on GitHub Pages alongside the rest of the docs. The site itself is fully GitHub-Pages-hosted.
 
-You have two ways to run that relay. Pick one and follow only that section.
+There's one piece of the puzzle that has to live outside Pages: the GitHub OAuth handshake (trading an OAuth code for a token) needs a server-side step — that's a fundamental constraint of GitHub's OAuth App protocol, not something the CMS chose. We solve it with a tiny self-hosted Cloudflare Worker that you fully own. No third-party dependency.
 
-### Option A — Use Sveltia's shared relay (5 minutes, less control)
+The Worker code, deploy script, and full step-by-step are in **[`cms-auth/README.md`](https://github.com/Bee-Flow/docs/blob/main/cms-auth/README.md)** in this repo. Quick summary of what an admin does once:
 
-Easiest path. Editors see a generic "Sveltia CMS" permissions prompt on first login (instead of a "Bee Flow Docs" prompt), and you depend on `auth.sveltia.app` staying up.
+1. Register a GitHub OAuth App at the org's developer settings (callback URL filled in after step 2).
+2. Run `cd cms-auth && npm install && npx wrangler login && npx wrangler deploy` — Cloudflare prints your worker URL.
+3. Run `npx wrangler secret put GITHUB_CLIENT_ID` and `… GITHUB_CLIENT_SECRET` to plug in the OAuth credentials.
+4. Update the OAuth App's callback URL to `<worker URL>/callback`.
+5. Edit `static/cms/config.yml` → set `backend.base_url` to your worker URL. Commit.
 
-1. Open [github.com/login/oauth/authorize](https://github.com/login/oauth/authorize?client_id=Iv1.6e54b4a14a8cc7e1) — this is Sveltia's pre-registered OAuth App. *(That's it for setup.)*
-2. The current `static/cms/config.yml` already has `base_url: https://auth.sveltia.app` so logins will route there.
-3. Tell editors to visit [/cms/](/docs/cms/) and click **Log in with GitHub**.
-
-### Option B — Self-host the relay (30 minutes, full control)
-
-Recommended for production. You own the OAuth App, you own the relay, no third-party dependency.
-
-1. **Register a GitHub OAuth App** at [github.com/settings/developers](https://github.com/settings/developers) (or your org's developer settings):
-   - **Application name**: *Bee Flow Docs CMS*
-   - **Homepage URL**: `https://bee-flow.github.io/docs/`
-   - **Authorization callback URL**: `https://your-relay.example.com/callback` (set this in the next step)
-   - Copy the **Client ID** and generate a **Client secret**.
-2. **Deploy the relay** — fork [sveltia/sveltia-cms-auth](https://github.com/sveltia/sveltia-cms-auth) and run it on:
-   - **Cloudflare Worker** — easiest, free tier covers thousands of logins/month. Drop the `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET` as env vars.
-   - or **Netlify Function**, **Vercel Function**, **Deno Deploy**, **Render**, etc.
-3. **Update `static/cms/config.yml`** — replace `base_url: https://auth.sveltia.app` with your relay's URL, then commit.
-4. Go back to your OAuth App and update the callback URL to `https://your-relay.example.com/callback`.
-
-In either case the relay only handles the OAuth code-for-token swap; **no edits, page content, or repo data ever pass through it**. After login, the browser talks straight to `api.github.com`.
+After the docs site rebuilds (~2 minutes) editors can visit [/cms/](/docs/cms/) → **Log in with GitHub** → start editing. Every save = a real Git commit by their GitHub user.
 
 ### Editor permissions
 
@@ -251,4 +236,4 @@ Whoever has write access to the `Bee-Flow/docs` repo can use the CMS. Remove som
 
 ### Local testing
 
-The CMS only works against a live deployment because GitHub OAuth needs a stable callback URL. To test on `localhost:3000`, register a second OAuth App with `http://localhost:3000/cms/` as its callback, deploy a second relay (or run sveltia-cms-auth locally with `wrangler dev`), and add a dev override of `base_url` in your config.
+The CMS only works against a live deployment because GitHub OAuth needs a stable callback URL. To test on `localhost:3000`, register a second OAuth App with the local callback, run `npx wrangler dev` in `cms-auth/`, and override `base_url` in your config to `http://localhost:8787`.

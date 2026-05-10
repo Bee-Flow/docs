@@ -10,18 +10,12 @@ backend:
   repo: Bee-Flow/docs
   branch: main
   # OAuth helper that performs the GitHub code -> token exchange.
-  # Without this, Sveltia falls back to Decap-CMS-era defaults (Netlify),
-  # which fail unless you have a Netlify-Identity-enabled site.
+  # We self-host a tiny Cloudflare Worker for this — code lives in
+  # ../../cms-auth/. Setup steps: cms-auth/README.md.
   #
-  # `auth.sveltia.app` is a tiny stateless relay maintained by the Sveltia
-  # author. It only does the OAuth handshake; tokens go straight to the
-  # editor's browser, no content ever passes through it.
-  #
-  # If you'd rather not depend on a third party at all, fork
-  # https://github.com/sveltia/sveltia-cms-auth onto a Cloudflare Worker
-  # (free, ~30 seconds to deploy) and replace base_url below with your own.
-  base_url: https://auth.sveltia.app
-  auth_endpoint: github/authorize
+  # Until the worker is deployed, swap this for `https://auth.sveltia.app`
+  # to use Sveltia's shared helper (less control, third-party dependency).
+  base_url: https://CHANGEME.workers.dev
 
 site_url: https://bee-flow.github.io/docs/
 display_url: https://bee-flow.github.io/docs/
