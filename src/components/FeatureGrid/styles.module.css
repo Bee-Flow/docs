@@ -17,9 +17,6 @@
   color: var(--bf-amber-700);
   margin-bottom: 0.7rem;
 }
-
-[data-theme='dark'] .kicker { color: var(--bf-amber-300); }
-
 .title {
   font-size: clamp(1.7rem, 3.4vw, 2.6rem);
   letter-spacing: -0.025em;
@@ -29,9 +26,6 @@
   margin: 0 auto;
   color: var(--bf-ink-900);
 }
-
-[data-theme='dark'] .title { color: var(--bf-ink-50); }
-
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
@@ -53,12 +47,6 @@
   overflow: hidden;
   transition: transform 220ms ease, border-color 220ms ease, box-shadow 220ms ease;
 }
-
-[data-theme='dark'] .card {
-  border-color: rgba(255,255,255,0.07);
-  background: rgba(255,255,255,0.02);
-}
-
 .card::before {
   content: '';
   position: absolute;
@@ -95,12 +83,6 @@
 .iconWrap svg { width: 22px; height: 22px; }
 
 .card:hover .iconWrap { transform: rotate(-3deg) scale(1.05); }
-
-[data-theme='dark'] .iconWrap {
-  background: rgba(245, 179, 0, 0.14);
-  color: var(--bf-amber-200);
-}
-
 .cardTitle {
   font-size: 1.12rem;
   font-weight: 700;
@@ -118,9 +100,6 @@
   position: relative;
   z-index: 1;
 }
-
-[data-theme='dark'] .cardBody { color: var(--bf-ink-300); }
-
 .cardLink {
   margin-top: auto;
   font-size: 0.9rem;
@@ -130,9 +109,6 @@
   z-index: 1;
   transition: gap 200ms ease;
 }
-
-[data-theme='dark'] .cardLink { color: var(--bf-amber-300); }
-
 .card:hover .cardLink {
   letter-spacing: 0.005em;
 }

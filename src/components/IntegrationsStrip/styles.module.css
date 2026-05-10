@@ -3,12 +3,6 @@
   border-top: 1px solid var(--bf-ink-200);
   border-bottom: 1px solid var(--bf-ink-200);
 }
-
-[data-theme='dark'] .strip {
-  border-top-color: rgba(255,255,255,0.06);
-  border-bottom-color: rgba(255,255,255,0.06);
-}
-
 .label {
   text-align: center;
   font-size: 0.82rem;
@@ -53,18 +47,6 @@
   color: var(--bf-amber-800);
   transform: translateY(-1px);
 }
-
-[data-theme='dark'] .chip {
-  border-color: rgba(255,255,255,0.08);
-  background: rgba(255,255,255,0.03);
-  color: var(--bf-ink-200);
-}
-
-[data-theme='dark'] .chip:hover {
-  border-color: var(--bf-amber-400);
-  color: var(--bf-amber-200);
-}
-
 @keyframes bf-marquee {
   from { transform: translateX(0); }
   to   { transform: translateX(-50%); }

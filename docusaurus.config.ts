@@ -65,8 +65,8 @@ const config: Config = {
     image: 'img/social-card.png',
     colorMode: {
       defaultMode: 'light',
-      disableSwitch: false,
-      respectPrefersColorScheme: true,
+      disableSwitch: true,
+      respectPrefersColorScheme: false,
     },
     docs: {
       sidebar: {
@@ -79,9 +79,8 @@ const config: Config = {
       logo: {
         alt: 'Bee Flow logo',
         src: 'img/logo.svg',
-        srcDark: 'img/logo.svg',
       },
-      hideOnScroll: true,
+      hideOnScroll: false,
       items: [
         {
           to: '/getting-started/',

@@ -4,9 +4,6 @@
   padding: clamp(3rem, 7vw, 6rem) 1.25rem;
   border-top: 1px solid var(--bf-ink-200);
 }
-
-[data-theme='dark'] .section { border-top-color: rgba(255,255,255,0.06); }
-
 .heading {
   text-align: center;
   margin-bottom: 2.4rem;
@@ -20,9 +17,6 @@
   color: var(--bf-amber-700);
   margin-bottom: 0.6rem;
 }
-
-[data-theme='dark'] .kicker { color: var(--bf-amber-300); }
-
 .title {
   font-size: clamp(1.5rem, 3vw, 2.3rem);
   letter-spacing: -0.025em;
@@ -30,9 +24,6 @@
   margin: 0;
   color: var(--bf-ink-900);
 }
-
-[data-theme='dark'] .title { color: var(--bf-ink-50); }
-
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
@@ -49,12 +40,6 @@
   color: inherit !important;
   transition: transform 200ms ease, border-color 200ms ease, box-shadow 200ms ease;
 }
-
-[data-theme='dark'] .card {
-  border-color: rgba(255,255,255,0.07);
-  background: rgba(255,255,255,0.02);
-}
-
 .card:hover {
   transform: translateY(-2px);
   border-color: var(--bf-amber-300);
@@ -69,9 +54,6 @@
   color: var(--bf-amber-700);
   margin-bottom: 0.45rem;
 }
-
-[data-theme='dark'] .role { color: var(--bf-amber-300); }
-
 .goal {
   font-size: 1.02rem;
   font-weight: 600;
@@ -80,13 +62,8 @@
   margin-bottom: 0.85rem;
   line-height: 1.4;
 }
-
-[data-theme='dark'] .goal { color: var(--bf-ink-100); }
-
 .cta {
   font-size: 0.92rem;
   font-weight: 600;
   color: var(--bf-amber-700);
 }
-
-[data-theme='dark'] .cta { color: var(--bf-amber-300); }
