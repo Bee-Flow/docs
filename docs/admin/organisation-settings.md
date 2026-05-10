@@ -20,7 +20,7 @@ White-label settings:
 | Logo | Replaces the bee mark. SVG / PNG up to 1 MB. |
 | Primary colour | Hex. Replaces amber as the accent. |
 | Secondary colour | Hex. |
-| Custom domain | E.g. `ai.example.com`. DNS CNAME to `app.beeflow.ai`. |
+| Custom domain | E.g. `ai.example.com`. DNS CNAME to `beeflow.ai`. |
 | Custom email sender | `From: noreply@example.com` for invites / notifications. |
 
 White-label is gated by the `white_label` feature flag — Full tier only.

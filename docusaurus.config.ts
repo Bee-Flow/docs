@@ -119,7 +119,7 @@ const config: Config = {
           position: 'left',
         },
         {
-          href: 'https://app.beeflow.ai',
+          href: 'https://beeflow.ai/app',
           label: 'Open app',
           position: 'right',
           className: 'navbar-cta',
@@ -156,7 +156,7 @@ const config: Config = {
           title: 'Company',
           items: [
             {label: 'GitHub', href: 'https://github.com/Bee-Flow'},
-            {label: 'Bee Flow Cloud', href: 'https://app.beeflow.ai'},
+            {label: 'Bee Flow Cloud', href: 'https://beeflow.ai/app'},
             {label: 'Licensing', to: '/licensing/'},
           ],
         },

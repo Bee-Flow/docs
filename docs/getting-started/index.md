@@ -4,7 +4,7 @@ There are three common ways to run Bee Flow:
 
 1. **As a Nextcloud app** — install from the Nextcloud App Store. The connector runs as an ExApp container next to your Nextcloud and the SPA is embedded at the top bar. **Recommended for most teams.**
 2. **Self-hosted, standalone** — run the Bee Flow server + frontend yourself, without Nextcloud. Useful for evaluating outside an existing Nextcloud, or for non-Nextcloud teams.
-3. **Hosted SaaS** — sign in at [app.beeflow.ai](https://app.beeflow.ai). Same code as this repo, run by Bee Flow B.V.
+3. **Hosted SaaS** — sign in at [beeflow.ai/app](https://beeflow.ai/app). Same code as this repo, run by Bee Flow B.V.
 
 ## Pick your path
 
@@ -32,7 +32,7 @@ There are three common ways to run Bee Flow:
 
     Sign up for the hosted SaaS. Free Community tier, no credit card.
 
-    [→ app.beeflow.ai](https://app.beeflow.ai)
+    [→ beeflow.ai/app](https://beeflow.ai/app)
 
 </div>
 
@@ -91,7 +91,7 @@ There are no inbound webhooks required from the public internet — the server c
 
 - **For Nextcloud install**: admin permissions on the NC instance, AppAPI enabled, a deployment daemon (HaRP or `manual-install`), outbound access to `ghcr.io`.
 - **For self-hosting**: Docker + Docker Compose (or Kubernetes), a public hostname for OAuth callbacks, at least one model-provider key.
-- **For evaluating**: just a browser at [https://app.beeflow.ai](https://app.beeflow.ai).
+- **For evaluating**: just a browser at [https://beeflow.ai/app](https://beeflow.ai/app).
 
 ## What's next
 

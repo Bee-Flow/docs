@@ -67,6 +67,25 @@ The server validates the signature, ensures `exp` is in the future, then exposes
 
 Licences are **valid offline** for their `exp` window. The server periodically pings `https://license.beeflow.ai/refresh` (default every 24h) to check for revocation. Set `BEEFLOW_LICENSE_REFRESH_URL=` (empty) to disable refresh entirely — useful for air-gapped deployments. The licence stays valid until `exp` regardless.
 
+## AGPL isolation: connector ↔ server
+
+The Nextcloud connector (`nextcloud-connector/`) is licensed under **AGPL-3.0-or-later**, while the rest of the platform (`server/`, `agent-hub/`, sidecars) is under the Sustainable Use License. The Nextcloud App Store requires AGPL for ExApps, so this split is deliberate.
+
+The split is legally bounded because the connector and the server are two **separate programs** that communicate only over HTTP, authenticated with JWT tokens. There is no static or dynamic linking, no shared address space, no in-process FFI — nothing that would combine them into a single work for copyright purposes.
+
+Concrete evidence in the code:
+
+- The connector's outbound HTTP call site lives in [nextcloud-connector/src/server.js](https://github.com/Bee-Flow/connector/blob/main/src/server.js); it sets `X-Beeflow-Source: nextcloud-connector`.
+- The server's inbound JWT verification is in [server/auth/connectorJwt.js](https://github.com/Bee-Flow/beeflow/blob/main/server/auth/connectorJwt.js).
+- The unauthenticated handshake during first-time pairing is in [server/auth/connectorBootstrap.js](https://github.com/Bee-Flow/beeflow/blob/main/server/auth/connectorBootstrap.js).
+- The middleware wiring in [server/index.js](https://github.com/Bee-Flow/beeflow/blob/main/server/index.js).
+
+This matches the FSF's published interpretation of the GPL/AGPL family ("Mere aggregation" and "separate programs in pipes" — see [GPL FAQ](https://www.gnu.org/licenses/gpl-faq.html)). AGPL §13 ("Remote Network Interaction") therefore covers the connector itself but does not propagate to the server.
+
+If you fork the connector and modify it, AGPL §13 obliges you to make your modified connector source available to the connector's users — even if those users only interact with it over a network. That obligation does not extend to the Bee Flow server, which remains under its own license.
+
+The full statement of this argument lives in [NOTICE.md](https://github.com/Bee-Flow/beeflow/blob/main/NOTICE.md) at the repo root.
+
 ## Pages
 
 - [Tiers](tiers.md) — what you get at each level.
