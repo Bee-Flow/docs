@@ -8,11 +8,16 @@ const config: Config = {
   tagline: 'AI-native workspace for Nextcloud',
   favicon: 'img/logo.svg',
 
-  url: 'https://docs.beeflow.ai',
-  baseUrl: '/',
+  // Production URL + base path. GitHub Pages serves this repo at
+  // bee-flow.github.io/docs/ today. To switch to the custom domain
+  // (docs.beeflow.ai), drop a `static/CNAME` file with that hostname,
+  // set `url` to 'https://docs.beeflow.ai', and set `baseUrl` to '/'.
+  url: process.env.SITE_URL || 'https://bee-flow.github.io',
+  baseUrl: process.env.BASE_URL || '/docs/',
 
   organizationName: 'Bee-Flow',
   projectName: 'docs',
+  trailingSlash: false,
 
   onBrokenLinks: 'warn',
 
