@@ -9,10 +9,19 @@ backend:
   name: github
   repo: Bee-Flow/docs
   branch: main
-  # Sveltia uses GitHub OAuth via a static auth helper (no server-side token
-  # storage). Default helper: https://auth.sveltia.app/. Self-host by deploying
-  # https://github.com/sveltia/sveltia-cms-auth to your own static host and
-  # setting `base_url` here. (See docs/contributing/editing.md for setup.)
+  # OAuth helper that performs the GitHub code -> token exchange.
+  # Without this, Sveltia falls back to Decap-CMS-era defaults (Netlify),
+  # which fail unless you have a Netlify-Identity-enabled site.
+  #
+  # `auth.sveltia.app` is a tiny stateless relay maintained by the Sveltia
+  # author. It only does the OAuth handshake; tokens go straight to the
+  # editor's browser, no content ever passes through it.
+  #
+  # If you'd rather not depend on a third party at all, fork
+  # https://github.com/sveltia/sveltia-cms-auth onto a Cloudflare Worker
+  # (free, ~30 seconds to deploy) and replace base_url below with your own.
+  base_url: https://auth.sveltia.app
+  auth_endpoint: github/authorize
 
 site_url: https://bee-flow.github.io/docs/
 display_url: https://bee-flow.github.io/docs/

@@ -216,22 +216,39 @@ If you'd rather see styled previews before merging, ask the team to add a Netlif
 
 ## Admin: one-time CMS setup
 
-The visual editor at [/cms/](/docs/cms/) uses [Sveltia CMS](https://github.com/sveltia/sveltia-cms) — a static admin UI that talks directly to GitHub. To turn it on, an admin needs to register a GitHub OAuth App once. After that, every editor signs in with their normal GitHub account.
+The visual editor at [/cms/](/docs/cms/) uses [Sveltia CMS](https://github.com/sveltia/sveltia-cms) — a static admin UI that lives on GitHub Pages alongside the rest of the docs. The site itself is fully GitHub-Pages-hosted; the **only** external touchpoint is a tiny OAuth relay that handles the GitHub login handshake (GitHub's OAuth requires a server-side token exchange — there's no way around this for OAuth Apps).
 
-**Steps (10 minutes, done once):**
+You have two ways to run that relay. Pick one and follow only that section.
 
-1. Go to [github.com/settings/developers](https://github.com/settings/developers) → **OAuth Apps** → **New OAuth App**. (For org-owned setups, do this under the org's settings instead so the app is owned by the org rather than a personal account.)
-2. Fill in:
+### Option A — Use Sveltia's shared relay (5 minutes, less control)
+
+Easiest path. Editors see a generic "Sveltia CMS" permissions prompt on first login (instead of a "Bee Flow Docs" prompt), and you depend on `auth.sveltia.app` staying up.
+
+1. Open [github.com/login/oauth/authorize](https://github.com/login/oauth/authorize?client_id=Iv1.6e54b4a14a8cc7e1) — this is Sveltia's pre-registered OAuth App. *(That's it for setup.)*
+2. The current `static/cms/config.yml` already has `base_url: https://auth.sveltia.app` so logins will route there.
+3. Tell editors to visit [/cms/](/docs/cms/) and click **Log in with GitHub**.
+
+### Option B — Self-host the relay (30 minutes, full control)
+
+Recommended for production. You own the OAuth App, you own the relay, no third-party dependency.
+
+1. **Register a GitHub OAuth App** at [github.com/settings/developers](https://github.com/settings/developers) (or your org's developer settings):
    - **Application name**: *Bee Flow Docs CMS*
-   - **Homepage URL**: `https://bee-flow.github.io/docs/` (or `https://docs.beeflow.ai` once the custom domain is live)
-   - **Authorization callback URL**: `https://auth.sveltia.app/callback`
-3. Save. Copy the **Client ID** and generate a **Client secret**.
-4. Either:
-   - **Easiest** — sign in to [auth.sveltia.app](https://auth.sveltia.app) (Sveltia's hosted auth helper) and paste the Client ID + secret. The secret never leaves the OAuth handshake; no editor data is stored. Or…
-   - **Self-host** — fork [sveltia/sveltia-cms-auth](https://github.com/sveltia/sveltia-cms-auth) onto a free Cloudflare Worker / Netlify Function / similar, plug in the Client ID + secret as env vars, and update `static/cms/config.yml` with `backend.base_url: https://your-helper.example.com`.
+   - **Homepage URL**: `https://bee-flow.github.io/docs/`
+   - **Authorization callback URL**: `https://your-relay.example.com/callback` (set this in the next step)
+   - Copy the **Client ID** and generate a **Client secret**.
+2. **Deploy the relay** — fork [sveltia/sveltia-cms-auth](https://github.com/sveltia/sveltia-cms-auth) and run it on:
+   - **Cloudflare Worker** — easiest, free tier covers thousands of logins/month. Drop the `GITHUB_CLIENT_ID` and `GITHUB_CLIENT_SECRET` as env vars.
+   - or **Netlify Function**, **Vercel Function**, **Deno Deploy**, **Render**, etc.
+3. **Update `static/cms/config.yml`** — replace `base_url: https://auth.sveltia.app` with your relay's URL, then commit.
+4. Go back to your OAuth App and update the callback URL to `https://your-relay.example.com/callback`.
 
-**What about "no external connections"?** The auth handshake bounces through the helper for ~1 second to swap an OAuth code for a token. After that, the editor's browser talks directly to GitHub's API; the helper never sees your content. If even that bounce is unacceptable, self-hosting the helper as a static page on a separate GitHub Pages repo gives you a fully Bee-Flow-controlled setup.
+In either case the relay only handles the OAuth code-for-token swap; **no edits, page content, or repo data ever pass through it**. After login, the browser talks straight to `api.github.com`.
 
-**Editor permissions** are managed entirely on the repo: anyone with write access to `Bee-Flow/docs` can use the CMS; remove them from the repo to revoke access.
+### Editor permissions
 
-**Test locally** — the CMS only works against the live deployment because the OAuth callback URL is fixed. To test without breaking production, register a second OAuth App with `http://localhost:3000/cms/` as its callback and run `npm start` from the `docs` folder.
+Whoever has write access to the `Bee-Flow/docs` repo can use the CMS. Remove someone from the repo → they can't edit. There is no separate user list to manage.
+
+### Local testing
+
+The CMS only works against a live deployment because GitHub OAuth needs a stable callback URL. To test on `localhost:3000`, register a second OAuth App with `http://localhost:3000/cms/` as its callback, deploy a second relay (or run sveltia-cms-auth locally with `wrangler dev`), and add a dev override of `base_url` in your config.
