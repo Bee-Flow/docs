@@ -15,7 +15,7 @@ backend:
   #
   # Until the worker is deployed, swap this for `https://auth.sveltia.app`
   # to use Sveltia's shared helper (less control, third-party dependency).
-  base_url: https://CHANGEME.workers.dev
+  base_url: https://bee-flow-cms-auth.bee-flow-cms-auth.workers.dev
 
 site_url: https://bee-flow.github.io/docs/
 display_url: https://bee-flow.github.io/docs/
