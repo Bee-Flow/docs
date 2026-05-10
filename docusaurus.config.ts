@@ -158,6 +158,8 @@ const config: Config = {
             {label: 'GitHub', href: 'https://github.com/Bee-Flow'},
             {label: 'Bee Flow Cloud', href: 'https://beeflow.ai/app'},
             {label: 'Licensing', to: '/licensing/'},
+            {label: 'Edit this site', to: '/contributing/editing'},
+            {label: 'CMS admin', href: '/docs/cms/'},
           ],
         },
       ],

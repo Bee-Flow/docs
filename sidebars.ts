@@ -235,6 +235,13 @@ const sidebars: SidebarsConfig = {
         'reference/glossary',
       ],
     },
+    {
+      type: 'category',
+      label: 'Contributing',
+      items: [
+        'contributing/editing',
+      ],
+    },
   ],
 };
 
