@@ -42,9 +42,11 @@ Used by [Voice](../features/voice.md). Different from `voice_call` — `tts_spea
 
 | Tool | Backend | Notes |
 |------|---------|-------|
-| `transcribe_audio` | Mistral Transcription / Voxtral / Deepgram | Whichever is configured. |
+| `transcribe_audio` | Voxtral (Mistral) / Azure Speech / Azure Whisper / WhisperX self-hosted / local-whisper (whisper.cpp) | Pick under Admin → Integrations → Voice |
 
-For meeting recordings: `MISTRAL_TRANSCRIPTION_KEY`, `VOXTRAL_API_KEY`, or `DEEPGRAM_API_KEY`.
+The default is **Voxtral** (Mistral cloud) — fast, multilingual, cheapest per minute. Switch in **Admin → Integrations → Voice → Active Provider**.
+
+For audio capture in the chat UI (voice messages, "press to talk"), the in-process **whisper.cpp** path runs entirely on CPU — no GPU, no API key needed. Toggle via `local_whisper_enabled` config.
 
 ## Sound effects
 
@@ -56,9 +58,10 @@ For meeting recordings: `MISTRAL_TRANSCRIPTION_KEY`, `VOXTRAL_API_KEY`, or `DEEP
 
 | Tool | Backend | Notes |
 |------|---------|-------|
-| `agent_search` | Built-in | Searches all your KBs + recent conversations + memories. |
+| `agent_search` | Self-hosted Agent Search service / Cloud-only / Azure Bing | Web search + page fetch + rerank + cleanup. Picked in **Admin → Integrations → Zoeken**. |
+| `kb_search` | In-process pgvector / remote search-service | KB-only retrieval. Routed by `kb_provider` admin toggle. |
 
-This is the default fallback for "find that thing I mentioned last week" queries. Always available — no API key.
+The cloud-only path runs the entire SERP → fetch → embed → rerank → cleanup loop inside the Node server using your configured providers (Mistral, OpenAI, Azure, Cohere) plus the in-process CPU rerank/embed models — no GPU box required. See [Web search](./web-search.md) for setup and provider comparison.
 
 ## Privacy
 

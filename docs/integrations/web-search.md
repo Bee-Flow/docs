@@ -45,7 +45,7 @@ The `agent_search` tool accepts a `mode` argument that controls how much work th
 |---|---|---|---|
 | `web` (default) | Full pipeline: SERP → fetch top-N → embed → rerank → cleanup → return | ~2 s | ~2000 |
 | `web_fast` | Snippet-only — no page fetch, no rerank, no cleanup | ~1 s | ~1500 |
-| `kb` | Search the knowledge base only (no web call) | <500 ms | varies |
+| `kb` | Search the knowledge base only (no web call) | &lt;500 ms | varies |
 | `auto` | KB first, fall back to web if no high-confidence match | varies | varies |
 
 `web_fast` is intended for trivial single-fact lookups. The agent picks the mode automatically based on the query — admin defaults live under **Admin → Integrations → Zoeken → Agent Search Default Options**.

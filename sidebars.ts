@@ -194,6 +194,7 @@ const sidebars: SidebarsConfig = {
           label: 'Settings',
           items: [
             'admin/organisation-settings',
+            'admin/limits-and-self-host',
             'admin/beta-features',
           ],
         },

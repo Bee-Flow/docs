@@ -66,33 +66,51 @@ Set **at least one**. Agents pick whichever is configured for their model.
 
 ## Web search
 
-| Variable | Provider | Notes |
-|----------|----------|-------|
-| `BING_SEARCH_API_KEY` | Microsoft Bing | Web-search agent tool. |
-| `TAVILY_API_KEY` | Tavily | Alternative web-search provider. |
+The web-search provider is picked in **Admin → Integrations → Zoeken**. API keys live in the admin DB (encrypted), **not** in `.env`. Set the keys in the admin UI:
+
+| Provider | Where to set |
+|---|---|
+| Self-hosted Agent Search + Serper | Admin → Integrations → Zoeken (Serper key) + `SEARCH_SERVICE_URL` env var below |
+| Cloud-only (Serper + provider APIs) | Admin → Integrations → Zoeken (Serper key only) |
+| Azure Bing Web Search | Admin → Integrations → Zoeken (Bing key + market) |
+
+See [Web search integration](../integrations/web-search.md) for the full setup.
 
 ## Privacy & DLP
 
 | Variable | Default | Purpose |
 |----------|---------|---------|
-| `AZURE_PII_ENDPOINT` | (none) | Azure AI Text Analytics endpoint. Falls back to local model if not set. |
+| `AZURE_PII_ENDPOINT` | (none) | Azure AI Text Analytics endpoint. Falls back to in-process Transformers.js detector + then to optional `PII_SERVICE_URL` if set. |
 | `AZURE_PII_KEY` | (none) | Azure AI Text Analytics key. |
-| `AZURE_PII_API_VERSION` | `2023-04-15-preview` | API version. |
-| `GUARD_SERVICE_URL` | (none) | Local CPU PII model service (`/pii` endpoint). |
-| `AZURE_CONTENT_SAFETY_ENDPOINT` | (none) | Azure Content Safety for moderation. |
+| `PII_SERVICE_URL` | (none — opt-in) | Optional Python sidecar running GLiNER multi PII v1 (Apache 2.0). Only probed when explicitly set; otherwise the in-process Transformers.js detector handles the CPU path. |
+| `GUARD_SERVICE_URL` | (none — opt-in) | Optional sidecar health probe for `/api/guard/health`. Returns `not-configured` when unset. Moderation now goes via Azure Content Safety natively. |
+| `AZURE_CONTENT_SAFETY_ENDPOINT` | (none) | Azure Content Safety for moderation. The default moderation provider when configured. |
 | `AZURE_CONTENT_SAFETY_KEY` | (none) | Azure Content Safety key. |
-| `PII_DEFAULT_CONFIDENCE` | `0.7` | Default detection confidence (0–1). |
-| `PII_MAX_TOKENS_PER_CONVO` | `500` | Cap on placeholder-map size per conversation. |
 
 ## Search service (KB)
 
+The KB pipeline can run entirely **in-process** (chunking + pgvector + RRF + cross-encoder rerank) — no GPU service required. Pick **Local** under Admin → AI Configuratie → Limits & Self-host. The remote search-service is opt-in via `SEARCH_SERVICE_URL`.
+
 | Variable | Default | Purpose |
 |----------|---------|---------|
-| `SEARCH_SERVICE_URL` | (none) | External search-service endpoint. Falls back to local Postgres path. |
-| `SEARCH_SERVICE_KEY` | (none) | Optional bearer for the search service. |
-| `KB_PER_CHUNK_TOKEN_CAP` | `800` | Token budget per chunk. |
-| `KB_GLOBAL_INJECT_TOKEN_CAP` | `4000` | Total tokens injected into the prompt from KB. |
-| `KB_DEDUP_THRESHOLD` | `0.85` | Jaccard similarity threshold for chunk dedup. |
+| `SEARCH_SERVICE_URL` | (none — opt-in) | External GPU-backed search-service endpoint. When set, KB ingestion / search routes to it for users who pick `kb_provider = remote` in admin. Leave empty for fully local KB. |
+| `RERANKER_URL` | (none — opt-in) | vLLM cross-encoder sidecar. Used as a tier between Azure Cohere and the in-process CPU reranker. Most self-hosted deployments don't need it. |
+| `EMBED_API_URL` | (none — legacy) | Self-hosted GPU embedding service (BGE-M3). Memory store falls back to it only when no provider and no CPU embedder are available. |
+
+## Embeddings
+
+Global embedding model is picked in **Admin → AI Configuratie → Embeddings**. Used for KB ingestion, KB query, memory store, and as the default embed for web-search inference. The Web Search Inference tab can override per-feature.
+
+The CPU fallback (`@huggingface/transformers` + `Xenova/multilingual-e5-small`, MIT, 384-dim) loads automatically when no provider is configured. No env var to set.
+
+## Reranking
+
+| Method | How |
+|---|---|
+| Azure Cohere reranker | Admin → AI Configuratie → API Sleutels → Azure Cohere Reranker |
+| CPU cross-encoder | Admin → AI Configuratie → Limits & Self-host → toggle `cpu_reranker_enabled`. Uses `Xenova/bge-reranker-base` (MIT, ~280 MB), loaded in-process |
+| Local GPU vLLM sidecar | Set `RERANKER_URL` env var. Skipped when CPU reranker is enabled. |
+| LLM-as-rerank | Admin → AI Configuratie → Web Search Inference → method = "Provider model" + pick a chat model |
 
 ## OAuth providers
 

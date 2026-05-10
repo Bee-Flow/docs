@@ -6,18 +6,29 @@ title: Knowledge bases
 
 A **Knowledge Base** (KB) is a collection of documents the assistant can search. Drop in PDFs, Markdown, Word, plain text, HTML, or point at a Nextcloud folder — Bee Flow chunks, embeds, indexes, and serves citations.
 
-## Two flavours
+## Two backends
 
-| Type | Tier | Storage | Search | Notes |
-|------|:----:|---------|--------|-------|
-| **Local KB** | Community+ | Postgres (`kb_chunks`) | Exact / BM25 | Single user, ≤50 docs. Fast, no extra infra. |
-| **Vector KB** | Pro+ | pgvector (or external Qdrant via search-service) | Vector + BM25 + RRF + reranker | Multi-user, unlimited docs, hybrid search. |
+KB ingestion + retrieval can run in either of two backends. Both expose the same `kb_search` tool to agents — choice is invisible to skills and routines.
 
-The toggle is per-KB at creation time. The path is determined by your server config — local if `SEARCH_SERVICE_URL` is unset, hosted otherwise.
+| Backend | Storage | Pipeline | Best for |
+|---|---|---|---|
+| **Local (in-process)** — default | Postgres `kb_chunks` table with pgvector | Chunk + embed via global provider (or CPU fallback) + pgvector + BM25 (FTS) + RRF + reranker | Self-hosted setups, no GPU box |
+| **Remote search-service** | External Postgres / Qdrant on the search-service host | Same pipeline but on a dedicated GPU machine | High-throughput tenants, BGE-M3 GPU embeddings |
+
+Pick under **Admin → AI Configuratie → Limits & Self-host → Knowledge-base provider** (Auto / Local / Remote). See [Limits & Self-host](../admin/limits-and-self-host.md) for switching, vector-dim reconciliation, and re-ingest semantics.
 
 ## Embedding model
 
-Default: **`bge-m3`** — multilingual, 1024-dim vectors. Works well across English, Dutch, German, French and most Asian languages. Override per-KB via the `embedding_model` field if you have a stronger candidate.
+Picked under **Admin → AI Configuratie → Embeddings**. Common choices:
+
+| Model | Provider | Dim | Notes |
+|---|---|---|---|
+| `mistral-embed` | Mistral | 1024 | Multilingual, default for most self-hosted setups |
+| `text-embedding-3-small` | OpenAI / Azure OpenAI | 1536 | English-strong |
+| `text-embedding-3-large` | OpenAI / Azure OpenAI | 3072 | Best quality, more expensive |
+| `multilingual-e5-small` | In-process CPU (Xenova) | 384 | Used as fallback when no provider is configured. MIT, ~470 MB on disk |
+
+The Web Search Inference panel can override per-feature so web-search and KB can use different embed models if needed.
 
 ## Chunking
 
@@ -33,10 +44,10 @@ After chunking, the ingestion pipeline:
 
 1. Hashes each chunk for content dedup.
 2. Computes simhash for near-duplicate dedup (threshold above).
-3. Embeds with `bge-m3`.
-4. Inserts into `kb_chunks` (or upserts the search-service index).
+3. Embeds via the configured embedding model (provider → CPU fallback).
+4. Inserts into `kb_chunks` (or upserts the remote search-service index when `kb_provider = remote`).
 
-Re-ingesting an unchanged document is a no-op.
+Re-ingesting an unchanged document is a no-op. The local pipeline auto-detects the embedding dim on first ingest and ALTERs `kb_chunks.embedding` to match — no manual schema migration when switching models, as long as the table is empty or you re-ingest existing docs.
 
 ## Supported file types
 
