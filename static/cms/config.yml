@@ -17,14 +17,14 @@ backend:
   # to use Sveltia's shared helper (less control, third-party dependency).
   base_url: https://bee-flow-cms-auth.bee-flow-cms-auth.workers.dev
 
-site_url: https://bee-flow.github.io/docs/
-display_url: https://bee-flow.github.io/docs/
-logo_url: /docs/img/logo.svg
+site_url: https://docs.beeflow.ai/
+display_url: https://docs.beeflow.ai/
+logo_url: /img/logo.svg
 
 # Where uploaded media is stored in the repo, and what URL prefix gets written
 # into Markdown when an image is referenced.
 media_folder: docs/img/uploads
-public_folder: /docs/img/uploads
+public_folder: /img/uploads
 
 # Editor sees the rendered site for each saved entry.
 show_preview_links: true
