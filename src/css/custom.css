@@ -380,6 +380,166 @@ div[class*='codeBlockContainer'] {
   50%      { transform: translateY(-8px); }
 }
 
+/* --------------------------------------------------------------------------
+   10. Mobile — navbar drawer, sidebar, hero, sections
+   -------------------------------------------------------------------------- */
+
+/* The top navbar shrinks tighter on mobile */
+@media (max-width: 996px) {
+  .navbar {
+    padding: 0.4rem 0.85rem;
+  }
+
+  .navbar__brand {
+    margin-right: 0;
+  }
+
+  .navbar__title {
+    font-size: 1rem;
+  }
+
+  /* Items are hidden behind the hamburger on mobile, but Docusaurus still
+     renders the right-side items inline. Keep the CTA visible but compact. */
+  .navbar__items--right .navbar-cta {
+    padding: 0.35rem 0.75rem !important;
+    font-size: 0.85rem;
+    margin: 0 0.25rem;
+  }
+
+  .navbar__items--right .header-github-link {
+    padding: 0.4rem;
+  }
+  .navbar__items--right .header-github-link::before {
+    width: 20px;
+    height: 20px;
+  }
+}
+
+/* Mobile drawer (the slide-out menu behind the hamburger) */
+.navbar-sidebar {
+  background: var(--ifm-background-color, #fff);
+}
+
+[data-theme='dark'] .navbar-sidebar {
+  background: #0e0d0b;
+}
+
+.navbar-sidebar__brand {
+  box-shadow: 0 1px 0 rgba(20, 20, 20, 0.06);
+  padding: 0.85rem 1rem;
+}
+
+[data-theme='dark'] .navbar-sidebar__brand {
+  box-shadow: 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+.navbar-sidebar__items {
+  padding: 0.75rem 0.5rem;
+}
+
+/* Style the items inside the drawer as proper rows, not the desktop pills.
+   These selectors target only links rendered inside the mobile drawer. */
+.navbar-sidebar .menu__link,
+.navbar-sidebar__item .menu__link {
+  padding: 0.7rem 0.85rem;
+  border-radius: 10px;
+  font-size: 1rem;
+  font-weight: 500;
+  min-height: 44px;            /* iOS-friendly tap target */
+  display: flex;
+  align-items: center;
+}
+
+.navbar-sidebar .menu__list-item-collapsible {
+  border-radius: 10px;
+}
+
+/* The CTA looks wrong when forced into a vertical list row. Reset it
+   to a normal-looking row inside the drawer, with a subtle amber tint. */
+.navbar-sidebar .navbar-cta,
+.navbar-sidebar .menu__link.navbar-cta {
+  background: var(--bf-amber-50) !important;
+  color: var(--bf-amber-800) !important;
+  border-radius: 10px !important;
+  padding: 0.75rem 0.9rem !important;
+  margin: 0.25rem 0 !important;
+  box-shadow: none !important;
+  font-weight: 600;
+  width: auto;
+  display: flex;
+  justify-content: flex-start;
+}
+
+.navbar-sidebar .navbar-cta:hover {
+  transform: none;
+  background: var(--bf-amber-100) !important;
+  box-shadow: none !important;
+}
+
+[data-theme='dark'] .navbar-sidebar .navbar-cta {
+  background: rgba(245, 179, 0, 0.14) !important;
+  color: var(--bf-amber-200) !important;
+}
+
+[data-theme='dark'] .navbar-sidebar .navbar-cta:hover {
+  background: rgba(245, 179, 0, 0.20) !important;
+}
+
+/* GitHub icon: in the drawer, render it as a row with a label so it doesn't
+   look like a stray icon. */
+.navbar-sidebar .header-github-link {
+  padding: 0.7rem 0.85rem;
+  border-radius: 10px;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  min-height: 44px;
+}
+
+.navbar-sidebar .header-github-link::before {
+  width: 22px;
+  height: 22px;
+  flex-shrink: 0;
+}
+
+.navbar-sidebar .header-github-link::after {
+  content: 'GitHub';
+}
+
+/* Tighten the docs sidebar (full-width drawer on mobile) */
+@media (max-width: 996px) {
+  .menu {
+    padding: 0.75rem;
+  }
+
+  .menu__link {
+    padding: 0.65rem 0.85rem;
+    min-height: 40px;
+  }
+
+  .menu__list-item-collapsible .menu__link {
+    padding-right: 2.4rem;       /* room for the chevron */
+  }
+
+  /* Underline-on-hover effect inside articles is too distracting on tap */
+  article a:not(.button):not(.card) {
+    background-image: none;
+  }
+}
+
+/* Hero — denser on phones */
+@media (max-width: 640px) {
+  .navbar {
+    padding: 0.4rem 0.6rem;
+  }
+
+  .navbar__items--right .navbar-cta {
+    padding: 0.3rem 0.7rem !important;
+    font-size: 0.8rem;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after {
     animation-duration: 0.001ms !important;
