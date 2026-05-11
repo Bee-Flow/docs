@@ -4,7 +4,7 @@ title: Connect to Bee Flow Cloud or self-hosted
 
 # Connect to Bee Flow Cloud or self-hosted
 
-The connector ships with a **setup picker** — a small page hosted by the connector itself where an admin chooses whether this Nextcloud talks to **Bee Flow Cloud** (`api.beeflow.ai`) or to a **self-hosted Bee Flow server**.
+The connector ships with a **setup picker** — a small page hosted by the connector itself where an admin chooses whether this Nextcloud talks to **Bee Flow Cloud** (`server.beeflow.ai`) or to a **self-hosted Bee Flow server**.
 
 This page is what lets you switch targets without ever touching the command line.
 
@@ -47,7 +47,7 @@ The effective `apiBaseUrl` is resolved at every startup using this priority:
 |---|--------|---------|
 | 1 | `BEEFLOW_API_BASE_URL` env var | `occ app_api:app:setenv bee_flow BEEFLOW_API_BASE_URL <url>` |
 | 2 | `setup-config.json` (the picker) | The `/setup` page |
-| 3 | `https://api.beeflow.ai` | Default — Bee Flow Cloud |
+| 3 | `https://server.beeflow.ai` | Default — Bee Flow Cloud |
 
 If the env var is set, the picker shows a **🔒 Env-locked** badge and the form is disabled. To unlock:
 
@@ -95,3 +95,15 @@ The `POST /setup` endpoint is admin-gated through AppAPI's signed proxy when cal
 ## What about the tenant key?
 
 `BEEFLOW_TENANT_KEY=auto` (default) plays nicely with the picker — switching SaaS targets triggers a re-bootstrap that mints a new key against the new service. If you've explicitly set `BEEFLOW_TENANT_KEY` to a fixed value (e.g. for an enterprise reinstall against an existing tenant), you'll want to update that too via `occ app_api:app:setenv` before / after switching targets. See [Connector → Architecture](architecture.md#bootstrap-flow) for the full key-resolution order.
+
+## OAuth callback URL — `connectorCallbackUrl`
+
+OAuth flows initiated by the connector (e.g. linking Google or Microsoft from inside Nextcloud) need a stable, publicly-reachable URL to return to. The connector derives this at startup as:
+
+```
+<NC public URL>/index.php/apps/app_api/proxy/bee_flow/auth/<provider>/callback
+```
+
+— routed through NC's AppAPI proxy path, not the Docker-internal `nc_app_bee_flow:23000` hostname. Earlier builds used the internal hostname, which broke OAuth from App Store installs (the provider redirected the user's browser to a host it couldn't reach).
+
+If OAuth round-trips break with `redirect_uri_mismatch` or land on a blank page, check the `BEEFLOW_NC_PUBLIC_URL` env var (or NC's `overwrite.cli.url` / `trusted_domains`). It needs to match the URL users actually browse to. The connector logs the resolved callback URL on every OAuth start — grep for `[OAuth] callback resolved to` in `docker logs nc_app_bee_flow`.

@@ -45,7 +45,7 @@ Every new tenant gets 10 built-in system agents. They're seeded automatically, o
 | **Description Improver** | Polishes agent descriptions before publishing. |
 | **Identity Improver** | Iterates on an agent's persona/tone. |
 | **OrgIntel Scout** | Gathers public info about an organisation by name. |
-| **Regex Generator** | Admin-only — drafts regex patterns for DLP rules. |
+| **Regex Generator** | Admin-only — drafts regex patterns for Privacy Shield custom terms. |
 
 These aren't visible to end users in the chat picker by default — they run behind the scenes for system features. Org admins can promote any of them to user-visible by editing in **Studio**.
 

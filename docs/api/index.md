@@ -8,7 +8,7 @@ Bee Flow exposes a REST + Server-Sent Events API. The frontend (`hive`) is one c
 
 | Base URL | Use |
 |----------|-----|
-| `https://api.beeflow.ai` | Hosted SaaS |
+| `https://server.beeflow.ai` | Hosted SaaS |
 | `https://beeflow.example.com/api` | Self-hosted |
 | `http://localhost:3101/api` | Local dev |
 
@@ -30,11 +30,7 @@ If you need a version pin: pin the **server image tag** in your deploy. `ghcr.io
 
 ## Deprecation policy
 
-Endpoints marked `Deprecated` in this docs site:
-
-- Continue to work for at least 6 months.
-- Return a `Deprecation: <date>` and `Sunset: <date>` HTTP header.
-- Are removed in the first major version after the sunset date.
+Endpoints marked `Deprecated` in this docs site continue to work for at least 6 months from the deprecation announcement, and are removed in the first major version after the sunset date. Watch the release notes for headlines.
 
 ## Error format
 
@@ -56,7 +52,7 @@ All errors return JSON:
 | 402 | Tier limit hit (`error: "tier_limit"`). |
 | 403 | Auth ok, but feature not in your tier (`error: "license_feature_required"`). |
 | 404 | Not found / wrong tenant. |
-| 409 | Conflict (e.g. duplicate idempotency key). |
+| 409 | Conflict (e.g. resource already exists). |
 | 422 | Semantic validation failed (e.g. invalid cron). |
 | 429 | Rate-limited. Retry-After header present. |
 | 500 | Server bug. `requestId` lets us trace it. |
@@ -68,22 +64,13 @@ Default per-IP + per-user limits at the reverse proxy (self-hosters) and at the 
 
 | Endpoint family | Default | Burst |
 |-----------------|---------|-------|
-| `/api/chat` | 60 / min | 120 |
-| `/api/agents` | 120 / min | 200 |
-| `/api/knowledge/*` | 30 / min | 60 |
+| `/ai/chat` | 60 / min | 120 |
+| `/agents` | 120 / min | 200 |
+| `/api/kb/*` | 30 / min | 60 |
 | `/auth/*` | 30 / min | 60 |
 | `/api/automation/webhook/*` | 600 / min | 1200 |
 
 Set on the reverse proxy or via `RATE_LIMIT_*` env vars on the server (Redis-backed).
-
-## Idempotency
-
-Every `POST` that creates a resource accepts an optional `Idempotency-Key` header. The server caches the first response for 24h and replays it on duplicate keys. Use a UUID per logical operation.
-
-```http
-POST /api/agents
-Idempotency-Key: 9d8a-...
-```
 
 ## CORS
 

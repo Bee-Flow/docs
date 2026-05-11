@@ -26,10 +26,6 @@ Bee Flow ships a layered feature set. Some are free at the Community tier; other
 
     **Community+** — Detect and redact emails, phone numbers, IBANs, BSNs, credit-card numbers and 14 other categories before prompts reach the model.
 
--    [DLP & guardrails](dlp.md)
-
-    **Enterprise+** — Stricter org-level policy: block prompts, log policy hits, audit-log export. Azure Content Safety for moderation.
-
 -    [Voice](voice.md)
 
     **Pro+** — Full-duplex voice calls with the assistant. Voxtral STT/TTS, energy-VAD, barge-in.
@@ -44,7 +40,7 @@ Bee Flow ships a layered feature set. Some are free at the Community tier; other
 | Ask questions across a folder of docs | [Knowledge bases](knowledge.md) |
 | Auto-triage my inbox every 10 min | [Automations](automations.md) |
 | Make sure customer data never leaves the tenant | [Privacy shield](privacy-shield.md) |
-| Log + audit every AI prompt for compliance | [DLP & guardrails](dlp.md) |
+| Log + audit every AI prompt for compliance | [Audit & compliance](../admin/audit-and-compliance.md) |
 | Talk to the assistant by voice | [Voice](voice.md) |
 | Build a custom agent for support tickets | [Studio → Agent designer](../studio/agent-designer.md) |
 | Embed Bee Flow chat into another product | [API → Authentication](../api/auth.md) |

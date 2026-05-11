@@ -6,9 +6,21 @@ title: Telemetry
 
 What Bee Flow logs, how to ship it elsewhere, and what guarantees we make about PII in logs.
 
+:::warning[Implementation status]
+
+The sections below describe the **target observability stack**. Today's reality:
+
+- **Logs**: plain `console.*` JSON (no structured Pino logger wired yet). Captured by `docker logs` or the container runtime.
+- **Metrics**: only the ticket-assistant route exposes Prometheus-style metrics ([server/routes/ticketAssistant.js](https://github.com/Bee-Flow/beeflow/blob/main/server/routes/ticketAssistant.js)). There is **no** global `/metrics` endpoint, **no** OTLP exporter, and **no** app-wide HTTP / DB instrumentation.
+- **Audit log**: real and complete — `guardrail_events`, `admin_audit_events`, `automation_runs` tables in Postgres. See [Admin → Audit & compliance](../admin/audit-and-compliance.md).
+
+Sections explicitly marked **Planned** below are roadmap. Treat them as design intent, not current behaviour.
+
+:::
+
 ## What's logged
 
-Bee Flow emits structured JSON logs (Pino) covering:
+Bee Flow's server emits structured JSON logs covering:
 
 | Category | Examples |
 |----------|----------|
@@ -106,11 +118,13 @@ Configure in **Admin → Audit & compliance → Webhooks**. Format:
 
 Verify the `X-Beeflow-Sig` HMAC on your end before processing.
 
-## Metrics (Prometheus)
+## Metrics (Prometheus) — **Planned**
 
-`/metrics` is exposed by default (gate with `METRICS_BASIC_AUTH=user:pass`).
+A global `/metrics` endpoint is not yet exposed by the server. The only Prometheus-formatted endpoint that ships today is the ticket-assistant's internal `/metrics` (mounted under `/api/ticket-assistant`), gated by the `ticket_assistant` license feature.
 
-Useful series:
+The target series listed below are the design for an upcoming server-wide `/metrics` endpoint. If you need observability today, parse the JSON log stream into your metrics backend (Loki + recording rules works well).
+
+Planned series:
 
 | Metric | Labels | Unit |
 |--------|--------|------|
@@ -130,25 +144,18 @@ Useful series:
 | `beeflow_users_active_total` | (none) | gauge |
 | `beeflow_users_messages_month_total` | (none) | counter |
 
-## Tracing (OpenTelemetry)
+## Tracing (OpenTelemetry) — **Planned**
 
-```bash
-OTEL_EXPORTER_OTLP_ENDPOINT=http://otel-collector:4318
-OTEL_SERVICE_NAME=beeflow-server
-```
-
-Spans cover HTTP requests, chat turns (with model + tool sub-spans), DB queries, and integration tool calls. Pair with Grafana Tempo / Jaeger / Honeycomb.
+OTLP exporter and span instrumentation are not yet wired. The intended design (HTTP requests, chat turns with model + tool sub-spans, DB queries, integration tool calls; configured via `OTEL_EXPORTER_OTLP_ENDPOINT` + `OTEL_SERVICE_NAME`) is on the roadmap.
 
 ## Health checks
 
 | Endpoint | Purpose |
 |----------|---------|
 | `GET /api/health` | Liveness. Always returns 200 if the process is up. |
-| `GET /api/health/db` | Readiness — checks Postgres `SELECT 1`. |
-| `GET /api/health/redis` | Readiness — checks Redis `PING`. |
-| `GET /api/health/integrations` | Per-integration health (admin-only). |
+| `GET /api/guard/health` | Guard sidecar liveness — returns `not-configured` when `GUARD_SERVICE_URL` is unset. |
 
-Use `/api/health/db` for Kubernetes readiness probes — it gates traffic until migrations finish and the DB is reachable.
+Sub-endpoints for DB, Redis, and per-integration readiness are not currently exposed. For Kubernetes probes, point both `livenessProbe` and `readinessProbe` at `/api/health`; the server fails to start if Postgres is unreachable, so a 200 from `/api/health` is a reliable readiness signal.
 
 ## Privacy / GDPR notes
 

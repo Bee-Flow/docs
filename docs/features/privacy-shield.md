@@ -63,8 +63,6 @@ Set per-org in **Settings → Organisation → Privacy**, or per-agent in **Stud
 | Field | Default | What it controls |
 |-------|:-------:|-------------------|
 | `enabled` | `true` | Master toggle. |
-| `dlpEnabled` | `false` | Activates the [DLP gate](dlp.md) (Enterprise+). |
-| `dlpMode` | `ask` | `ask` / `auto_redact` / `block`. |
 | `azurePiiEnabled` | `true` if env set | Use Azure detection. |
 | `localPiiEnabled` | `true` | Use local CPU model. |
 | `piiDetectionConfidenceThreshold` | `0.7` | Min confidence (0–1). |
@@ -121,5 +119,5 @@ These run alongside the built-in detectors with the same placeholder mechanism (
 
 ## Where to next
 
-- [DLP & guardrails](dlp.md) — interactive blocking, audit log, moderation (Enterprise+).
+- [Audit & compliance](../admin/audit-and-compliance.md) — guardrail event log + GDPR export tools.
 - [Privacy & data flow](../connector/privacy.md) — what's sent at the connector hop.

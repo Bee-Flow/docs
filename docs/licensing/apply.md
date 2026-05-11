@@ -95,7 +95,7 @@ Paste a new key at any time — it overwrites the old one. Two situations:
 
 ## Removing
 
-Clear the field and click **Apply**. The org reverts to the Community tier. Premium features become unavailable but **all data is preserved** — automations stop firing, but the definitions stay; vector KBs stay indexed but only local search is available; DLP audit log keeps its existing rows.
+Clear the field and click **Apply**. The org reverts to the Community tier. Premium features become unavailable but **all data is preserved** — automations stop firing, but the definitions stay; vector KBs stay indexed but only local search is available; the guardrail audit log keeps its existing rows.
 
 Re-applying a valid key restores everything.
 

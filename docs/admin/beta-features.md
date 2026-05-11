@@ -20,7 +20,6 @@ Beta features are flags for capabilities that are stable enough to ship but not 
 | `feature_skills_v2` | Skill composition + dependency graphs | beta |
 | `feature_ticket_assistant_v2` | Reworked ticket assistant with smart routing | beta |
 | `feature_kb_reranker` | Cross-encoder reranking for KB search | beta |
-| `feature_dlp_ml` | ML-based DLP classifier (in addition to regex) | beta |
 
 ## How to enable
 

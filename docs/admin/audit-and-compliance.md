@@ -14,11 +14,11 @@ Path: **Admin → Audit**.
 
 ## What's logged
 
-Every prompt scan, DLP action, and admin operation is recorded in three tables:
+Every prompt scan, guardrail trigger, and admin operation is recorded in three tables:
 
 | Table | What it stores | Retention |
 |-------|----------------|-----------|
-| `guardrail_events` | PII / DLP / moderation / unicode-smuggling violations | 30 / 90 / configurable per tier |
+| `guardrail_events` | PII / moderation / unicode-smuggling violations | 30 / 90 / configurable per tier |
 | `admin_audit_events` | Admin UI actions (user create/delete, role change, settings update) | Same |
 | `automation_runs` + `automation_run_steps` | Every automation run + per-step input/output | Same |
 
@@ -141,6 +141,5 @@ Audit rows are append-only at the application layer (no UPDATE / DELETE endpoint
 
 ## Where to next
 
-- [DLP & guardrails](../features/dlp.md) — what gets logged + how rules are configured.
-- [Privacy shield](../features/privacy-shield.md) — the detection engine.
+- [Privacy shield](../features/privacy-shield.md) — the detection engine that produces guardrail events.
 - [Reference → Telemetry](../reference/telemetry.md) — shipping events to SIEM.

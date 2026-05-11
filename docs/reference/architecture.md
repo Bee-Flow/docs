@@ -47,8 +47,14 @@ Optional sidecars (used when configured):
 
 | Sidecar | Image | Purpose |
 |---------|-------|---------|
-| Guard service | `ghcr.io/bee-flow/guard-service` | Local CPU PII detection (GLiNER multi-PII) |
-| Search service | `ghcr.io/bee-flow/search-service` | KB ingestion, embedding, reranking |
+| Guard service | `ghcr.io/bee-flow/guard-service` | Local CPU PII detection (GLiNER multi-PII). Probed at `GUARD_SERVICE_URL`. |
+| PII service | `ghcr.io/bee-flow/pii-service` | Alternative Python PII sidecar (GLiNER multi PII v1, Apache-2.0). Opt-in via `PII_SERVICE_URL`. |
+| Search service | `ghcr.io/bee-flow/search-service` | GPU-backed KB ingestion, embedding, reranking. Opt-in via `SEARCH_SERVICE_URL` — the default KB pipeline runs entirely in-process. |
+| Reranker | `ghcr.io/bee-flow/reranker` | vLLM cross-encoder for re-ranking KB hits. Opt-in via `RERANKER_URL`; CPU reranker covers most deployments. |
+| WhisperX service | `ghcr.io/bee-flow/whisperx-service` | GPU speech-to-text for the voice / meeting-notes pipeline. |
+| Ticket assistant | (in-tree at `ittickets/`) | ITIL ticketing sidecar used by the Pro+ ticket-assistant feature. |
+
+The server itself runs fine with none of these. Each sidecar plugs in at a single env var.
 
 ## Data plane
 
@@ -68,8 +74,8 @@ Optional sidecars (used when configured):
 | Auth | JWT (ECDSA P-256 for licence, HMAC-SHA256 for sessions); OAuth 2.0; SAML 2.0 |
 | Migrations | Forward-only, applied at server startup; `automatic_migrations` flag governs auto-apply |
 | Background jobs | In-process scheduler; cron at the OS level for the connector |
-| Health checks | `/api/health`, `/api/health/db`, `/api/health/redis`, `/api/health/integrations` |
-| Telemetry | Pino logs (JSON); Prometheus `/metrics`; OTel via OTLP |
+| Health checks | `/api/health`, `/api/guard/health` |
+| Telemetry | `console`-based logging today; ticket-assistant exposes Prometheus metrics. Global OTel/Prometheus is on the roadmap — see [Telemetry](telemetry.md). |
 
 ## Trust boundaries
 
@@ -113,19 +119,22 @@ Optional sidecars (used when configured):
 | `Bee-Flow/connector` | NC ExApp (Node.js + Express, Docker) | AGPL-3.0 |
 | `Bee-Flow/docs` | This site | CC-BY-4.0 + MIT |
 | `Bee-Flow/guard-service` | PII guard sidecar (Python + FastAPI) | Apache-2.0 |
+| `Bee-Flow/pii-service` | Alternative PII sidecar (Python + FastAPI) | Apache-2.0 |
 | `Bee-Flow/search-service` | KB ingestion / search sidecar (Python) | SUL |
-| `Bee-Flow/helm` | Helm charts (in progress) | SUL |
+| `Bee-Flow/reranker` | vLLM cross-encoder sidecar | SUL |
+| `Bee-Flow/whisperx-service` | Speech-to-text sidecar (Python) | SUL |
+| `Bee-Flow/license-server` | Licence-key minting service | **PRIVATE** (Bee Flow B.V.) |
 
 ## Key request flow — a chat turn
 
 ```
-1. Browser POST /api/chat with { agentId, messages }
+1. Browser POST /ai/chat with { agentId, messages }
    │
    ▼
 2. Server: validates JWT → resolves user, org, agent, tier
    │
    ▼
-3. Server: runs Privacy Shield + DLP scan on the prompt
+3. Server: runs Privacy Shield scan on the prompt
    │
    ▼
 4. Server: resolves agent's tool list (3-layer access)

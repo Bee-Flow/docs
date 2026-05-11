@@ -37,6 +37,18 @@ ANTHROPIC_API_KEY=sk-ant-...
 
 See [Environment variables](env.md) for the full reference (~80 vars).
 
+## Three databases, not one {#three-databases-not-one}
+
+The shipped `docker-compose.yml` creates **three** Postgres databases on the same instance:
+
+| Database | What it stores | Used by |
+|---|---|---|
+| `beeflow_core` | Users, agents, conversations, KBs, audit log, settings — the bulk of state | Main server (`DB_NAME`) |
+| `beeflow_tasks` | Project / reminder / aiTasks rows for the productivity layer | Main server (`DATABASE_URL` override on the `tasks` routes) |
+| `monitoring_db` | Long-tail metrics + ticket-assistant analytics | Main server (`MONITORING_DATABASE_URL`) |
+
+All three live in the same Postgres instance; the `init-multi-db.sh` script at the repo root creates the auxiliary databases on first start. Override the names via `DB_NAME=...` and the matching `DATABASE_URL=` / `MONITORING_DATABASE_URL=` env vars if you'd rather use a single DB.
+
 ## 3. The compose file
 
 The shipped `docker-compose.yml` looks roughly like this — you can use it as-is or adapt:
@@ -62,11 +74,14 @@ services:
     image: postgres:16-alpine
     restart: unless-stopped
     environment:
-      POSTGRES_DB: beeflow
+      POSTGRES_DB: ${DB_NAME:-beeflow_core}
       POSTGRES_USER: beeflow
       POSTGRES_PASSWORD: ${DB_PASSWORD}
+      # The init script creates the auxiliary databases below.
+      POSTGRES_MULTIPLE_DATABASES: beeflow_tasks,monitoring_db
     volumes:
       - pg_data:/var/lib/postgresql/data
+      - ./init-multi-db.sh:/docker-entrypoint-initdb.d/init-multi-db.sh:ro
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U beeflow"]
       interval: 5s

@@ -11,10 +11,9 @@ The most-used endpoints, grouped by area. Auth column abbreviations: **P** = pub
 | Method | Path | Auth | Purpose |
 |--------|------|:----:|---------|
 | GET | `/api/health` | P | `{status, version, tier}` |
-| GET | `/api` | P | API info |
-| GET | `/metrics` | P¹ | Prometheus metrics (gated by `METRICS_BASIC_AUTH`) |
+| GET | `/api/guard/health` | P | Guard sidecar health probe |
 
-¹ Optional Basic-auth via `METRICS_BASIC_AUTH=user:pass`.
+A global Prometheus `/metrics` endpoint is on the roadmap but not currently exposed. Today only the ticket-assistant route emits Prometheus-style metrics — see [Reference → Telemetry](../reference/telemetry.md).
 
 ## Auth & sessions
 
@@ -90,54 +89,81 @@ The most-used endpoints, grouped by area. Auth column abbreviations: **P** = pub
 
 ## Agents
 
+Agents are mounted at `/agents` (not `/api/agents`).
+
 | Method | Path | Auth | Purpose |
 |--------|------|:----:|---------|
-| GET | `/api/agents` | U | List visible agents |
-| POST | `/api/agents` | U | Create agent |
-| GET | `/api/agents/:id` | U | Read agent |
-| PATCH | `/api/agents/:id` | U | Update agent |
-| DELETE | `/api/agents/:id` | U | Delete agent |
-| POST | `/api/agents/:id/publish` | U | Publish to Marketplace |
-| POST | `/api/agents/:id/duplicate` | U | Fork an existing agent |
-| GET | `/api/agents/:id/tools` | U | Resolved tool list for this agent + user |
-| GET | `/api/marketplace/agents` | P | Browse public agents |
+| GET | `/agents` | U | List visible agents |
+| POST | `/agents` | U | Create agent |
+| GET | `/agents/:id` | U | Read agent |
+| PATCH | `/agents/:id` | U | Update agent |
+| DELETE | `/agents/:id` | U | Delete agent |
+| POST | `/agents/:id/publish` | U | Publish to Marketplace |
+| POST | `/agents/:id/duplicate` | U | Fork an existing agent |
+| GET | `/agents/:id/tools` | U | Resolved tool list for this agent + user |
 
 ## Conversations & messages
 
+Conversations are agent-scoped. There is no standalone `/api/conversations` collection.
+
 | Method | Path | Auth | Purpose |
 |--------|------|:----:|---------|
-| GET | `/api/conversations` | U | List my conversations |
-| POST | `/api/conversations` | U | Start a new conversation |
-| GET | `/api/conversations/:id` | U | Read |
-| DELETE | `/api/conversations/:id` | U | Soft delete |
-| GET | `/api/conversations/:id/messages` | U | Paginated message history |
-| POST | `/api/conversations/:id/title` | U | Re-generate title |
-| POST | `/api/conversations/:id/branch` | U | Branch into a thread |
+| GET | `/agents/:id/conversations` | U | List conversations for this agent |
+| POST | `/agents/:id/conversations` | U | Start a new conversation |
+| GET | `/agents/:id/conversations/:convId` | U | Read |
+| PATCH | `/agents/:id/conversations/:convId` | U | Update metadata (title, archive, etc.) |
+| DELETE | `/agents/:id/conversations/:convId` | U | Soft delete |
+| GET | `/agents/:id/conversations/:convId/workspace` | U | Conversation workspace (artefacts) |
+
+Direct (no-agent) chat conversations live under `/ai/direct/conversations` instead — see below.
 
 ## Chat (streaming)
 
+The chat router is mounted at `/ai`. Streaming uses SSE — see [Streaming](sse.md) for the event protocol.
+
 | Method | Path | Auth | Purpose |
 |--------|------|:----:|---------|
-| POST | `/api/chat` | U | Stream a turn (SSE) — see [Streaming](sse.md) |
-| POST | `/api/chat/:msgId/cancel` | U | Cancel an in-flight turn |
-| POST | `/api/chat/:msgId/dlp-decision` | U | Resolve a `dlp_finding` (allow/redact/block) |
-| POST | `/api/chat/:msgId/feedback` | U | Thumbs up/down + optional comment |
+| POST | `/ai/chat` | U | Agent chat — stream a turn (SSE) |
+| POST | `/ai/chat/direct/stream` | U | Direct (no-agent) chat — stream a turn (SSE) |
+| GET | `/ai/direct/conversations` | U | List direct-mode conversations |
+| GET | `/ai/direct/conversations/:id` | U | Read direct conversation |
+| PATCH | `/ai/direct/conversations/:id` | U | Update direct conversation |
+| POST | `/api/chat/dlp-decision` | U | Resolve a Privacy Shield interactive decision (`{decisionId, choice}`) — `choice` is `redact`/`block`/`allow`. |
 
 ## Knowledge bases
 
+Standalone knowledge bases (org-wide, used by agents and direct chat) live under `/api/kb`. Agent-scoped knowledge (older API) lives under `/agents/:id/knowledge`.
+
 | Method | Path | Auth | Purpose |
 |--------|------|:----:|---------|
-| GET | `/api/knowledge` | U | List KBs |
-| POST | `/api/knowledge` | U | Create KB |
-| GET | `/api/knowledge/:id` | U | Read KB |
-| PATCH | `/api/knowledge/:id` | U | Update settings |
-| DELETE | `/api/knowledge/:id` | U | Delete KB |
-| GET | `/api/knowledge/:id/documents` | U | List documents |
-| POST | `/api/knowledge/:id/documents` | U | Add document (multipart) |
-| DELETE | `/api/knowledge/:id/documents/:docId` | U | Remove document |
-| POST | `/api/knowledge/:id/search` | U | Search query |
-| POST | `/api/knowledge/:id/reindex` | U | Re-embed all chunks |
-| GET | `/api/marketplace/knowledge` | P | Public KBs |
+| GET | `/api/kb` | U | List KBs |
+| POST | `/api/kb` | U | Create KB |
+| GET | `/api/kb/:id` | U | Read KB |
+| PATCH | `/api/kb/:id` | U | Update settings |
+| DELETE | `/api/kb/:id` | U | Delete KB |
+| GET | `/api/kb/published` | U | List published / shared KBs |
+| GET | `/api/kb/categories` | U | List categories |
+| POST | `/api/kb/categories` | A | Create category (requires `manage_knowledge`) |
+| GET | `/api/kb/:id/documents` | U | List documents |
+| POST | `/api/kb/:id/ingest/file` | U | Upload a document (multipart) |
+| POST | `/api/kb/:id/ingest/text` | U | Ingest plain text |
+| POST | `/api/kb/:id/ingest/url` | U | Ingest from URL |
+| POST | `/api/kb/:id/ingest/sitemap` | U | Bulk ingest from sitemap |
+| DELETE | `/api/kb/:id/documents/:docId` | U | Remove document |
+| GET | `/api/kb/favorites` | U | List my favourite KBs |
+| PUT | `/api/kb/:id/favorite` | U | Mark KB as favourite |
+| DELETE | `/api/kb/:id/favorite` | U | Unmark KB |
+
+Legacy agent-scoped knowledge endpoints (kept for backwards compat):
+
+| Method | Path | Auth | Purpose |
+|--------|------|:----:|---------|
+| GET | `/agents/:id/knowledge` | U | List agent-attached knowledge items |
+| POST | `/agents/:id/knowledge` | U | Attach text/URL knowledge to an agent |
+| POST | `/agents/:id/knowledge/upload` | U | Upload a file (multipart) |
+| POST | `/agents/:id/knowledge/url` | U | Attach by URL |
+| POST | `/agents/:id/knowledge/search` | U | Search this agent's knowledge |
+| DELETE | `/agents/:id/knowledge/:itemId` | U | Remove a knowledge item |
 
 ## Automations (Pro+)
 
@@ -217,13 +243,19 @@ The most-used endpoints, grouped by area. Auth column abbreviations: **P** = pub
 
 ## Audit & compliance (Enterprise+)
 
+Gated by the `compliance_hub_gdpr` license feature. The hub is a check-runner — admins schedule and inspect compliance checks (GDPR readiness, retention policy, etc.).
+
 | Method | Path | Auth | Purpose |
 |--------|------|:----:|---------|
-| GET | `/api/guardrails/events` | A | Query the guardrail audit log |
-| GET | `/api/guardrails/events.csv` | A | CSV export |
-| GET | `/api/compliance/gdpr/requests` | A | List DSRs |
-| POST | `/api/compliance/gdpr/requests` | A | Open a DSR |
-| GET | `/api/compliance/gdpr/archive/:userId` | A | Archive download |
+| GET | `/api/compliance/overview` | A | Tier-aware compliance summary |
+| GET | `/api/compliance/checks` | A | List all checks for this org |
+| GET | `/api/compliance/checks/:id/history` | A | Past results for a single check |
+| POST | `/api/compliance/checks/run` | A | Run every applicable check now |
+| POST | `/api/compliance/checks/:id/run` | A | Run a single check now |
+| GET | `/api/compliance/registry` | A | The static check definitions (catalog) |
+| GET | `/api/compliance/settings` | A | Read compliance settings |
+| PUT | `/api/compliance/settings` | A | Write compliance settings |
+| POST | `/api/compliance/settings/onboarded` | A | Mark the compliance hub as onboarded |
 
 ## Webhooks
 
@@ -232,17 +264,7 @@ The most-used endpoints, grouped by area. Auth column abbreviations: **P** = pub
 | POST | `/webhook/audit-events` | S | Receive SIEM-bound audit events (self) |
 | POST | `/webhook/license-revocation` | S | Receive licence revocation push |
 
-## Health & metrics (operations)
-
-| Method | Path | Auth | Purpose |
-|--------|------|:----:|---------|
-| GET | `/api/health` | P | Liveness + readiness |
-| GET | `/api/health/db` | A | Database connectivity check |
-| GET | `/api/health/redis` | A | Redis connectivity check |
-| GET | `/api/health/integrations` | A | Per-integration health |
-
 ## Notes
 
-- All `POST` create endpoints accept `Idempotency-Key` ([details](index.md#idempotency)).
 - Errors are JSON ([format](index.md#error-format)).
-- Streaming endpoints (`/api/chat`, `/api/voice/turn`) speak SSE — see [Streaming](sse.md).
+- Streaming endpoints (`/ai/chat`, `/ai/chat/direct/stream`, `/api/voice/turn`) speak SSE — see [Streaming](sse.md).

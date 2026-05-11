@@ -77,10 +77,6 @@ Org-level Privacy Shield settings (the same JSONB record described in [Privacy S
 | EU mode | Minimises logs, anonymises IPs. |
 | Lock user override | Users can't tune their own privacy level. |
 
-## DLP (Enterprise+)
-
-Configure policy rules for prompt + tool-result scanning. See [DLP & guardrails](../features/dlp.md) for the action types and audit log structure.
-
 ## SSO (Enterprise+)
 
 | Provider | Setup |

@@ -8,6 +8,12 @@ The first time an organisation admin opens Bee Flow, a 4-step onboarding wizard 
 
 If you reach a step that doesn't match what you see in the UI, your version is newer than this page — the field meanings still apply.
 
+:::note[Self-hosters: the wizard is a separate container]
+
+In self-hosted installs the wizard is a tiny Node service ([`install-wizard/`](https://github.com/Bee-Flow/beeflow/tree/main/install-wizard)) with its own Dockerfile. `install.sh` / `install-local.py` / `install-local.ps1` spin it up alongside the main server for first-time setup, then shut it down once the org is bootstrapped. You don't need to keep it running.
+
+:::
+
 ## Step 1 — User sync mode
 
 Choose which Nextcloud users get a Bee Flow account.
@@ -68,7 +74,7 @@ The detection backend is configurable independently of the level (Azure AI Text 
 
 ## Step 4 — License key (optional)
 
-Stay on the free **Community** tier or paste a JWT licence key from [https://beeflow.ai/pricing](https://beeflow.ai/pricing) to unlock automations, multi-user, DLP, voice and other premium features.
+Stay on the free **Community** tier or paste a JWT licence key from [https://beeflow.ai/pricing](https://beeflow.ai/pricing) to unlock automations, multi-user, voice, compliance hub and other premium features.
 
 The server verifies the JWT signature against a bundled public key (`license/bundled-public-key.pem`). If valid, the active tier updates immediately — no restart needed. Premium navigation entries appear, and gated endpoints become reachable.
 

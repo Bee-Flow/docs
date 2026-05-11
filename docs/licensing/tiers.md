@@ -14,16 +14,16 @@ Source of truth: [`server/license/tiers.js`](https://github.com/Bee-Flow/beeflow
 
 ## Limits
 
-| Limit | Community | Pro | Enterprise | Full |
+Hard-enforced limits from `tiers.js`:
+
+| Limit (`tiers.js` key) | Community | Pro | Enterprise | Full |
 |-------|:---------:|:---:|:----------:|:----:|
-| Users | 1 | 25 | unl. | unl. |
-| Agents | 2 | 20 | unl. | unl. |
-| Messages / month | 1 000 | 50 000 | unl. | unl. |
-| Knowledge bases | 3 | 100 | unl. | unl. |
-| Automations (active) | — | 100 | unl. | unl. |
-| Min cron interval | — | 5 min | 1 min | 1 min |
-| KB document size cap | 10 MB | 100 MB | 1 GB | 1 GB |
-| Audit log retention | 30 days | 90 days | configurable | configurable |
+| Users (`max_users`) | 1 | 25 | unl. | unl. |
+| Agents (`max_agents`) | 2 | 20 | unl. | unl. |
+| Messages / month (`max_messages_per_month`) | 1 000 | 50 000 | unl. | unl. |
+| Knowledge-base sources (`max_kb_sources`) | 5 | 100 | unl. | unl. |
+
+Conventions used elsewhere in the product (cron intervals, KB document size cap, audit retention) are policy defaults rather than hard-coded limits and may move at any time.
 
 ## Feature × tier matrix
 
@@ -51,8 +51,7 @@ Source of truth: [`server/license/tiers.js`](https://github.com/Bee-Flow/beeflow
 | **Privacy** |
 | Privacy Shield (Standard) | ✅ | ✅ | ✅ | ✅ |
 | Privacy Shield (Strict / Custom) | ✅ | ✅ | ✅ | ✅ |
-| DLP gate (interactive / block) | — | — | ✅ | ✅ |
-| DLP audit log export | — | — | ✅ | ✅ |
+| Guardrail audit log export | — | — | ✅ | ✅ |
 | Moderation (Azure Content Safety) | — | — | ✅ | ✅ |
 | **Admin** |
 | Org settings + branding | ✅ | ✅ | ✅ | ✅ |
@@ -80,8 +79,7 @@ The server enforces premium features via `requireLicenseFeature(name)`. Names yo
 | `meeting_notes` | Pro | `/api/transcriptions`, `/api/meet-bot`, voice |
 | `skills` | Pro | `/api/skills` |
 | `ticket_assistant` | Pro | `/api/ticket-assistant`, `/api/email-kb` |
-| `dlp` | Enterprise | DLP rule editor, guardrail audit log export |
-| `gdpr_hub` | Enterprise | `/api/compliance/gdpr/*` |
+| `compliance_hub_gdpr` | Enterprise | `/api/compliance`, guardrail audit log export, DSR flows |
 | `saml_sso` | Enterprise | SAML 2.0 IdP config |
 | `audit_export` | Enterprise | Audit-log SIEM webhook |
 | `white_label` | Full | Branding overrides |

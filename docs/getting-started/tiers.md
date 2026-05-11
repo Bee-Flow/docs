@@ -18,7 +18,7 @@ Bee Flow ships in four tiers. The **Community** tier is fully functional with no
 |--------------|:------:|:------:|:-----------:|------------------|
 | `community`  | 1      | 2      | 1,000       | Basic chat, local KB, Nextcloud basic |
 | `pro`        | 25     | 20     | 50,000      | + Automations, web pages, meeting notes, skills, ticket assistant, voice |
-| `enterprise` | unl.   | unl.   | unl.        | + DLP/guardrails, GDPR compliance hub, SAML SSO, audit log export |
+| `enterprise` | unl.   | unl.   | unl.        | + compliance hub (GDPR + audit log export), SAML SSO |
 | `full`       | unl.   | unl.   | unl.        | + White-label, licence issuance |
 
 The full feature × tier matrix lives in [Licensing → Tiers](../licensing/tiers.md). Source of truth: [`server/license/tiers.js`](https://github.com/Bee-Flow/beeflow/blob/main/license/tiers.js).
@@ -44,7 +44,7 @@ The server uses a `requireLicenseFeature(name)` middleware that returns 403 to a
 | `meeting_notes` | Pro+ | `/api/transcriptions`, `/api/meet-bot`, voice |
 | `skills` | Pro+ | `/api/skills`, the Skills marketplace |
 | `ticket_assistant` | Pro+ | `/api/ticket-assistant`, `/api/email-kb` |
-| `dlp` | Enterprise+ | DLP rule editor, guardrail audit log export |
+| `compliance_hub_gdpr` | Enterprise+ | `/api/compliance`, guardrail audit log export, DSR flows |
 | `saml_sso` | Enterprise+ | SAML 2.0 identity-provider config |
 | `gdpr_hub` | Enterprise+ | GDPR archive, data-subject request flows |
 | `white_label` | Full | Replace branding, custom theme assets |
@@ -54,7 +54,7 @@ The server uses a `requireLicenseFeature(name)` middleware that returns 403 to a
 
 You can run a single user, two agents, ~1k chats/mo, with the full Nextcloud bridge, all 30+ tool integrations, and the Privacy Shield. Two distinctions:
 
-- **Privacy Shield** is in every tier — but **DLP** (interactive blocking + policy editor + audit-log export) is Enterprise.
+- **Privacy Shield** is in every tier — but the **guardrail audit log export** (compliance hub) is Enterprise.
 - **Knowledge Bases** are in every tier — but the **Local KB** is single-user; **vector / hybrid KBs** with reranking are Pro+.
 
 ## Why fair-code?

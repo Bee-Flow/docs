@@ -11,15 +11,17 @@ The connector serves a strict allow-list of paths declared in [`appinfo/info.xml
 | Path | Verb | Access | Purpose |
 |------|------|--------|---------|
 | `^$`, `^index.html`, `^favicon.ico`, `^assets/`, `^js/`, `^img/`, `^bee-flow-logo.*` | GET | PUBLIC | Static SPA shell |
-| `^api/` | GET / POST / PUT / DELETE / PATCH | PUBLIC | SaaS-proxied REST + SSE |
-| `^auth/` | GET / POST / PUT / DELETE / PATCH | PUBLIC | SaaS-proxied auth + OAuth flows |
+| `^api/` | GET / POST / PUT / DELETE / PATCH | USER | SaaS-proxied REST + SSE. USER (not PUBLIC) so AppAPI forwards the NC userId in `AUTHORIZATION-APP-API`; the connector mints a per-user SaaS JWT from it. |
+| `^auth/` | GET / POST / PUT / DELETE / PATCH | USER | SaaS-proxied auth + OAuth flows. Same USER requirement as `^api/`. |
 | `^heartbeat$` | GET | PUBLIC | AppAPI liveness probe |
 | `^init$` | POST | ADMIN | AppAPI lifecycle install hook |
 | `^enabled$` | PUT | ADMIN | AppAPI lifecycle enable/disable hook |
+| `^setup/?$` | GET / POST | ADMIN | Setup picker UI + form submit (Bee Flow Cloud vs self-hosted). |
+| `^setup/(status\|test)$` | GET / POST | ADMIN | Setup picker status + connectivity test endpoints. |
 | `^webhook/` | POST | ADMIN | NC events_listener forwarder |
 | `^nc/` | GET / POST / PUT / DELETE / PATCH / PROPFIND / REPORT / MKCOL / MOVE / COPY | PUBLIC | HMAC-signed reverse proxy back to NC |
 
-`PUBLIC` here means *the route is reachable without an admin role* — not that authentication is skipped. AppAPI signs every call regardless of access level.
+AppAPI signs every call regardless of access level. The level only controls what user attribution AppAPI injects: `USER` makes AppAPI forward the NC userId, `ADMIN` additionally requires the caller to hold the admin role, and `PUBLIC` skips the user-id requirement entirely (used only for lifecycle hooks called by NC itself, not by browsers).
 
 ## Lifecycle
 
@@ -172,7 +174,7 @@ Admin-configurable via `occ app_api:app:setenv`:
 | Var | Default | Purpose |
 |-----|---------|---------|
 | `BEEFLOW_TENANT_KEY` | `auto` | Tenant key, or literal `auto` for one-click install |
-| `BEEFLOW_API_BASE_URL` | `https://api.beeflow.ai` | Bee Flow service URL — override for staging / on-prem |
+| `BEEFLOW_API_BASE_URL` | `https://server.beeflow.ai` | Bee Flow service URL — override for staging / on-prem |
 | `BEEFLOW_JWT_TTL_SECONDS` | `300` | JWT expiry (short on purpose) |
 | `BEEFLOW_SIG_SKEW_SECONDS` | `300` | HMAC clock-skew tolerance (±5 min) |
 

@@ -4,7 +4,13 @@ title: Kubernetes
 
 # Kubernetes
 
-A Helm chart will be published at [Bee-Flow/helm](https://github.com/Bee-Flow/helm) once stable. Until then, the manifests below are a working starting point.
+:::warning[Community-maintained, no official chart yet]
+
+Bee Flow does **not** publish a Helm chart today. The manifests on this page are starting points, not a tested production deployment — you'll need to fill in storage classes, ingress, image-pull secrets, init jobs, and a frontend serving setup yourself.
+
+If you're building one and want it cross-linked here once stable, open an issue at [Bee-Flow/beeflow](https://github.com/Bee-Flow/beeflow/issues).
+
+:::
 
 ## Required workloads
 

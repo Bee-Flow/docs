@@ -59,7 +59,7 @@ All tools run under the calling user's NC permissions. The assistant cannot acce
 
 ## Privacy Shield interaction
 
-File contents pulled via `nextcloud_read_file` are scanned by the Privacy Shield before injection into the prompt. If [DLP](../features/dlp.md) is in `block` mode, prompts referencing file contents with sensitive categories are refused.
+File contents pulled via `nextcloud_read_file` are scanned by the Privacy Shield before injection into the prompt. If the PII action is set to `block`, prompts referencing file contents with sensitive categories are refused; otherwise the matches are tokenised.
 
 ## Common errors
 

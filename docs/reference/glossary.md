@@ -20,10 +20,9 @@ title: Glossary
 | **Component** | An AI-built sandboxed UI fragment that an agent can emit instead of plain Markdown. |
 | **Connector** | The Bee Flow Nextcloud ExApp. Container at `ghcr.io/bee-flow/connector`, AGPL-3.0. |
 | **Conversation** | A chat thread between a user and an agent, persisted in Postgres. |
-| **DLP** | Data Loss Prevention. Enterprise feature that blocks / redacts / asks before sensitive prompts reach the model. |
 | **DSR** | Data Subject Request — GDPR term for a user requesting access, portability, or erasure of their data. |
 | **Embedding** | A high-dimensional vector representation of text used for similarity search. |
-| **Enterprise tier** | Includes DLP, GDPR, SAML, audit export, unlimited users / agents / messages. |
+| **Enterprise tier** | Includes GDPR compliance hub, SAML SSO, audit log export, unlimited users / agents / messages. |
 | **ExApp** | Nextcloud "External App" — a Docker container that integrates with NC via AppAPI. |
 | **Fair-code** | Source-available licensing that permits self-hosting + modification but restricts third-party SaaS resale. SUL is fair-code. |
 | **Full tier** | Top tier: Enterprise + white-label + sub-licence issuance. |

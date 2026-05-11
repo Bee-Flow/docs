@@ -86,7 +86,6 @@ const sidebars: SidebarsConfig = {
           label: 'Privacy & safety',
           items: [
             'features/privacy-shield',
-            'features/dlp',
           ],
         },
       ],

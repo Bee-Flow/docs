@@ -74,7 +74,7 @@ The forwarded payload contains the affected user ID and (for group events) the g
 |-----|--------|
 | Browser ↔ Nextcloud | Your existing NC TLS configuration |
 | Nextcloud ↔ Connector | AppAPI signed proxy (HTTP inside the cluster — relies on cluster network) |
-| Connector ↔ Bee Flow service | TLS 1.2+ (HTTPS to `api.beeflow.ai` or your self-hosted server) |
+| Connector ↔ Bee Flow service | TLS 1.2+ (HTTPS to `server.beeflow.ai` or your self-hosted server) |
 | Bee Flow service ↔ NC (callback) | TLS 1.2+ + HMAC signature |
 
 For self-hosters: you choose your own TLS termination on the Bee Flow service. Caddy / Nginx / Traefik examples in [Self-hosting → Docker Compose](../self-hosting/docker-compose.md).

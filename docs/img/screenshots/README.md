@@ -44,8 +44,6 @@ Drop a new file in. If the folder ends up with two images, the alphabetically-fi
 | `features/knowledge-create/` | New KB modal |
 | `features/automation-builder/` | Automation visual graph editor |
 | `features/automation-run-history/` | Recent runs panel |
-| `features/dlp-policy-editor/` | DLP rule editor |
-| `features/dlp-violation-modal/` | Interactive "ask" gate when DLP detects PII |
 | `features/voice-call-active/` | Voice call SPEAKING state |
 | `features/privacy-shield-settings/` | Settings → Org → Privacy panel |
 | `studio/agent-designer/` | Advanced agent designer |

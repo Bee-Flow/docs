@@ -27,7 +27,9 @@ The full list also lives in [`.env.example`](https://github.com/Bee-Flow/beeflow
 |----------|---------|---------|
 | **`DB_HOST`** | `postgres` | Postgres host. |
 | **`DB_PORT`** | `5432` | Postgres port. |
-| **`DB_NAME`** | `beeflow` | Database name. |
+| **`DB_NAME`** | `beeflow_core` | Primary database name. The Compose setup also creates `beeflow_tasks` and `monitoring_db` on the same instance — see [Docker Compose → Three databases](docker-compose.md#three-databases-not-one). |
+| `DATABASE_URL` | derived from `DB_*` | Override for the productivity-tasks DB. Default points at `beeflow_tasks`. |
+| `MONITORING_DATABASE_URL` | derived from `DB_*` | Override for the monitoring DB. Default points at `monitoring_db`. |
 | **`DB_USER`** | `beeflow` | Database user. |
 | **`DB_PASSWORD`** | — | Database password. |
 | `DB_SSL` | `false` | `true` to require TLS. Use for managed Postgres. |
@@ -76,7 +78,7 @@ The web-search provider is picked in **Admin → Integrations → Zoeken**. API 
 
 See [Web search integration](../integrations/web-search.md) for the full setup.
 
-## Privacy & DLP
+## Privacy Shield
 
 | Variable | Default | Purpose |
 |----------|---------|---------|
@@ -164,26 +166,25 @@ For each provider you enable, register an OAuth app with redirect URI `https://<
 | Variable | Default | Purpose |
 |----------|---------|---------|
 | `LOG_LEVEL` | `info` | See above. |
-| `LOG_FORMAT` | `json` | `json` for SIEM, `pretty` for local dev. |
-| `OTEL_EXPORTER_OTLP_ENDPOINT` | (none) | OpenTelemetry endpoint for traces / metrics. |
-| `OTEL_SERVICE_NAME` | `beeflow-server` | OTel service name. |
-| `METRICS_ENABLED` | `true` | Exposes `/metrics` (Prometheus format). |
-| `METRICS_BASIC_AUTH` | (none) | `user:pass` to protect `/metrics`. |
-| `SENTRY_DSN` | (none) | Sentry error reporting. |
 | `AUDIT_LOG_RETENTION_DAYS` | `90` | How long guardrail / audit events stay in Postgres. |
+| `SENTRY_DSN` | (none) | Sentry error reporting (if a Sentry SDK is wired in your fork). |
+
+A global Prometheus `/metrics` endpoint and OpenTelemetry exporter (`OTEL_EXPORTER_OTLP_ENDPOINT`, `OTEL_SERVICE_NAME`, `METRICS_ENABLED`, `METRICS_BASIC_AUTH`) are on the roadmap but **not wired today**. See [Reference → Telemetry](../reference/telemetry.md) for the current state.
 
 ## Feature flags
 
+Most feature gating in Bee Flow is **licence-driven**, not env-driven. The server enforces premium features via `requireLicenseFeature(name)` middleware against the active org's tier (see [Licensing → Tiers](../licensing/tiers.md)).
+
+A handful of features can additionally be toggled per-server via env:
+
 | Variable | Default | Purpose |
 |----------|---------|---------|
-| `FEATURE_NOTEBOOKS_ENABLED` | `true` | Notebooks page (per-user research workspace). |
-| `FEATURE_VOICE_ENABLED` | `true` | Voice features (require Pro+ at runtime). |
-| `FEATURE_AGENT_MARKETPLACE` | `true` | Public agent marketplace tab in Studio. |
-| `FEATURE_KB_MARKETPLACE` | `true` | Public KB marketplace tab. |
-| `FEATURE_SKILLS_ENABLED` | `true` | Skills system (Pro+ at runtime). |
-| `FEATURE_AUTOMATIONS_ENABLED` | `true` | Automations (Pro+ at runtime). |
+| `ENABLE_TASKS` | `true` | Productivity tasks/projects routes (`/api/projects`, `/api/reminders`, `/api/ai-tasks`). |
+| `ENABLE_MONITORING` | `true` | Monitoring DB writes for the analytics dashboards. |
+| `ENABLE_MEETING_NOTES` | `true` | Meeting-notes UI surface (still requires the `meeting_notes` licence feature to use). |
+| `ENABLE_TEMPLATES` | `true` | Template gallery in Studio. |
 
-These are `true` by default — set to `false` to hide the UI even for tiers that would otherwise allow it. Use case: test installs, or compliance lockdowns.
+Setting any of these to `false` hides the corresponding UI surface even on tiers that would otherwise allow it. Use case: test installs, compliance lockdowns. Other "feature flag"-looking vars (e.g. `FEATURE_NOTEBOOKS_ENABLED`, `FEATURE_SKILLS_ENABLED`) are reserved for future use and ignored today.
 
 ## Email (outbound)
 
@@ -206,5 +207,5 @@ These are `true` by default — set to `false` to hide the UI even for tiers tha
 
 | Variable | Default | Purpose |
 |----------|---------|---------|
-| `BEEFLOW_API_BASE_URL` | `https://api.beeflow.ai` | Set on the **connector** side via `occ app_api:app:setenv`. Override only for staging / on-prem. |
+| `BEEFLOW_API_BASE_URL` | `https://server.beeflow.ai` | Set on the **connector** side via `occ app_api:app:setenv`. Override only for staging / on-prem. |
 | `BEEFLOW_TENANT_KEY` | `auto` | Connector-side. Literal `auto` means provision automatically. |

@@ -53,9 +53,19 @@ Other users see this until the org admin completes the wizard. If you are the ad
 1. Reload the page (Cmd/Ctrl+Shift+R).
 2. Check **Administration → AppAPI** — Bee Flow should show **Enabled**.
 3. Check the connector logs: `docker logs nc_app_bee_flow --tail 100`.
-4. Hit the SaaS health endpoint: `curl https://api.beeflow.ai/api/health` (or your self-hosted URL).
+4. Hit the SaaS health endpoint: `curl https://server.beeflow.ai/api/health` (or your self-hosted URL).
 
 If the SaaS health is fine but the wizard still shows "Setup in progress", the tenant-key bootstrap probably ran but the SaaS didn't finish creating the org row. Restart the connector to force re-bootstrap.
+
+## `ERR_INVALID_CHUNKED_ENCODING` on SSE responses
+
+When the browser shows `ERR_INVALID_CHUNKED_ENCODING` and the chat stream dies mid-reply, the issue is Nextcloud's AppAPI proxy stripping the `Transfer-Encoding: chunked` header from the connector's SSE response without rewriting the body. The connector works around this by forcing `useChunkedEncodingByDefault=false` and adding `Connection: close` on every SSE proxy hop, so plain `Content-Length`-less bodies flow through cleanly.
+
+If you still see it after upgrading to a connector built from commit `af26662` or later:
+
+1. Verify your `nc_app_bee_flow` container is up-to-date: `docker exec nc_app_bee_flow node -e "console.log(require('./package.json').version)"`.
+2. Confirm no upstream reverse proxy (nginx, traefik) is re-introducing chunked encoding on the NC → browser hop — check `proxy_buffering off;` and `proxy_http_version 1.1;` in the NC vhost.
+3. Capture a `curl -N -v https://<nc-host>/index.php/apps/app_api/proxy/bee_flow/api/...` against an SSE endpoint and attach the headers to a bug report — the response should have `Connection: close` and no `Transfer-Encoding`.
 
 ## Nextcloud 33.0.0 — broken events listener
 

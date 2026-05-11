@@ -49,6 +49,10 @@ The admin can decline any of these at install time. Declining a scope disables t
 | `TALK` | Read/post Talk messages the user references. | [Talk](../integrations/nextcloud-talk.md) |
 | `DAV` | WebDAV / CalDAV / CardDAV. | Files, Calendar, Contacts, Tasks |
 
+### Integrations without a dedicated AppAPI scope
+
+AppAPI's scope system is coarse. A few NC integrations the connector supports — **Deck, Notes, Tasks, Activity, User Status** — don't map to a specific AppAPI scope. They're reached through standard OCS / DAV endpoints under the user's own NC session; if the underlying NC app isn't installed, or the user lacks access to it, the integration silently disables. See [Privacy → Detailed by integration](privacy.md#detailed-by-integration) for the actual endpoints touched.
+
 ## What the assistant can and cannot do
 
 | Bee Flow can | Bee Flow cannot |

@@ -54,7 +54,7 @@ The wizard maps these to the actual tool list — you don't need to know tool na
 |--------|--------|
 | Standard | Privacy Shield: standard. |
 | Strict (PII / addresses redacted) | Privacy Shield: strict. |
-| Customer-facing | Strict + DLP block + Azure Content Safety moderation. |
+| Customer-facing | Strict (block mode) + Azure Content Safety moderation. |
 | Internal-only | Standard. |
 
 ### 6. Review and publish

@@ -9,7 +9,7 @@ Chat responses stream over Server-Sent Events. The connection stays open until t
 ## Request
 
 ```http
-POST /api/chat
+POST /ai/chat
 Accept: text/event-stream
 Authorization: Bearer <jwt>
 Content-Type: application/json
@@ -24,6 +24,8 @@ Content-Type: application/json
 }
 ```
 
+For direct (no-agent) chat, POST to `/ai/chat/direct/stream` with the same payload shape (minus `agentId`).
+
 ## Event types
 
 The full set of events the chat stream can emit:
@@ -35,7 +37,10 @@ The full set of events the chat stream can emit:
 | `tool_result` | `{"id": "tc_1", "result": ...}` | The tool returned. |
 | `tool_error` | `{"id": "tc_1", "error": "..."}` | The tool errored (timeout, 4xx, etc.). |
 | `progress` | `{"label": "Reading file...", "percent": 33}` | Long-running tool gives progress. |
-| `dlp_finding` | `{"messageId":"...", "categories": ["email","phone"], "action": "ask"}` | DLP wants user input before continuing. |
+| `dlp_preview` | `{"decisionId":"dlp_...", "findings":[...], "redactedText":"...", "provider":{...}}` | Privacy Shield paused the stream and wants the user to confirm `redact`/`block`/`allow` for sensitive content. |
+| `dlp_resolved` | `{"appliedChoice":"redact","redactedCount": 3, "categories":["email","phone"]}` | Privacy Shield applied a decision (either user-supplied or `auto_redact`). |
+| `dlp_blocked` | `{"reason":"policy_block", "findings":[...]}` | Privacy Shield rejected the prompt — stream ends. |
+| `privacy_token_map` | `{"tokenMap":{"[email_1]":"alice@..."}, "source":"dlp"}` | Token-to-original map for the redacted prompt (debug; only when `showRawPayload=true`). |
 | `citation` | `{"sourceId": "...", "title": "...", "snippet": "..."}` | KB citation for the answer (when `includeSourceReferences=true`). |
 | `done` | `{"messageId": "msg_abc", "usage": {"input": 1234, "output": 567}, "model": "claude-..."}` | Turn complete. |
 | `error` | `{"code": "...", "message": "..."}` | Fatal error; stream closes. |
@@ -75,42 +80,35 @@ data: {"messageId": "msg_abc", "usage": {"input": 1234, "output": 567}}
 
 ## Cancelling
 
-Either close the EventSource client-side (browser will send a TCP FIN), or call:
+Close the EventSource client-side — the browser sends a TCP FIN, and the server tears down the stream.
+
+## Privacy Shield interactive flow
+
+When Privacy Shield is configured with `piiAction: "ask"` and the user prompt contains sensitive content, the stream pauses and emits a `dlp_preview` event with a `decisionId`:
+
+```
+event: dlp_preview
+data: {"decisionId":"dlp_lq3xz0_a1b2c3","findings":[{"label":"email","category":"email","source":"azure"}],"redactedText":"Email [email_1] about the contract.","provider":{"displayName":"Azure PII"}}
+```
+
+The client must resolve the decision:
 
 ```http
-POST /api/chat/:msgId/cancel
-Authorization: Bearer <jwt>
-```
-
-The server emits a final `error` event with `code: "cancelled"` and closes.
-
-## DLP interactive flow
-
-If the org has DLP in `ask` mode and the user prompt contains sensitive content:
-
-```
-event: dlp_finding
-data: {"messageId":"msg_pending","categories":["email","phone"],"redactedPreview":"...","action":"ask"}
-```
-
-The client must respond with the user's choice:
-
-```http
-POST /api/chat/msg_pending/dlp-decision
+POST /api/chat/dlp-decision
 Authorization: Bearer <jwt>
 Content-Type: application/json
 
-{ "decision": "redact" }   // or "allow", "block"
+{ "decisionId": "dlp_lq3xz0_a1b2c3", "choice": "redact", "rememberForConversation": true }
 ```
 
-The original SSE stream then resumes with the chosen action.
+`choice` is `redact` / `block` / `allow`. The decision queue resolves the paused promise and the original SSE stream resumes with the chosen action — emitting `dlp_resolved` on success or `dlp_blocked` (with `reason: "user_blocked"`) when the user picks `block`. Pending decisions time out after 60 seconds (fails closed → treated as `block`).
 
 ## Reconnection
 
 The client should reconnect with `Last-Event-ID` to resume a turn:
 
 ```http
-POST /api/chat HTTP/1.1
+POST /ai/chat HTTP/1.1
 Last-Event-ID: msg_abc:42
 ```
 
@@ -119,7 +117,7 @@ The server replays missed events from event 42 onward. Reconnects are best-effor
 ## JavaScript client
 
 ```js
-const eventSource = new EventSource('/api/chat?token=' + jwt);
+const eventSource = new EventSource('/ai/chat?token=' + jwt);
 
 eventSource.addEventListener('token', e => {
   const { text } = JSON.parse(e.data);
@@ -155,7 +153,7 @@ import requests, json
 from sseclient import SSEClient
 
 r = requests.post(
-    "https://beeflow.example.com/api/chat",
+    "https://beeflow.example.com/ai/chat",
     headers={"Authorization": f"Bearer {token}", "Accept": "text/event-stream"},
     json={"agentId": "asst_default", "messages": [...]},
     stream=True,

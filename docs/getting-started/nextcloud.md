@@ -12,7 +12,7 @@ This page walks an admin through installing the Bee Flow connector via the Nextc
 - [AppAPI](https://apps.nextcloud.com/apps/app_api) installed and enabled
 - A deployment daemon configured (HaRP **or** `manual-install`)
 - Admin permissions on the Nextcloud instance
-- Outbound HTTPS to `ghcr.io` (image pull) and `api.beeflow.ai` (or your self-hosted Bee Flow server)
+- Outbound HTTPS to `ghcr.io` (image pull) and `server.beeflow.ai` (or your self-hosted Bee Flow server)
 
 :::
 
