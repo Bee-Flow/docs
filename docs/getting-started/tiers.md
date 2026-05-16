@@ -4,6 +4,14 @@ title: Free vs paid features
 
 # Free vs paid features
 
+:::warning[Subject to change]
+
+Tier limits, pricing and feature gates on this page are still being tuned
+over the coming weeks. Treat the structure below as indicative — we'll
+update this page as it settles.
+
+:::
+
 Bee Flow ships in three tiers. The **Community** tier is fully functional
 with no licence key — every product feature (chat, automations, voice,
 meeting notes, vector knowledge bases, web crawl, skills, agent routines,

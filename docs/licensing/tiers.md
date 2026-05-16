@@ -4,6 +4,14 @@ title: Tiers
 
 # Tiers
 
+:::warning[Subject to change]
+
+Tier limits, pricing and feature gates on this page are still being tuned
+over the coming weeks. Treat the numbers below as indicative — we'll update
+this page as the structure settles.
+
+:::
+
 Bee Flow ships in three tiers. **Community** is the default state of a fresh
 install — no licence key, no caps, no missing features. Paid tiers add
 compliance, branding, and resale capabilities on top.
@@ -32,7 +40,6 @@ may move at any time.
 |---------|:---------:|:----------:|:----:|
 | **Core chat** |
 | Basic chat with agents | ✅ | ✅ | ✅ |
-| 10 system starter agents | ✅ | ✅ | ✅ |
 | Marketplace (browse + install) | ✅ | ✅ | ✅ |
 | Per-agent system prompts + starter prompts | ✅ | ✅ | ✅ |
 | Voice (push-to-talk + voice call) | ✅ | ✅ | ✅ |
