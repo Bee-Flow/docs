@@ -4,26 +4,47 @@ title: Free vs paid features
 
 # Free vs paid features
 
-:::warning[Subject to change]
+Bee Flow ships in three tiers. The **Community** tier is fully functional
+with no licence key — every product feature (chat, automations, voice,
+meeting notes, vector knowledge bases, web crawl, skills, agent routines,
+multi-user, the Nextcloud connector and every integration) is enabled out of
+the box, with no caps on users, agents, messages or knowledge sources.
 
-Tier limits, pricing and feature gates on this page are being reworked over the coming weeks. Treat the numbers below as indicative — we'll update this page when the new structure lands.
-
-:::
-
-Bee Flow ships in four tiers. The **Community** tier is fully functional with no licence key — basic chat, agents, knowledge bases and the Nextcloud connector all work out of the box.
+Paid tiers add compliance, branding, and resale capabilities — not headroom.
 
 ## At a glance
 
-| Tier         | Users  | Agents | Messages/mo | Premium features |
-|--------------|:------:|:------:|:-----------:|------------------|
-| `community`  | 1      | 2      | 1,000       | Basic chat, local KB, Nextcloud basic |
-| `pro`        | 25     | 20     | 50,000      | + Automations, web pages, meeting notes, skills, ticket assistant, voice |
-| `enterprise` | unl.   | unl.   | unl.        | + compliance hub (GDPR + audit log export), SAML SSO |
-| `full`       | unl.   | unl.   | unl.        | + White-label, licence issuance |
+| Tier         | Users  | Agents | Messages/mo | What it adds over Community |
+|--------------|:------:|:------:|:-----------:|------------------------------|
+| `community`  | unl.   | unl.   | unl.        | (the full product) |
+| `enterprise` | unl.   | unl.   | unl.        | + Compliance Hub (GDPR + AI Act), guardrail DLP, SAML SSO, audit-log webhook, swarm orchestration, advanced analytics, custom themes |
+| `full`       | unl.   | unl.   | unl.        | + White-label (logo, colours, domain), sub-licence issuance |
 
 The full feature × tier matrix lives in [Licensing → Tiers](../licensing/tiers.md). Source of truth: [`server/license/tiers.js`](https://github.com/Bee-Flow/beeflow/blob/main/license/tiers.js).
 
+## Why Community is enough for most teams
+
+Community installs get the whole product:
+
+- **Workflows** — Automations, agent routines, the Component Designer, the Skills marketplace.
+- **Conversation** — Push-to-talk voice, voice call, meeting-notes transcription, the ITIL ticket assistant.
+- **Knowledge** — Local KB plus vector / hybrid / reranked KB, the KB marketplace, and the web crawler.
+- **Integrations** — Every Nextcloud-bridge feature, all 30+ tool integrations, OAuth-write Nextcloud access.
+- **Privacy** — Privacy Shield (Standard, Strict, Custom) is enabled on every tier.
+- **Admin** — User & group management, beta-feature opt-in, org settings.
+
+A team only needs **Enterprise** if it has a hard regulatory or
+identity-management requirement (SAML SSO, audit-log export to SIEM,
+GDPR/AI-Act compliance hub, DLP rules), or wants the operations-tier extras
+(swarm, advanced analytics, custom themes). **Full** is for partners shipping
+Bee Flow under their own brand or issuing sub-licences to downstream
+customers.
+
 ## Where the limits fire
+
+The Community tier sets every cap to "unlimited", so no limit currently
+fires on a fresh install. The enforcement plumbing is still in place so
+custom plans can opt back into capped seats / messages / KB sources:
 
 | Limit | Where it's enforced | What happens at the cap |
 |-------|---------------------|--------------------------|
@@ -31,36 +52,46 @@ The full feature × tier matrix lives in [Licensing → Tiers](../licensing/tier
 | Agents | Agent-create endpoint | UI shows "Tier limit reached — upgrade to add more" |
 | Messages / mo | Chat endpoint, automations runner | Org-wide chat returns 402 with `tier_limit` until the next month |
 
-A monthly counter resets on the first UTC day of each calendar month. Counter state is in Postgres; nothing is sent off-machine.
+A monthly counter resets on the first UTC day of each calendar month.
+Counter state is in Postgres; nothing is sent off-machine.
 
 ## Feature flags (premium gates)
 
-The server uses a `requireLicenseFeature(name)` middleware that returns 403 to any user/org without the feature. Specific gates:
+The server uses a `requireLicenseFeature(name)` middleware that returns 403
+to any user/org without the feature. Community-tier features (`automations`,
+`webpages`, `meeting_notes`, `skills`, `ticket_assistant`, `voice_chat`,
+`kb_unlimited`, etc.) pass through silently. The gates that actually fire
+are the paid ones:
 
 | Feature flag | Tier | What it unlocks |
 |--------------|------|-----------------|
-| `automations` | Pro+ | `/api/automation`, the Automation Builder UI |
-| `webpages` | Pro+ | `/api/webpages`, the Webpages section |
-| `meeting_notes` | Pro+ | `/api/transcriptions`, `/api/meet-bot`, voice |
-| `skills` | Pro+ | `/api/skills`, the Skills marketplace |
-| `ticket_assistant` | Pro+ | `/api/ticket-assistant`, `/api/email-kb` |
 | `compliance_hub_gdpr` | Enterprise+ | `/api/compliance`, guardrail audit log export, DSR flows |
-| `saml_sso` | Enterprise+ | SAML 2.0 identity-provider config |
-| `gdpr_hub` | Enterprise+ | GDPR archive, data-subject request flows |
+| `compliance_hub_aia` | Enterprise+ | AI Act compliance hub |
+| `sso_saml` | Enterprise+ | SAML 2.0 identity-provider config |
+| `audit_log_export` | Enterprise+ | Audit-log SIEM webhook |
+| `guardrails_dlp` | Enterprise+ | DLP rule editor and enforcement |
+| `swarm` | Enterprise+ | Parallel multi-agent orchestration |
+| `advanced_analytics` | Enterprise+ | Org-wide usage analytics |
+| `custom_themes` | Enterprise+ | Theme overrides beyond branding basics |
 | `white_label` | Full | Replace branding, custom theme assets |
 | `license_issuance` | Full | Mint sub-licences for downstream tenants |
 
-## What's free forever
+## Legacy Pro keys
 
-You can run a single user, two agents, ~1k chats/mo, with the full Nextcloud bridge, all 30+ tool integrations, and the Privacy Shield. Two distinctions:
-
-- **Privacy Shield** is in every tier — but the **guardrail audit log export** (compliance hub) is Enterprise.
-- **Knowledge Bases** are in every tier — but the **Local KB** is single-user; **vector / hybrid KBs** with reranking are Pro+.
+Bee Flow previously offered a paid **Pro** tier. It has been retired — every
+Pro feature now ships in Community. Existing licence keys carrying
+`tier: "pro"` continue to validate and silently resolve to `enterprise`, so
+paying customers retain access (and gain the compliance features) without
+needing to reactivate.
 
 ## Why fair-code?
 
-The frontend and server are released under the **Sustainable Use Licence**. You can use, modify and self-host them for free for your own organisation. You cannot offer Bee Flow as a paid service to third parties without a commercial agreement.
+The frontend and server are released under the **Sustainable Use Licence**.
+You can use, modify and self-host them for free for your own organisation.
+You cannot offer Bee Flow as a paid service to third parties without a
+commercial agreement.
 
-The Nextcloud connector is **AGPL-3.0-or-later** to comply with App Store requirements.
+The Nextcloud connector is **AGPL-3.0-or-later** to comply with App Store
+requirements.
 
 [More on the licensing model →](../licensing/index.md)
