@@ -16,6 +16,49 @@ The server verifies the signature against the bundled public key (`license/bundl
 
 ![Applying a licence key](../img/screenshots/admin/license-apply/)
 
+## Server-wide application (self-hosted multi-tenant)
+
+A super-admin on a self-hosted install can apply **one** licence that
+governs **every organisation** on the server instead of activating the
+same key per-org.
+
+1. Sign in as a super-admin.
+2. Open **Admin → Server licence**.
+3. Paste the JWT (or `beeflow-admin-v1.…` admin blob) and confirm.
+
+While a server-wide licence is active:
+
+- Every organisation and consumer on the install resolves to the
+  server-wide tier — **per-organisation licences are ignored**.
+- Per-organisation activation in **Settings → Organisation → Licence**
+  is replaced with a read-only banner ("Tier is managed server-wide").
+- Deactivating the server-wide licence from the same admin panel
+  restores per-organisation licences immediately (per-org rows are
+  preserved in the database, not deleted).
+
+**Restrictions:**
+
+- Self-hosted only — the endpoint returns `server_scope_cloud_blocked`
+  on cloud deployments. (Set `LICENSE_ALLOW_SERVER_SCOPE_ON_CLOUD=true`
+  to override for single-tenant managed-cloud installs.)
+- Super-admin only — org admins receive `super_admin_required`.
+- Community-tier licences are rejected (`community_server_license_pointless`)
+  since Community is the default floor for every install.
+
+API reference:
+
+```bash
+# Apply
+curl -X POST https://beeflow.example.com/api/license/activate \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <super_admin_jwt>" \
+  -d '{ "token": "eyJhbG...", "scope": "server" }'
+
+# Remove
+curl -X DELETE 'https://beeflow.example.com/api/license/deactivate?scope=server' \
+  -H "Authorization: Bearer <super_admin_jwt>"
+```
+
 ## Via env var (self-hosted)
 
 Set `BEEFLOW_LICENSE_KEY` and restart the server. Useful for IaC / GitOps deploys where you don't want to paste keys through a UI.

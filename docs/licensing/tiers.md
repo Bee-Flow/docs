@@ -13,8 +13,15 @@ this page as the structure settles.
 :::
 
 Bee Flow ships in three tiers. **Community** is the default state of a fresh
-install — no licence key, no caps, no missing features. Paid tiers add
-compliance, branding, and resale capabilities on top.
+install — no licence key, no caps. Community covers the free self-hosted
+core: chat with agents, knowledge bases (local, vector, hybrid, reranked),
+the Nextcloud connector, multi-user with groups, agent routines, and the
+skills marketplace. **Enterprise** adds Studio-class capabilities (voice
+chat, webpages, automations, meeting notes, ticket assistant, notebooks,
+component designer) plus compliance, SSO, audit-log export, custom themes,
+swarm, and advanced analytics — **all beta features also require
+Enterprise**. **Full** layers white-label branding and sub-licence
+issuance on top for resellers.
 
 Source of truth: [`server/license/tiers.js`](https://github.com/Bee-Flow/beeflow/blob/main/license/tiers.js).
 
@@ -42,21 +49,21 @@ may move at any time.
 | Basic chat with agents | ✅ | ✅ | ✅ |
 | Marketplace (browse + install) | ✅ | ✅ | ✅ |
 | Per-agent system prompts + starter prompts | ✅ | ✅ | ✅ |
-| Voice (push-to-talk + voice call) | ✅ | ✅ | ✅ |
+| Voice (push-to-talk + voice call) | — | ✅ | ✅ |
 | **Knowledge** |
 | Local KB | ✅ | ✅ | ✅ |
 | Vector / hybrid / reranked KB | ✅ | ✅ | ✅ |
 | KB Marketplace | ✅ | ✅ | ✅ |
-| Web pages crawler & ingest | ✅ | ✅ | ✅ |
+| Web pages crawler & ingest | — | ✅ | ✅ |
 | **Workflow** |
-| Automations | ✅ | ✅ | ✅ |
+| Automations | — | ✅ | ✅ |
 | Agent routines (scheduled) | ✅ | ✅ | ✅ |
 | Skills marketplace | ✅ | ✅ | ✅ |
-| Component Designer (custom UI) | ✅ | ✅ | ✅ |
-| Notebooks (per-user research) | ✅ | ✅ | ✅ |
+| Component Designer (custom UI) | — | ✅ | ✅ |
+| Notebooks (per-user research) | — | ✅ | ✅ |
 | **Productivity** |
-| Meeting notes | ✅ | ✅ | ✅ |
-| Ticket assistant / Email KB | ✅ | ✅ | ✅ |
+| Meeting notes | — | ✅ | ✅ |
+| Ticket assistant / Email KB | — | ✅ | ✅ |
 | **Privacy** |
 | Privacy Shield (Standard) | ✅ | ✅ | ✅ |
 | Privacy Shield (Strict / Custom) | ✅ | ✅ | ✅ |
@@ -67,7 +74,7 @@ may move at any time.
 | Org settings | ✅ | ✅ | ✅ |
 | User & group management | ✅ | ✅ | ✅ |
 | NC integration toggles | ✅ | ✅ | ✅ |
-| Beta features | ✅ | ✅ | ✅ |
+| Beta features | — | ✅ | ✅ |
 | Custom themes | — | ✅ | ✅ |
 | Advanced analytics | — | ✅ | ✅ |
 | Swarm (multi-agent orchestration) | — | ✅ | ✅ |
@@ -89,6 +96,13 @@ you'll see in 403 responses:
 
 | Flag | Min tier | Routes / surfaces |
 |------|:--------:|--------------------|
+| `voice_chat` | Enterprise | Realtime voice chat (Voxtral STT/TTS), `/ai/voice` |
+| `webpages` | Enterprise | AI-built static webpages, `/api/webpages` |
+| `automations` | Enterprise | No-code automation builder, `/api/automation*` |
+| `meeting_notes` | Enterprise | Transcription + summarisation, `/api/transcriptions`, `/api/meet-bot` |
+| `ticket_assistant` | Enterprise | ITIL Ticket Assistant + Email KB, `/api/ticket-assistant`, `/api/email-kb` |
+| `component_designer` | Enterprise | Custom UI components, `/components` |
+| `notebooks` | Enterprise | Per-user research notebooks, `/api/notebooks` |
 | `compliance_hub_gdpr` | Enterprise | `/api/compliance`, guardrail audit log export, DSR flows |
 | `compliance_hub_aia` | Enterprise | AI Act compliance hub |
 | `sso_saml` | Enterprise | SAML 2.0 IdP config |
@@ -100,11 +114,17 @@ you'll see in 403 responses:
 | `white_label` | Full | Branding overrides (logo, colours, domain) |
 | `license_issuance` | Full | Sub-licence minting |
 
-Community-tier features (`automations`, `webpages`, `meeting_notes`, `skills`,
-`ticket_assistant`, `voice_chat`, `kb_unlimited`, etc.) are still passed
-through `requireLicenseFeature` at their mount sites — the gate is a no-op
-because the feature lives in `TIER_FEATURES.community`. Beta opt-in via
-`requireBetaFeature` remains in force and is independent of the licence tier.
+Community-tier features (`chat_basic`, `kb_local_small`, `kb_unlimited`,
+`nextcloud_basic`, `nextcloud_oauth`, `multi_user`, `agent_routines`,
+`skills`) are still passed through `requireLicenseFeature` at their mount
+sites — the gate is a no-op because the feature lives in
+`TIER_FEATURES.community`. Beta features (the entire `BETA_FEATURES`
+registry) require Enterprise or higher: on a Community install every
+`requireBetaFeature(...)` call short-circuits to a 403 with
+`{ error: 'feature_locked', reason: 'beta_requires_enterprise', required:
+'enterprise', upgrade_url: … }` so the UI can route the user to the right
+CTA. Super-admins bypass the tier check (same exemption that already
+exists for licensed-feature gates).
 
 ## Limit enforcement
 
@@ -125,8 +145,8 @@ Counters reset on the first day of each calendar month at 00:00 UTC.
 
 | Need | Suggested tier |
 |------|----------------|
-| Anything from a homelab to a large team — no compliance ask | Community |
-| Regulated environment (SSO, audit export, GDPR/AI-Act compliance) | Enterprise |
+| Free self-hosted core — chat, KB, agents, routines, skills | Community |
+| Team that wants Studio (voice, webpages, automations, notebooks, meeting notes, ticket assistant), beta features, or compliance (SSO, audit export, GDPR/AI-Act) | Enterprise |
 | Reseller / private-label deployment | Full |
 
 Custom plans (e.g. capped seats, specific feature sets) are available —
@@ -136,12 +156,14 @@ contact [tomkooy@beeflow.nl](mailto:tomkooy@beeflow.nl).
 
 Earlier versions of Bee Flow exposed a paid **Pro** tier that gated
 automations, voice, meeting notes, knowledge-base expansion and similar
-features. That tier has been retired: all of those features now ship in
-Community.
+features. That tier has been retired and those features now ship in
+**Enterprise**.
 
-For backward compatibility, existing licences carrying `tier: "pro"` — whether
-JWT-signed, admin-issued blobs, or Stripe subscription rows — are still
-accepted and silently resolved to `enterprise`. Paying customers therefore
-gain (rather than lose) capability at renewal. The mapping lives in
+For backward compatibility, existing licences carrying `tier: "pro"` —
+whether JWT-signed, admin-issued blobs, or Stripe subscription rows — are
+still accepted and silently resolved to `enterprise`. Paying Pro
+customers therefore retain everything they had and pick up the additional
+Enterprise capabilities (compliance hub, SSO, audit export, swarm, etc.)
+at no extra step. The mapping lives in
 [`server/license/tiers.js`](https://github.com/Bee-Flow/beeflow/blob/main/license/tiers.js)
 as `LEGACY_TIER_ALIAS`.
