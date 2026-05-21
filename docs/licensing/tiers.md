@@ -57,15 +57,18 @@ may move at any time.
 | Web pages crawler & ingest | — | ✅ | ✅ |
 | **Workflow** |
 | Automations | — | ✅ | ✅ |
-| Agent routines (scheduled) | ✅ | ✅ | ✅ |
+| Agent routines (scheduled) | — | ✅ | ✅ |
 | Skills marketplace | ✅ | ✅ | ✅ |
+| Projects | — | ✅ | ✅ |
 | Component Designer (custom UI) | — | ✅ | ✅ |
 | Notebooks (per-user research) | — | ✅ | ✅ |
 | **Productivity** |
 | Meeting notes | — | ✅ | ✅ |
 | Ticket assistant / Email KB | — | ✅ | ✅ |
 | **Privacy** |
-| Privacy Shield (Standard) | ✅ | ✅ | ✅ |
+| Privacy Shield — block PII | ✅ | ✅ | ✅ |
+| Privacy Shield — Tokenize & round-trip PII | — | ✅ | ✅ |
+| Web Search Guard (block PII in outbound search) | — | ✅ | ✅ |
 | Privacy Shield (Strict / Custom) | ✅ | ✅ | ✅ |
 | Guardrail DLP rules | — | ✅ | ✅ |
 | Guardrail audit log export | — | ✅ | ✅ |
@@ -74,6 +77,8 @@ may move at any time.
 | Org settings | ✅ | ✅ | ✅ |
 | User & group management | ✅ | ✅ | ✅ |
 | NC integration toggles | ✅ | ✅ | ✅ |
+| Usage & Monitoring — Overview tab | ✅ | ✅ | ✅ |
+| Usage & Monitoring — Safety / Integrations / Feedback / Terminations tabs | — | ✅ | ✅ |
 | Beta features | — | ✅ | ✅ |
 | Custom themes | — | ✅ | ✅ |
 | Advanced analytics | — | ✅ | ✅ |
@@ -99,10 +104,15 @@ you'll see in 403 responses:
 | `voice_chat` | Enterprise | Realtime voice chat (Voxtral STT/TTS), `/ai/voice` |
 | `webpages` | Enterprise | AI-built static webpages, `/api/webpages` |
 | `automations` | Enterprise | No-code automation builder, `/api/automation*` |
+| `agent_routines` | Enterprise | Scheduled agent runs (Studio → Routines) |
 | `meeting_notes` | Enterprise | Transcription + summarisation, `/api/transcriptions`, `/api/meet-bot` |
 | `ticket_assistant` | Enterprise | ITIL Ticket Assistant + Email KB, `/api/ticket-assistant`, `/api/email-kb` |
 | `component_designer` | Enterprise | Custom UI components, `/components` |
 | `notebooks` | Enterprise | Per-user research notebooks, `/api/notebooks` |
+| `projects` | Enterprise | Projects (sidebar accordion + `/api/projects`) |
+| `pii_tokenize` | Enterprise | Privacy Shield "Tokenize & round-trip" PII action; community PUT clamps `piiDetectionAction` to `block` server-side |
+| `web_search_guard` | Enterprise | Privacy Shield Web Search Guard toggle + category filter; community PUT force-disables it server-side |
+| `advanced_usage_monitoring` | Enterprise | Usage & Monitoring tabs other than Overview — Safety, Integrations, Feedback, Terminations. Gates `/api/usage/{guardrails,integrations,azure-services}/*`, `/api/feedback`, `/api/terminations` |
 | `compliance_hub_gdpr` | Enterprise | `/api/compliance`, guardrail audit log export, DSR flows |
 | `compliance_hub_aia` | Enterprise | AI Act compliance hub |
 | `sso_saml` | Enterprise | SAML 2.0 IdP config |
@@ -115,12 +125,12 @@ you'll see in 403 responses:
 | `license_issuance` | Full | Sub-licence minting |
 
 Community-tier features (`chat_basic`, `kb_local_small`, `kb_unlimited`,
-`nextcloud_basic`, `nextcloud_oauth`, `multi_user`, `agent_routines`,
-`skills`) are still passed through `requireLicenseFeature` at their mount
-sites — the gate is a no-op because the feature lives in
-`TIER_FEATURES.community`. Beta features (the entire `BETA_FEATURES`
-registry) require Enterprise or higher: on a Community install every
-`requireBetaFeature(...)` call short-circuits to a 403 with
+`nextcloud_basic`, `nextcloud_oauth`, `multi_user`, `skills`) are still
+passed through `requireLicenseFeature` at their mount sites — the gate is
+a no-op because the feature lives in `TIER_FEATURES.community`. Beta
+features (the entire `BETA_FEATURES` registry) require Enterprise or
+higher: on a Community install every `requireBetaFeature(...)` call
+short-circuits to a 403 with
 `{ error: 'feature_locked', reason: 'beta_requires_enterprise', required:
 'enterprise', upgrade_url: … }` so the UI can route the user to the right
 CTA. Super-admins bypass the tier check (same exemption that already
@@ -145,8 +155,8 @@ Counters reset on the first day of each calendar month at 00:00 UTC.
 
 | Need | Suggested tier |
 |------|----------------|
-| Free self-hosted core — chat, KB, agents, routines, skills | Community |
-| Team that wants Studio (voice, webpages, automations, notebooks, meeting notes, ticket assistant), beta features, or compliance (SSO, audit export, GDPR/AI-Act) | Enterprise |
+| Free self-hosted core — chat, KB, agents, skills | Community |
+| Team that wants Studio (voice, webpages, automations, agent routines, notebooks, meeting notes, ticket assistant, projects, component designer), the advanced Privacy Shield modes (tokenize PII, web-search guard), the full Usage & Monitoring tabs, beta features, or compliance (SSO, audit export, GDPR/AI-Act) | Enterprise |
 | Reseller / private-label deployment | Full |
 
 Custom plans (e.g. capped seats, specific feature sets) are available —
