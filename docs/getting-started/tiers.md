@@ -25,7 +25,7 @@ Paid tiers add compliance, branding, and resale capabilities — not headroom.
 | Tier         | Users  | Agents | Messages/mo | What it adds over Community |
 |--------------|:------:|:------:|:-----------:|------------------------------|
 | `community`  | unl.   | unl.   | unl.        | (the full product) |
-| `enterprise` | unl.   | unl.   | unl.        | + Compliance Hub (GDPR + AI Act), guardrail DLP, SAML SSO, audit-log webhook, swarm orchestration, advanced analytics, custom themes |
+| `enterprise` | unl.   | unl.   | unl.        | + Compliance Hub (GDPR + AI Act), guardrail DLP, SAML SSO |
 | `full`       | unl.   | unl.   | unl.        | + White-label (logo, colours, domain), sub-licence issuance |
 
 The full feature × tier matrix lives in [Licensing → Tiers](../licensing/tiers.md). Source of truth: [`server/license/tiers.js`](https://github.com/Bee-Flow/beeflow/blob/main/license/tiers.js).
@@ -35,18 +35,16 @@ The full feature × tier matrix lives in [Licensing → Tiers](../licensing/tier
 Community installs get the whole product:
 
 - **Workflows** — Automations, agent routines, the Component Designer, the Skills marketplace.
-- **Conversation** — Push-to-talk voice, voice call, meeting-notes transcription, the ITIL ticket assistant.
-- **Knowledge** — Local KB plus vector / hybrid / reranked KB, the KB marketplace, and the web crawler.
+- **Conversation** — Push-to-talk voice, voice call, meeting-notes transcription.
+- **Knowledge** — Knowledge Bases and Webpage creation.
 - **Integrations** — Every Nextcloud-bridge feature, all 30+ tool integrations, OAuth-write Nextcloud access.
 - **Privacy** — Privacy Shield (Standard, Strict, Custom) is enabled on every tier.
 - **Admin** — User & group management, beta-feature opt-in, org settings.
 
 A team only needs **Enterprise** if it has a hard regulatory or
-identity-management requirement (SAML SSO, audit-log export to SIEM,
-GDPR/AI-Act compliance hub, DLP rules), or wants the operations-tier extras
-(swarm, advanced analytics, custom themes). **Full** is for partners shipping
-Bee Flow under their own brand or issuing sub-licences to downstream
-customers.
+identity-management requirement (SAML SSO, GDPR/AI-Act compliance hub, DLP
+rules). **Full** is for partners shipping Bee Flow under their own brand or
+issuing sub-licences to downstream customers.
 
 ## Where the limits fire
 
@@ -66,21 +64,16 @@ Counter state is in Postgres; nothing is sent off-machine.
 ## Feature flags (premium gates)
 
 The server uses a `requireLicenseFeature(name)` middleware that returns 403
-to any user/org without the feature. Community-tier features (`automations`,
-`webpages`, `meeting_notes`, `skills`, `ticket_assistant`, `voice_chat`,
-`kb_unlimited`, etc.) pass through silently. The gates that actually fire
-are the paid ones:
+to any user/org without the feature. Community-tier features (`skills`,
+`kb_unlimited`, `custom_themes`, etc.) pass through silently. The gates
+that actually fire are the paid ones:
 
 | Feature flag | Tier | What it unlocks |
 |--------------|------|-----------------|
 | `compliance_hub_gdpr` | Enterprise+ | `/api/compliance`, guardrail audit log export, DSR flows |
 | `compliance_hub_aia` | Enterprise+ | AI Act compliance hub |
 | `sso_saml` | Enterprise+ | SAML 2.0 identity-provider config |
-| `audit_log_export` | Enterprise+ | Audit-log SIEM webhook |
 | `guardrails_dlp` | Enterprise+ | DLP rule editor and enforcement |
-| `swarm` | Enterprise+ | Parallel multi-agent orchestration |
-| `advanced_analytics` | Enterprise+ | Org-wide usage analytics |
-| `custom_themes` | Enterprise+ | Theme overrides beyond branding basics |
 | `white_label` | Full | Replace branding, custom theme assets |
 | `license_issuance` | Full | Mint sub-licences for downstream tenants |
 

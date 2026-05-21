@@ -14,14 +14,14 @@ this page as the structure settles.
 
 Bee Flow ships in three tiers. **Community** is the default state of a fresh
 install — no licence key, no caps. Community covers the free self-hosted
-core: chat with agents, knowledge bases (local, vector, hybrid, reranked),
-the Nextcloud connector, multi-user with groups, agent routines, and the
-skills marketplace. **Enterprise** adds Studio-class capabilities (voice
-chat, webpages, automations, meeting notes, ticket assistant, notebooks,
-component designer) plus compliance, SSO, audit-log export, custom themes,
-swarm, and advanced analytics — **all beta features also require
-Enterprise**. **Full** layers white-label branding and sub-licence
-issuance on top for resellers.
+core: chat with agents, knowledge bases, the Nextcloud connector, multi-user
+with groups, themes, and the skills marketplace. **Enterprise** adds
+Studio-class capabilities (voice chat, webpage creation, automations, agent
+routines, meeting notes, notebooks, component designer, projects) plus the
+advanced Privacy Shield modes, guardrail DLP, the compliance hub (GDPR + AI
+Act) and SAML SSO — **all beta features also require Enterprise**.
+**Full** layers white-label branding and sub-licence issuance on top for
+resellers.
 
 Source of truth: [`server/license/tiers.js`](https://github.com/Bee-Flow/beeflow/blob/main/license/tiers.js).
 
@@ -47,14 +47,11 @@ may move at any time.
 |---------|:---------:|:----------:|:----:|
 | **Core chat** |
 | Basic chat with agents | ✅ | ✅ | ✅ |
-| Marketplace (browse + install) | ✅ | ✅ | ✅ |
 | Per-agent system prompts + starter prompts | ✅ | ✅ | ✅ |
 | Voice (push-to-talk + voice call) | — | ✅ | ✅ |
 | **Knowledge** |
-| Local KB | ✅ | ✅ | ✅ |
-| Vector / hybrid / reranked KB | ✅ | ✅ | ✅ |
-| KB Marketplace | ✅ | ✅ | ✅ |
-| Web pages crawler & ingest | — | ✅ | ✅ |
+| Knowledge Bases | ✅ | ✅ | ✅ |
+| Webpage creation | — | ✅ | ✅ |
 | **Workflow** |
 | Automations | — | ✅ | ✅ |
 | Agent routines (scheduled) | — | ✅ | ✅ |
@@ -64,7 +61,6 @@ may move at any time.
 | Notebooks (per-user research) | — | ✅ | ✅ |
 | **Productivity** |
 | Meeting notes | — | ✅ | ✅ |
-| Ticket assistant / Email KB | — | ✅ | ✅ |
 | **Privacy** |
 | Privacy Shield — block PII | ✅ | ✅ | ✅ |
 | Privacy Shield — Tokenize & round-trip PII | — | ✅ | ✅ |
@@ -72,22 +68,17 @@ may move at any time.
 | Privacy Shield (Strict / Custom) | ✅ | ✅ | ✅ |
 | Guardrail DLP rules | — | ✅ | ✅ |
 | Guardrail audit log export | — | ✅ | ✅ |
-| Moderation (Azure Content Safety) | — | ✅ | ✅ |
 | **Admin** |
 | Org settings | ✅ | ✅ | ✅ |
 | User & group management | ✅ | ✅ | ✅ |
-| NC integration toggles | ✅ | ✅ | ✅ |
 | Usage & Monitoring — Overview tab | ✅ | ✅ | ✅ |
 | Usage & Monitoring — Safety / Integrations / Feedback / Terminations tabs | — | ✅ | ✅ |
 | Beta features | — | ✅ | ✅ |
-| Custom themes | — | ✅ | ✅ |
-| Advanced analytics | — | ✅ | ✅ |
-| Swarm (multi-agent orchestration) | — | ✅ | ✅ |
+| Themes | ✅ | ✅ | ✅ |
 | **Compliance** |
 | GDPR archive / DSR flows | — | ✅ | ✅ |
 | AI Act compliance hub | — | ✅ | ✅ |
 | SAML 2.0 SSO | — | ✅ | ✅ |
-| Audit log webhook → SIEM | — | ✅ | ✅ |
 | **Branding & resale** |
 | White-label (logo, colours, domain) | — | — | ✅ |
 | Sub-licence issuance (your own customers) | — | — | ✅ |
@@ -106,7 +97,6 @@ you'll see in 403 responses:
 | `automations` | Enterprise | No-code automation builder, `/api/automation*` |
 | `agent_routines` | Enterprise | Scheduled agent runs (Studio → Routines) |
 | `meeting_notes` | Enterprise | Transcription + summarisation, `/api/transcriptions`, `/api/meet-bot` |
-| `ticket_assistant` | Enterprise | ITIL Ticket Assistant + Email KB, `/api/ticket-assistant`, `/api/email-kb` |
 | `component_designer` | Enterprise | Custom UI components, `/components` |
 | `notebooks` | Enterprise | Per-user research notebooks, `/api/notebooks` |
 | `projects` | Enterprise | Projects (sidebar accordion + `/api/projects`) |
@@ -116,11 +106,8 @@ you'll see in 403 responses:
 | `compliance_hub_gdpr` | Enterprise | `/api/compliance`, guardrail audit log export, DSR flows |
 | `compliance_hub_aia` | Enterprise | AI Act compliance hub |
 | `sso_saml` | Enterprise | SAML 2.0 IdP config |
-| `audit_log_export` | Enterprise | Audit-log SIEM webhook |
 | `guardrails_dlp` | Enterprise | DLP rule editor + enforcement |
-| `custom_themes` | Enterprise | Theme overrides beyond branding basics |
-| `swarm` | Enterprise | Parallel multi-agent orchestration |
-| `advanced_analytics` | Enterprise | Org-wide usage analytics |
+| `custom_themes` | Community | Theme overrides beyond branding basics |
 | `white_label` | Full | Branding overrides (logo, colours, domain) |
 | `license_issuance` | Full | Sub-licence minting |
 
@@ -156,7 +143,7 @@ Counters reset on the first day of each calendar month at 00:00 UTC.
 | Need | Suggested tier |
 |------|----------------|
 | Free self-hosted core — chat, KB, agents, skills | Community |
-| Team that wants Studio (voice, webpages, automations, agent routines, notebooks, meeting notes, ticket assistant, projects, component designer), the advanced Privacy Shield modes (tokenize PII, web-search guard), the full Usage & Monitoring tabs, beta features, or compliance (SSO, audit export, GDPR/AI-Act) | Enterprise |
+| Team that wants Studio (voice, webpage creation, automations, agent routines, notebooks, meeting notes, projects, component designer), the advanced Privacy Shield modes (tokenize PII, web-search guard), the full Usage & Monitoring tabs, beta features, or compliance (SSO, GDPR/AI-Act) | Enterprise |
 | Reseller / private-label deployment | Full |
 
 Custom plans (e.g. capped seats, specific feature sets) are available —
@@ -173,7 +160,7 @@ For backward compatibility, existing licences carrying `tier: "pro"` —
 whether JWT-signed, admin-issued blobs, or Stripe subscription rows — are
 still accepted and silently resolved to `enterprise`. Paying Pro
 customers therefore retain everything they had and pick up the additional
-Enterprise capabilities (compliance hub, SSO, audit export, swarm, etc.)
-at no extra step. The mapping lives in
+Enterprise capabilities (compliance hub, SSO, etc.) at no extra step. The
+mapping lives in
 [`server/license/tiers.js`](https://github.com/Bee-Flow/beeflow/blob/main/license/tiers.js)
 as `LEGACY_TIER_ALIAS`.
