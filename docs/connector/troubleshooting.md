@@ -6,6 +6,64 @@ title: Troubleshooting
 
 A reference of common problems with the connector. For each: symptom → cause → fix.
 
+## "Install" button in the App Store does nothing
+
+The Nextcloud Apps page accepts the install request but no ExApp container ever appears:
+
+```bash
+sudo -u www-data php occ app_api:daemon:list
+# → (empty)
+```
+
+You need a deploy daemon. Bee Flow can't be installed without one — AppAPI has no idea where to put the container. Pick the right setup:
+
+| Your Nextcloud | Action |
+|---|---|
+| Vanilla self-hosted | [Register a `docker-install` daemon](../getting-started/nextcloud#2a-vanilla-nextcloud) — one `occ app_api:daemon:register` command. |
+| Nextcloud All-in-One | The AIO master container usually pre-registers it. If `daemon:list` is empty, [register the AIO socket proxy](../getting-started/nextcloud#2b-nextcloud-all-in-one). |
+| Shared / multi-tenant | Use [HaRP](https://docs.nextcloud.com/server/latest/admin_manual/app_api/harp.html). |
+
+After registering, click **Install** in the App Store again — it'll succeed this time.
+
+## Bee Flow installs but user-sync is degraded
+
+Symptom: bee icon shows up, chat works, but a yellow banner appears: *"User sync degraded: SaaS cannot reach this Nextcloud."* Or webhooks are silently never delivered.
+
+Cause: Bee Flow Cloud can't reach your Nextcloud at the URL it was told to use. Common with reverse-proxied or NAT'd instances where `NEXTCLOUD_URL` is an internal hostname.
+
+Fix: set `BEEFLOW_NC_PUBLIC_URL` to your **public** Nextcloud URL:
+
+```bash
+sudo -u www-data php occ app_api:app:setenv bee_flow \
+  BEEFLOW_NC_PUBLIC_URL "https://cloud.example.com"
+sudo -u www-data php occ app_api:app:redeploy bee_flow
+```
+
+Verify from outside (your laptop / a phone on cellular):
+
+```bash
+curl "https://cloud.example.com/status.php"
+# → {"installed":true,...}
+```
+
+## Bootstrap "failed" state in heartbeat
+
+Starting v0.2, `/heartbeat` returns a `failed` state with a category and remediation when the SaaS handshake fails. View it:
+
+```bash
+docker exec nc_app_bee_flow curl -s http://127.0.0.1:23000/heartbeat
+# → {"status":"failed","category":"saas_unreachable","error":"...","nextRetryAt":"..."}
+```
+
+| Category | Meaning | Fix |
+|---|---|---|
+| `saas_unreachable` | Connector can't reach the Bee Flow server | Test `curl https://server.beeflow.ai/api/health` from inside the container. Whitelist that hostname in your egress firewall. |
+| `nc_not_publicly_reachable` | SaaS bootstrap check couldn't reach your NC | Set `BEEFLOW_NC_PUBLIC_URL` (see section above), or switch to self-hosted Bee Flow via the setup picker. |
+| `admin_lookup_failed` | No admin user found in NC's `admin` group | `occ user:add --group admin <uid>` then `occ app_api:app:redeploy bee_flow`. |
+| `appstore_signature_invalid` | Downloaded tarball signature mismatch (rare) | Uninstall and reinstall from the App Store. |
+
+The next retry is scheduled automatically; you don't need to redeploy unless you've changed the underlying problem.
+
 ## Install hangs at "Deploying…"
 
 | Symptom | Cause | Fix |

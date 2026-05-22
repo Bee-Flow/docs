@@ -29,26 +29,77 @@ Or install **App API** from the **Apps** page in the Nextcloud admin UI.
 
 ## 2. Configure a deployment daemon
 
-AppAPI deploys ExApps as Docker containers. Two deployment daemons are supported:
+AppAPI deploys ExApps as Docker containers. Pick the daemon that matches your Nextcloud setup:
 
-| Daemon | Use when | Trade-off |
-|--------|----------|-----------|
-| **HaRP** | Production / shared hosting | One container manages every ExApp. Reverse proxy + DNS handled by HaRP. Insecure local registries need explicit trust. |
-| **`manual-install`** | Local dev, single host | Uses your host's Docker daemon directly. Easier for debugging — `docker logs` works as you'd expect. |
+| Your setup | Daemon | One-time command |
+|---|---|---|
+| **Vanilla Nextcloud** (self-managed bare-metal or VM with Docker) | `docker-install` | See [§2a](#2a-vanilla-nextcloud) below |
+| **Nextcloud All-in-One** (AIO master container) | `docker-install` (auto-configured) | Usually nothing — see [§2b](#2b-nextcloud-all-in-one) |
+| **Behind reverse proxy / NAT** (NC not directly reachable from the public internet) | `docker-install` + `BEEFLOW_NC_PUBLIC_URL` | See [§2c](#2c-behind-reverse-proxy-or-nat) |
+| **Multi-tenant / shared hosting** | **HaRP** | See [HaRP setup guide](https://docs.nextcloud.com/server/latest/admin_manual/app_api/harp.html) |
 
-Configure the daemon at **Administration → AppAPI → Deployment daemons**, or with:
+### 2a. Vanilla Nextcloud
+
+Register a daemon that talks to the host's Docker socket. Run this once on the server hosting Nextcloud:
 
 ```bash
 sudo -u www-data php occ app_api:daemon:register \
-  manual_dev \
-  "Manual local Docker" \
-  manual-install \
+  docker_local \
+  "Local Docker" \
+  docker-install \
   http \
   localhost \
   http://nextcloud
 ```
 
-Pick the daemon that suits your environment, then test it with `app_api:daemon:test`.
+Verify it works:
+
+```bash
+sudo -u www-data php occ app_api:daemon:list
+sudo -u www-data php occ app_api:daemon:test docker_local
+```
+
+The Docker socket must be readable by `www-data`. On most Nextcloud Docker images this means adding `www-data` to the host's `docker` group inside the Nextcloud container:
+
+```bash
+docker exec <nextcloud-container> bash -c "
+  groupadd -g $(stat -c '%g' /var/run/docker.sock) docker-host 2>/dev/null || true
+  usermod -aG docker-host www-data
+"
+```
+
+### 2b. Nextcloud All-in-One
+
+Nextcloud AIO ships AppAPI pre-installed and exposes a docker-socket-proxy on `nextcloud-aio-docker-socket-proxy:2375`. The daemon is **already registered** in most AIO releases — verify with:
+
+```bash
+sudo docker exec --user www-data nextcloud-aio-nextcloud \
+  php occ app_api:daemon:list
+```
+
+If the list is empty (older AIO image), register manually:
+
+```bash
+sudo docker exec --user www-data nextcloud-aio-nextcloud \
+  php occ app_api:daemon:register \
+  docker_aio \
+  "AIO Docker socket proxy" \
+  docker-install \
+  http \
+  nextcloud-aio-docker-socket-proxy:2375 \
+  http://nextcloud-aio-nextcloud
+```
+
+### 2c. Behind reverse proxy or NAT
+
+If your Nextcloud is reached via a public URL (e.g. `https://cloud.example.com`) but lives on a private network, Bee Flow Cloud needs a publicly resolvable callback URL for user-sync webhooks. Set `BEEFLOW_NC_PUBLIC_URL` on the ExApp **before** the install so the bootstrap handshake registers the right callback:
+
+```bash
+sudo -u www-data php occ app_api:app:setenv bee_flow \
+  BEEFLOW_NC_PUBLIC_URL "https://cloud.example.com"
+```
+
+If you forget this, the install still completes but user-sync webhooks fail silently and Bee Flow shows a yellow "user sync degraded" banner. You can set it any time after the install and run `app_api:app:redeploy bee_flow` to apply.
 
 ## 3. Install Bee Flow from the App Store
 
