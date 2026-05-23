@@ -267,7 +267,7 @@ Fix: either run the Bee Flow server locally on `:3101`, or override:
 
 ```bash
 docker exec -u www-data bee-flow-nc-sandbox php occ \
-    app_api:app:setenv bee_flow BEEFLOW_API_BASE_URL https://server.beeflow.ai
+    app_api:app:setenv bee_flow BEEFLOW_API_BASE_URL https://server.beeflow.nl
 ```
 
 …and restart the connector container.
@@ -297,9 +297,9 @@ Once you have the local install working, swap the dummy tenant key for the boots
 docker exec -u www-data bee-flow-nc-sandbox php occ \
     app_api:app:setenv bee_flow BEEFLOW_TENANT_KEY auto
 
-# Point at server.beeflow.ai (or your self-hosted server)
+# Point at server.beeflow.nl (or your self-hosted server)
 docker exec -u www-data bee-flow-nc-sandbox php occ \
-    app_api:app:setenv bee_flow BEEFLOW_API_BASE_URL https://server.beeflow.ai
+    app_api:app:setenv bee_flow BEEFLOW_API_BASE_URL https://server.beeflow.nl
 
 docker restart nc_app_bee_flow
 ```

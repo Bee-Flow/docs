@@ -57,7 +57,7 @@ docker exec nc_app_bee_flow curl -s http://127.0.0.1:23000/heartbeat
 
 | Category | Meaning | Fix |
 |---|---|---|
-| `saas_unreachable` | Connector can't reach the Bee Flow server | Test `curl https://server.beeflow.ai/api/health` from inside the container. Whitelist that hostname in your egress firewall. |
+| `saas_unreachable` | Connector can't reach the Bee Flow server | Test `curl https://server.beeflow.nl/api/health` from inside the container. Whitelist that hostname in your egress firewall. |
 | `nc_not_publicly_reachable` | SaaS bootstrap check couldn't reach your NC | Set `BEEFLOW_NC_PUBLIC_URL` (see section above), or switch to self-hosted Bee Flow via the setup picker. |
 | `admin_lookup_failed` | No admin user found in NC's `admin` group | `occ user:add --group admin <uid>` then `occ app_api:app:redeploy bee_flow`. |
 | `appstore_signature_invalid` | Downloaded tarball signature mismatch (rare) | Uninstall and reinstall from the App Store. |
@@ -111,7 +111,7 @@ Other users see this until the org admin completes the wizard. If you are the ad
 1. Reload the page (Cmd/Ctrl+Shift+R).
 2. Check **Administration → AppAPI** — Bee Flow should show **Enabled**.
 3. Check the connector logs: `docker logs nc_app_bee_flow --tail 100`.
-4. Hit the SaaS health endpoint: `curl https://server.beeflow.ai/api/health` (or your self-hosted URL).
+4. Hit the SaaS health endpoint: `curl https://server.beeflow.nl/api/health` (or your self-hosted URL).
 
 If the SaaS health is fine but the wizard still shows "Setup in progress", the tenant-key bootstrap probably ran but the SaaS didn't finish creating the org row. Restart the connector to force re-bootstrap.
 

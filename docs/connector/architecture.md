@@ -174,7 +174,7 @@ Admin-configurable via `occ app_api:app:setenv`:
 | Var | Default | Purpose |
 |-----|---------|---------|
 | `BEEFLOW_TENANT_KEY` | `auto` | Tenant key, or literal `auto` for one-click install |
-| `BEEFLOW_API_BASE_URL` | `https://server.beeflow.ai` | Bee Flow service URL — override for staging / on-prem |
+| `BEEFLOW_API_BASE_URL` | `https://server.beeflow.nl` | Bee Flow service URL — override for staging / on-prem |
 | `BEEFLOW_JWT_TTL_SECONDS` | `300` | JWT expiry (short on purpose) |
 | `BEEFLOW_SIG_SKEW_SECONDS` | `300` | HMAC clock-skew tolerance (±5 min) |
 

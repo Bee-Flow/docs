@@ -8,7 +8,7 @@ Bee Flow exposes a REST + Server-Sent Events API. The frontend (`hive`) is one c
 
 | Base URL | Use |
 |----------|-----|
-| `https://server.beeflow.ai` | Hosted SaaS |
+| `https://server.beeflow.nl` | Hosted SaaS |
 | `https://beeflow.example.com/api` | Self-hosted |
 | `http://localhost:3101/api` | Local dev |
 

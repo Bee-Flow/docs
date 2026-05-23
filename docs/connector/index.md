@@ -49,7 +49,7 @@ The connector is the Nextcloud ExApp that bridges your Nextcloud to the Bee Flow
                     ▼                 ▼
         ┌────────────────────┐  ┌──────────────────┐
         │  Bee Flow service  │  │  Nextcloud APIs  │
-        │  server.beeflow.ai or │  │  Files / Mail /  │
+        │  server.beeflow.nl or │  │  Files / Mail /  │
         │  self-hosted       │  │  Calendar / ...  │
         └────────────────────┘  └──────────────────┘
 ```

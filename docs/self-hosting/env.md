@@ -207,5 +207,5 @@ Setting any of these to `false` hides the corresponding UI surface even on tiers
 
 | Variable | Default | Purpose |
 |----------|---------|---------|
-| `BEEFLOW_API_BASE_URL` | `https://server.beeflow.ai` | Set on the **connector** side via `occ app_api:app:setenv`. Override only for staging / on-prem. |
+| `BEEFLOW_API_BASE_URL` | `https://server.beeflow.nl` | Set on the **connector** side via `occ app_api:app:setenv`. Override only for staging / on-prem. |
 | `BEEFLOW_TENANT_KEY` | `auto` | Connector-side. Literal `auto` means provision automatically. |

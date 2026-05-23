@@ -4,7 +4,7 @@ title: Connect to Bee Flow Cloud or self-hosted
 
 # Connect to Bee Flow Cloud or self-hosted
 
-The connector ships with a **setup picker** — a small page hosted by the connector itself where an admin chooses whether this Nextcloud talks to **Bee Flow Cloud** (`server.beeflow.ai`) or to a **self-hosted Bee Flow server**.
+The connector ships with a **setup picker** — a small page hosted by the connector itself where an admin chooses whether this Nextcloud talks to **Bee Flow Cloud** (`server.beeflow.nl`) or to a **self-hosted Bee Flow server**.
 
 This page is what lets you switch targets without ever touching the command line.
 
@@ -47,7 +47,7 @@ The effective `apiBaseUrl` is resolved at every startup using this priority:
 |---|--------|---------|
 | 1 | `BEEFLOW_API_BASE_URL` env var | `occ app_api:app:setenv bee_flow BEEFLOW_API_BASE_URL <url>` |
 | 2 | `setup-config.json` (the picker) | The `/setup` page |
-| 3 | `https://server.beeflow.ai` | Default — Bee Flow Cloud |
+| 3 | `https://server.beeflow.nl` | Default — Bee Flow Cloud |
 
 If the env var is set, the picker shows a **🔒 Env-locked** badge and the form is disabled. To unlock:
 
