@@ -83,14 +83,14 @@ If something fails, run `npm run tail` in this folder to live-tail the worker's 
 
 ## Optional: custom domain
 
-The default `*.workers.dev` URL is fine. If you'd rather use `cms-auth.beeflow.ai`:
+The default `*.workers.dev` URL is fine. If you'd rather use `cms-auth.beeflow.nl`:
 
-1. In Cloudflare Dashboard → your domain → Workers Routes, add `cms-auth.beeflow.ai/*` → `bee-flow-cms-auth`.
+1. In Cloudflare Dashboard → your domain → Workers Routes, add `cms-auth.beeflow.nl/*` → `bee-flow-cms-auth`.
 2. Or uncomment the `routes` block in `wrangler.toml` and re-deploy.
 3. Update the OAuth App callback URL and the CMS `base_url` accordingly.
 
 ## Notes
 
-- The worker rejects `site_id`s outside `bee-flow.github.io`, `docs.beeflow.ai`, `beeflow.ai`, and `localhost` — so a stranger can't trick it into completing OAuth flows for their site. Edit `ALLOWED_HOSTS` in `src/worker.js` if you add another domain.
+- The worker rejects `site_id`s outside `bee-flow.github.io`, `docs.beeflow.nl`, `beeflow.nl`, and `localhost` — so a stranger can't trick it into completing OAuth flows for their site. Edit `ALLOWED_HOSTS` in `src/worker.js` if you add another domain.
 - Free tier covers 100 000 requests/day. A login is ~2 requests; you'll never hit the limit on docs traffic.
 - Updates to the worker code are deployed with `npx wrangler deploy`.

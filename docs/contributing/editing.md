@@ -1,6 +1,6 @@
 ---
 title: Editing this site
-description: How to edit pages, add screenshots, and ship a change to docs.beeflow.ai — works the same whether you write code or not.
+description: How to edit pages, add screenshots, and ship a change to docs.beeflow.nl — works the same whether you write code or not.
 ---
 
 # Editing this site
@@ -24,7 +24,7 @@ If you've never used GitHub before, you'll need a free account at [github.com](h
 
 ## The visual editor (recommended for non-technical editors)
 
-Go to [docs.beeflow.ai/cms/](/cms/) and click **Log in with GitHub**. Once you authorize, you'll see all the docs sections in a sidebar, just like the navigation on the site itself.
+Go to [docs.beeflow.nl/cms/](/cms/) and click **Log in with GitHub**. Once you authorize, you'll see all the docs sections in a sidebar, just like the navigation on the site itself.
 
 For each section you can:
 
@@ -201,7 +201,7 @@ Available types: `note`, `tip`, `info`, `warning`, `danger`.
 Two ways:
 
 - **Quick preview**: GitHub's built-in **Preview** tab in the web editor. Renders Markdown, but doesn't show admonitions or this site's styling.
-- **Real preview**: Once your pull request is merged, the site rebuilds. The new version is live at [docs.beeflow.ai](https://docs.beeflow.ai) within ~2 minutes — check the **Actions** tab on GitHub to see the deploy progress.
+- **Real preview**: Once your pull request is merged, the site rebuilds. The new version is live at [docs.beeflow.nl](https://docs.beeflow.nl) within ~2 minutes — check the **Actions** tab on GitHub to see the deploy progress.
 
 If you'd rather see styled previews before merging, ask the team to add a Netlify or Cloudflare Pages preview deploy — it adds a per-PR preview URL.
 

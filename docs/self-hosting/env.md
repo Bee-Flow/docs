@@ -151,7 +151,7 @@ For each provider you enable, register an OAuth app with redirect URI `https://<
 |----------|---------|---------|
 | `BEEFLOW_LICENSE_KEY` | (empty) | JWT licence. Empty = Community tier. |
 | `BEEFLOW_LICENSE_PUBLIC_KEY_PATH` | `license/bundled-public-key.pem` | Override only for testing. |
-| `BEEFLOW_LICENSE_REFRESH_URL` | `https://license.beeflow.ai/refresh` | Where Pro+ keys check for revocation. |
+| `BEEFLOW_LICENSE_REFRESH_URL` | `https://license.beeflow.nl/refresh` | Where Pro+ keys check for revocation. |
 | `BEEFLOW_LICENSE_REFRESH_INTERVAL_HOURS` | `24` | How often to re-check. |
 
 ## Nextcloud connector pairing
@@ -194,7 +194,7 @@ Setting any of these to `false` hides the corresponding UI surface even on tiers
 | `SMTP_PORT` | `587` | |
 | `SMTP_USER` | (none) | |
 | `SMTP_PASS` | (none) | |
-| `SMTP_FROM` | `noreply@beeflow.ai` | From address. |
+| `SMTP_FROM` | `noreply@beeflow.nl` | From address. |
 | `SMTP_TLS` | `true` | STARTTLS. |
 
 ## Encryption-at-rest

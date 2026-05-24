@@ -35,7 +35,7 @@ Where KB chunk ingestion + retrieval happens.
 |---|---|
 | **Auto** (default) | Local in-process pipeline if no `SEARCH_SERVICE_URL` env var is set, remote service if it is. Safe default for both fresh installs and upgrades. |
 | **Local (in-process)** | Chunk + embed + store + retrieve all happen inside the Node server using pgvector. Embeddings come from your configured global Embeddings model (or the in-process CPU embedder as fallback). Reranking uses Azure Cohere if configured, then the CPU cross-encoder, then RRF. |
-| **Remote search-service** | Forward `/kb/ingest/json` and `/tools/kb-search` to an external `SEARCH_SERVICE_URL` (e.g. `https://services.beeflow.ai`). Required for legacy GPU-backed deployments. |
+| **Remote search-service** | Forward `/kb/ingest/json` and `/tools/kb-search` to an external `SEARCH_SERVICE_URL` (e.g. `https://services.beeflow.nl`). Required for legacy GPU-backed deployments. |
 
 ### Switching providers when KBs already have data
 

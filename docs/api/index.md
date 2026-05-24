@@ -74,7 +74,7 @@ Set on the reverse proxy or via `RATE_LIMIT_*` env vars on the server (Redis-bac
 
 ## CORS
 
-The hosted SaaS allows requests from `https://beeflow.ai`. Self-hosted: configure via `CORS_ALLOWED_ORIGINS=` (comma-separated). For embedded chat, list every parent origin.
+The hosted SaaS allows requests from `https://beeflow.nl`. Self-hosted: configure via `CORS_ALLOWED_ORIGINS=` (comma-separated). For embedded chat, list every parent origin.
 
 ## Where to next
 

@@ -1,6 +1,6 @@
 # Bee Flow — Documentation
 
-Source for [docs.beeflow.ai](https://docs.beeflow.ai).
+Source for [docs.beeflow.nl](https://docs.beeflow.nl).
 
 Built with [Docusaurus 3](https://docusaurus.io/) — React-based, MDX-powered.
 

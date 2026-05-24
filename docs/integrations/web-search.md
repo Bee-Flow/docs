@@ -27,7 +27,7 @@ The agent always calls the same tool name, so swapping providers is invisible to
 
 ## Setup — Self-hosted Agent Search service
 
-1. Set `SEARCH_SERVICE_URL` env var on the server (e.g. `https://services.beeflow.ai`).
+1. Set `SEARCH_SERVICE_URL` env var on the server (e.g. `https://services.beeflow.nl`).
 2. **Admin → Integrations → Zoeken** → Search Provider: **Self-hosted (Agent Search + Serper)**.
 3. Paste the Serper.dev API key. The search-service uses it for SERP retrieval; embeddings / reranking happen on the GPU box.
 

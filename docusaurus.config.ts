@@ -8,7 +8,7 @@ const config: Config = {
   tagline: 'AI-native workspace for Nextcloud',
   favicon: 'img/logo.svg',
 
-  url: 'https://docs.beeflow.ai',
+  url: 'https://docs.beeflow.nl',
   baseUrl: '/',
 
   organizationName: 'Bee-Flow',
@@ -114,7 +114,7 @@ const config: Config = {
           position: 'left',
         },
         {
-          href: 'https://beeflow.ai/app',
+          href: 'https://beeflow.nl/app',
           label: 'Open app',
           position: 'right',
           className: 'navbar-cta',
@@ -151,7 +151,7 @@ const config: Config = {
           title: 'Company',
           items: [
             {label: 'GitHub', href: 'https://github.com/Bee-Flow'},
-            {label: 'Bee Flow Cloud', href: 'https://beeflow.ai/app'},
+            {label: 'Bee Flow Cloud', href: 'https://beeflow.nl/app'},
             {label: 'Licensing', to: '/licensing/'},
             {label: 'Edit this site', to: '/contributing/editing'},
             {label: 'CMS admin', href: '/cms/'},

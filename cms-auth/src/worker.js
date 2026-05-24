@@ -18,8 +18,8 @@
 // can't trick our worker into completing OAuth flows for their site.
 const ALLOWED_HOSTS = [
   'bee-flow.github.io',
-  'docs.beeflow.ai',
-  'beeflow.ai',
+  'docs.beeflow.nl',
+  'beeflow.nl',
   'localhost',
 ];
 

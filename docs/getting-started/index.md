@@ -8,7 +8,7 @@ There are three common ways to run Bee Flow:
 
 1. **As a Nextcloud app** — install from the Nextcloud App Store. The connector runs as an ExApp container next to your Nextcloud and the SPA is embedded at the top bar. **Recommended for most teams.**
 2. **Self-hosted, standalone** — run the Bee Flow server + frontend yourself, without Nextcloud. Useful for evaluating outside an existing Nextcloud, or for non-Nextcloud teams.
-3. **Hosted SaaS** — sign in at [beeflow.ai/app](https://beeflow.ai/app). Same code as this repo, run by Bee Flow B.V.
+3. **Hosted SaaS** — sign in at [beeflow.nl/app](https://beeflow.nl/app). Same code as this repo, run by Bee Flow B.V.
 
 ## Pick your path
 
@@ -36,7 +36,7 @@ There are three common ways to run Bee Flow:
 
     Sign up for the hosted SaaS. Free Community tier, no credit card.
 
-    [→ beeflow.ai/app](https://beeflow.ai/app)
+    [→ beeflow.nl/app](https://beeflow.nl/app)
 
 </div>
 
@@ -87,7 +87,7 @@ The server reaches out to:
 - the model providers above (HTTPS 443)
 - `api.github.com` and `ghcr.io` (only at install + update time)
 - OAuth providers you enable (Google, Microsoft, GitHub, …)
-- Optional: `https://license.beeflow.ai` for licence validation refresh (Pro+)
+- Optional: `https://license.beeflow.nl` for licence validation refresh (Pro+)
 
 There are no inbound webhooks required from the public internet — the server can sit behind a reverse proxy on a private network.
 
@@ -95,7 +95,7 @@ There are no inbound webhooks required from the public internet — the server c
 
 - **For Nextcloud install**: admin permissions on the NC instance, AppAPI enabled, a deployment daemon (HaRP or `manual-install`), outbound access to `ghcr.io`.
 - **For self-hosting**: Docker + Docker Compose (or Kubernetes), a public hostname for OAuth callbacks, at least one model-provider key.
-- **For evaluating**: just a browser at [https://beeflow.ai/app](https://beeflow.ai/app).
+- **For evaluating**: just a browser at [https://beeflow.nl/app](https://beeflow.nl/app).
 
 ## What's next
 

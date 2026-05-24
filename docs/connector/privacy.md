@@ -106,4 +106,4 @@ Default detection covers email addresses, phone numbers, IBANs, BSNs (NL), credi
 
 ## Full policy
 
-See [https://beeflow.ai/privacy](https://beeflow.ai/privacy).
+See [https://beeflow.nl/privacy](https://beeflow.nl/privacy).

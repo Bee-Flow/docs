@@ -69,7 +69,7 @@ The server validates the signature, ensures `exp` is in the future, then exposes
 
 ## Refresh policy
 
-Licences are **valid offline** for their `exp` window. The server periodically pings `https://license.beeflow.ai/refresh` (default every 24h) to check for revocation. Set `BEEFLOW_LICENSE_REFRESH_URL=` (empty) to disable refresh entirely — useful for air-gapped deployments. The licence stays valid until `exp` regardless.
+Licences are **valid offline** for their `exp` window. The server periodically pings `https://license.beeflow.nl/refresh` (default every 24h) to check for revocation. Set `BEEFLOW_LICENSE_REFRESH_URL=` (empty) to disable refresh entirely — useful for air-gapped deployments. The licence stays valid until `exp` regardless.
 
 ## AGPL isolation: connector ↔ server
 
@@ -98,4 +98,4 @@ The full statement of this argument lives in [NOTICE.md](https://github.com/Bee-
 
 ## Buying a key
 
-Pricing and signup live at [https://beeflow.ai/pricing](https://beeflow.ai/pricing). For volume / non-profit / education discounts, email [tomkooy@beeflow.nl](mailto:tomkooy@beeflow.nl).
+Pricing and signup live at [https://beeflow.nl/pricing](https://beeflow.nl/pricing). For volume / non-profit / education discounts, email [tomkooy@beeflow.nl](mailto:tomkooy@beeflow.nl).

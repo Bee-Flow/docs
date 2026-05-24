@@ -1,6 +1,6 @@
 ---
 title: Deploying the License Server
-description: Production runbook for license.beeflow.ai on Scaleway.
+description: Production runbook for license.beeflow.nl on Scaleway.
 ---
 
 # Deploying the Beeflow License Server
@@ -20,7 +20,7 @@ in `getTierForOrg`, but customers do not receive a portable license blob.
 - Scaleway DEV1-S (or larger) — 2 vCPU, 2 GB RAM is plenty.
 - Scaleway Database for PostgreSQL — smallest tier; create a database
   `beeflow_license` and a dedicated role.
-- DNS A-record `license.beeflow.ai` → VPS public IP.
+- DNS A-record `license.beeflow.nl` → VPS public IP.
 - Open inbound ports 22 (your IP only), 80, 443.
 
 ## 2. Generate the keypair
@@ -79,7 +79,7 @@ PORT=4400
 LICENSE_DB_URL=postgresql://beeflow_license:CHANGE_ME@<pg-host>:5432/beeflow_license?sslmode=require
 LICENSE_PRIVATE_KEY_FILE=/srv/beeflow-license/keys/private.pem
 LICENSE_API_KEY=<64-byte hex from `openssl rand -hex 32`>
-LICENSE_ISSUER=license.beeflow.ai
+LICENSE_ISSUER=license.beeflow.nl
 LICENSE_REFRESH_RATE_PER_MIN=120
 LICENSE_STRIPE_VERIFY=true
 STRIPE_SECRET_KEY=sk_live_...
@@ -129,7 +129,7 @@ journalctl -u beeflow-license -f
 `/etc/caddy/Caddyfile`:
 
 ```caddyfile
-license.beeflow.ai {
+license.beeflow.nl {
     encode zstd gzip
     reverse_proxy 127.0.0.1:4400
     log {
@@ -146,7 +146,7 @@ systemctl reload caddy
 Test:
 
 ```bash
-curl -fsS https://license.beeflow.ai/v1/health
+curl -fsS https://license.beeflow.nl/v1/health
 ```
 
 ## 7. Wire the main app
@@ -156,9 +156,9 @@ On the production main app (Scaleway 51.15.201.69), set in
 
 ```env
 LICENSE_PUBLIC_KEY_FILE=/srv/beeflow/server/license/bundled-public-key.pem
-LICENSE_ISSUE_URL=https://license.beeflow.ai/v1/issue
+LICENSE_ISSUE_URL=https://license.beeflow.nl/v1/issue
 LICENSE_ISSUE_API_KEY=<same value as LICENSE_API_KEY above>
-LICENSE_REFRESH_URL=https://license.beeflow.ai/v1/refresh
+LICENSE_REFRESH_URL=https://license.beeflow.nl/v1/refresh
 ```
 
 Restart the main app. The next paid Stripe checkout will mint a real JWT
@@ -166,7 +166,7 @@ that the customer can also paste into another instance.
 
 ## 8. End-to-end verification
 
-1. `curl -fsS https://license.beeflow.ai/v1/health` returns `{"ok":true}`.
+1. `curl -fsS https://license.beeflow.nl/v1/health` returns `{"ok":true}`.
 2. Issue a test license via the main app's Stripe webhook (use a test card,
    then refund).
 3. Confirm a row exists in `licenses` on the license-server database.

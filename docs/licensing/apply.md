@@ -116,7 +116,7 @@ The licence is a standard JWT signed with the Bee Flow ECDSA P-256 private key. 
 }
 .
 {
-  "iss": "license.beeflow.ai",
+  "iss": "license.beeflow.nl",
   "sub": "org_abc",
   "tenantId": "org_abc",
   "tier": "pro",
@@ -147,7 +147,7 @@ Re-applying a valid key restores everything.
 | Error | Cause | Fix |
 |-------|-------|-----|
 | `Invalid signature` | Key was tampered with, or you pasted a key for a different deployment. | Verify the key matches what you received. |
-| `License expired` | `exp` is in the past. | Renew at [https://beeflow.ai/pricing](https://beeflow.ai/pricing) or contact [tomkooy@beeflow.nl](mailto:tomkooy@beeflow.nl). |
+| `License expired` | `exp` is in the past. | Renew at [https://beeflow.nl/pricing](https://beeflow.nl/pricing) or contact [tomkooy@beeflow.nl](mailto:tomkooy@beeflow.nl). |
 | `Public key not found` | `BEEFLOW_LICENSE_PUBLIC_KEY_PATH` set incorrectly. | Unset, or point at `license/bundled-public-key.pem`. |
 | `Tier limit exceeded` (after applying) | The new tier is **lower** than what you had — usage already exceeds the new limits. | Either upgrade, or trim usage (delete agents, archive automations) until under the limit. |
 | `License revoked` | The licence-server marked your key as revoked. | Contact [tomkooy@beeflow.nl](mailto:tomkooy@beeflow.nl). |
