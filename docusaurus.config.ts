@@ -8,7 +8,7 @@ const config: Config = {
   tagline: 'AI-native workspace for Nextcloud',
   favicon: 'img/logo.svg',
 
-  url: 'https://docs.beeflow.nl',
+  url: 'https://docs.beeflow.ai',
   baseUrl: '/',
 
   organizationName: 'Bee-Flow',

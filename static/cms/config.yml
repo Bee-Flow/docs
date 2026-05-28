@@ -17,8 +17,8 @@ backend:
   # to use Sveltia's shared helper (less control, third-party dependency).
   base_url: https://bee-flow-cms-auth.bee-flow-cms-auth.workers.dev
 
-site_url: https://docs.beeflow.nl/
-display_url: https://docs.beeflow.nl/
+site_url: https://docs.beeflow.ai/
+display_url: https://docs.beeflow.ai/
 logo_url: /img/logo.svg
 
 # Where uploaded media is stored in the repo, and what URL prefix gets written

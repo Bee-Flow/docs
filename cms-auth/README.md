@@ -91,6 +91,6 @@ The default `*.workers.dev` URL is fine. If you'd rather use `cms-auth.beeflow.n
 
 ## Notes
 
-- The worker rejects `site_id`s outside `bee-flow.github.io`, `docs.beeflow.nl`, `beeflow.nl`, and `localhost` — so a stranger can't trick it into completing OAuth flows for their site. Edit `ALLOWED_HOSTS` in `src/worker.js` if you add another domain.
+- The worker rejects `site_id`s outside `bee-flow.github.io`, `docs.beeflow.ai`, `beeflow.nl`, and `localhost` — so a stranger can't trick it into completing OAuth flows for their site. Edit `ALLOWED_HOSTS` in `src/worker.js` if you add another domain.
 - Free tier covers 100 000 requests/day. A login is ~2 requests; you'll never hit the limit on docs traffic.
 - Updates to the worker code are deployed with `npx wrangler deploy`.

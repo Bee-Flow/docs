@@ -16,11 +16,10 @@ The server verifies the signature against the bundled public key (`license/bundl
 
 ![Applying a licence key](../img/screenshots/admin/license-apply/)
 
-## Server-wide application (self-hosted multi-tenant)
+## Server-wide application
 
-A super-admin on a self-hosted install can apply **one** licence that
-governs **every organisation** on the server instead of activating the
-same key per-org.
+A super-admin can apply **one** licence that governs **every
+organisation** on the server instead of activating the same key per-org.
 
 1. Sign in as a super-admin.
 2. Open **Admin → Server licence**.
@@ -38,12 +37,12 @@ While a server-wide licence is active:
 
 **Restrictions:**
 
-- Self-hosted only — the endpoint returns `server_scope_cloud_blocked`
-  on cloud deployments. (Set `LICENSE_ALLOW_SERVER_SCOPE_ON_CLOUD=true`
-  to override for single-tenant managed-cloud installs.)
 - Super-admin only — org admins receive `super_admin_required`.
 - Community-tier licences are rejected (`community_server_license_pointless`)
   since Community is the default floor for every install.
+
+A server-wide licence overrides **every** organisation's tier at once, so
+on a genuinely multi-tenant install apply it deliberately.
 
 API reference:
 
