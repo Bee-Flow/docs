@@ -6,125 +6,120 @@ title: Docker Compose
 
 The fastest way to self-host Bee Flow on a single host. Production-ready for small/mid orgs.
 
-## 1. Clone and configure
+## Easy install (recommended) {#easy-install}
+
+Pulls prebuilt **public** images from `ghcr.io/bee-flow` — no registry login, no source build.
+
+**Prerequisites:** a Linux/macOS host with Docker and the Docker Compose plugin.
+
+1. Get the three install files (from a release bundle, or copied out of the repo):
+   - `selfhost.sh`
+   - `docker-compose.from-registry.yml`
+   - `.env.selfhost.example`
+2. Run the installer:
+
+   ```bash
+   ./selfhost.sh
+   ```
+
+   It checks Docker, generates fresh secrets into `.env`, pulls the images, starts the **core** stack,
+   waits for the server to report healthy, and prints your URL and the generated `admin` password.
+
+3. Open **http://localhost:5176**, sign in as `admin` with the printed password, and change it.
+
+Add optional sidecars by passing profiles:
 
 ```bash
-git clone https://github.com/Bee-Flow/beeflow.git
-cd beeflow
-cp .env.example .env
+PROFILES="core search guard" ./selfhost.sh   # adds knowledge search + PII guard
 ```
 
-## 2. Edit `.env`
+This runs in `DEPLOYMENT_MODE=self-hosted`: no billing, and paid features unlock when you activate a
+server-wide licence key (see [Activate a licence](#activate-a-licence)).
 
-Minimum required:
+### What the core profile starts
+
+| Service | Image | Address |
+|---|---|---|
+| Bee Flow server (API) | `ghcr.io/bee-flow/server` | `localhost:3001` |
+| Web UI (`agent-hub`) | `ghcr.io/bee-flow/agent-hub` | `localhost:5176` |
+| PostgreSQL + pgvector | `pgvector/pgvector:pg15` | internal |
+| Object storage (RustFS) | `rustfs/rustfs` | internal |
+
+Health check once it's up:
 
 ```bash
-# Core
-PUBLIC_URL=https://beeflow.example.com
-JWT_SECRET=<random 64+ char string>      # openssl rand -hex 32
-LOG_LEVEL=info
-
-# Database
-DB_PASSWORD=<random>
-
-# At least one model provider:
-ANTHROPIC_API_KEY=sk-ant-...
-# OPENAI_API_KEY=sk-...
-# MISTRAL_API_KEY=...
-# AZURE_OPENAI_ENDPOINT=https://...
-# AZURE_OPENAI_KEY=...
+curl http://127.0.0.1:3001/api/health   # {"status":"ok",...}
 ```
-
-See [Environment variables](env.md) for the full reference (~80 vars).
 
 ## Three databases, not one {#three-databases-not-one}
 
-The shipped `docker-compose.yml` creates **three** Postgres databases on the same instance:
+The stack uses **three** Postgres databases on the same instance:
 
-| Database | What it stores | Used by |
+| Database | What it stores | Env var |
 |---|---|---|
-| `beeflow_core` | Users, agents, conversations, KBs, audit log, settings — the bulk of state | Main server (`DB_NAME`) |
-| `beeflow_tasks` | Project / reminder / aiTasks rows for the productivity layer | Main server (`DATABASE_URL` override on the `tasks` routes) |
-| `monitoring_db` | Long-tail metrics + ticket-assistant analytics | Main server (`MONITORING_DATABASE_URL`) |
+| `beeflow_core` | Users, agents, conversations, KBs, audit log, settings — the bulk of state | `CORE_DATABASE_URL` |
+| `beeflow_tasks` | Project / reminder / aiTasks rows for the productivity layer | `DATABASE_URL` |
+| `monitoring_db` | Long-tail metrics + ticket-assistant analytics | `MONITORING_DATABASE_URL` |
 
-All three live in the same Postgres instance; the `init-multi-db.sh` script at the repo root creates the auxiliary databases on first start. Override the names via `DB_NAME=...` and the matching `DATABASE_URL=` / `MONITORING_DATABASE_URL=` env vars if you'd rather use a single DB.
+`docker/init-db.sh` (bind-mounted into the Postgres container, and materialised by `selfhost.sh` if
+missing) creates the two auxiliary databases and enables the `pgvector` extension on first start.
 
-## 3. The compose file
+## Activate a licence (unlock paid features) {#activate-a-licence}
 
-The shipped `docker-compose.yml` looks roughly like this — you can use it as-is or adapt:
+Self-hosted installs start on the free **community** tier. To unlock enterprise features for the whole
+install, sign in as a super-admin → **Admin → Licence** → paste your **server-wide** licence key (a JWT
+issued by Bee Flow, or an admin-issued blob). See [Applying a licence key](../licensing/apply.md). To
+verify production keys, set `LICENSE_PUBLIC_KEY` (or `LICENSE_PUBLIC_KEY_FILE`) in `.env`.
 
-```yaml
-services:
-  beeflow-server:
-    image: ghcr.io/bee-flow/beeflow:latest
-    restart: unless-stopped
-    env_file: .env
-    environment:
-      - DB_HOST=postgres
-      - REDIS_URL=redis://redis:6379
-    depends_on:
-      postgres: { condition: service_healthy }
-      redis: { condition: service_started }
-    ports:
-      - "127.0.0.1:3101:3101"
-    volumes:
-      - beeflow_data:/data
+## Connect your Nextcloud {#connect-nextcloud}
 
-  postgres:
-    image: postgres:16-alpine
-    restart: unless-stopped
-    environment:
-      POSTGRES_DB: ${DB_NAME:-beeflow_core}
-      POSTGRES_USER: beeflow
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-      # The init script creates the auxiliary databases below.
-      POSTGRES_MULTIPLE_DATABASES: beeflow_tasks,monitoring_db
-    volumes:
-      - pg_data:/var/lib/postgresql/data
-      - ./init-multi-db.sh:/docker-entrypoint-initdb.d/init-multi-db.sh:ro
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U beeflow"]
-      interval: 5s
-      timeout: 5s
-      retries: 5
+You do **not** need to set any Nextcloud env vars on the server. Instead, point the Bee Flow connector
+(the Nextcloud ExApp) at your self-hosted server from the Nextcloud admin UI:
 
-  redis:
-    image: redis:7-alpine
-    restart: unless-stopped
-    command: ["redis-server", "--appendonly", "yes"]
-    volumes:
-      - redis_data:/data
+1. Install the Bee Flow connector on your Nextcloud (App Store, or `occ app_api:app:register bee_flow …`
+   — see [Getting started → Nextcloud](../getting-started/nextcloud.md)).
+2. In Nextcloud, go to **Settings → Administration → AI → Bee Flow**.
+3. Set **Deployment mode** to **Self-hosted server** and enter your server's base URL
+   (e.g. `https://bee-flow.your-domain.com`, or `http://<host>:3001` on a LAN).
+4. Within ~60 s the connector re-bootstraps against your server (it provisions an organisation and a
+   tenant key automatically). Nextcloud users can now open Bee Flow and sign in.
 
-volumes:
-  beeflow_data:
-  pg_data:
-  redis_data:
+The connector keeps working against Bee Flow Cloud by default — switching to *Self-hosted server* is
+opt-in per Nextcloud and is reversible (a bad URL rolls back to the previous target).
+
+## Manual / advanced installs {#manual}
+
+- **Build from source:** clone the repo and use `docker-compose.install.yml` with `--build` instead of
+  the registry compose file.
+- **Credentialed wizard:** `install-from-registry.sh` launches a graphical wizard that pulls from a
+  private Harbor registry (requires a `.credentials` file). Prefer `selfhost.sh` for the public path.
+
+## Reverse proxy + TLS
+
+To expose the install on a public hostname, terminate TLS in a reverse proxy.
+
+:::tip Easy install topology
+With the [easy install](#easy-install), the `agent-hub` container already serves the SPA **and**
+proxies `/api`, `/auth`, `/agents`, `/ai` to the server internally. So you only need to reverse-proxy
+your domain to the **agent-hub** container (`localhost:5176`) — no per-path rules required:
+
+```caddyfile
+bee-flow.example.com {
+    reverse_proxy 127.0.0.1:5176
+}
 ```
 
-## 4. Start
-
-```bash
-docker compose up -d
-```
-
-Wait ~10 s, then:
-
-```bash
-curl http://127.0.0.1:3101/api/health
-# {"status":"ok","version":"x.y.z","tier":"community"}
-```
-
-## 5. Reverse proxy + TLS
-
-Pick one — your reverse proxy terminates TLS and forwards `/api/`, `/auth/`, and the SPA `/`.
+The per-path examples below are for the manual/source topology where you serve a static frontend
+separately and talk to the server on `localhost:3001` directly.
+:::
 
 ### Caddy (simplest)
 
 ```caddyfile
 beeflow.example.com {
-    handle /api/* { reverse_proxy 127.0.0.1:3101 }
-    handle /auth/* { reverse_proxy 127.0.0.1:3101 }
-    handle /webhook/* { reverse_proxy 127.0.0.1:3101 }
+    handle /api/* { reverse_proxy 127.0.0.1:3001 }
+    handle /auth/* { reverse_proxy 127.0.0.1:3001 }
+    handle /webhook/* { reverse_proxy 127.0.0.1:3001 }
     handle { root * /var/www/beeflow-frontend; file_server; try_files {path} /index.html }
 }
 ```
@@ -144,15 +139,15 @@ server {
     location / { try_files $uri /index.html; }
 
     location /api/ {
-        proxy_pass http://127.0.0.1:3101;
+        proxy_pass http://127.0.0.1:3001;
         proxy_http_version 1.1;
         proxy_set_header Upgrade $http_upgrade;
         proxy_set_header Connection "upgrade";
         proxy_buffering off;          # SSE
         proxy_read_timeout 600s;
     }
-    location /auth/   { proxy_pass http://127.0.0.1:3101; }
-    location /webhook/{ proxy_pass http://127.0.0.1:3101; }
+    location /auth/   { proxy_pass http://127.0.0.1:3001; }
+    location /webhook/{ proxy_pass http://127.0.0.1:3001; }
 }
 ```
 
@@ -167,62 +162,48 @@ services:
       - "traefik.enable=true"
       - "traefik.http.routers.beeflow.rule=Host(`beeflow.example.com`) && (PathPrefix(`/api`) || PathPrefix(`/auth`) || PathPrefix(`/webhook`))"
       - "traefik.http.routers.beeflow.tls.certresolver=letsencrypt"
-      - "traefik.http.services.beeflow.loadbalancer.server.port=3101"
+      - "traefik.http.services.beeflow.loadbalancer.server.port=3001"
       - "traefik.http.services.beeflow.loadbalancer.server.scheme=http"
 ```
 
-## 6. Build and serve the frontend
+## Serving the frontend (manual topology only)
+
+The [easy install](#easy-install) already serves the web UI from the `agent-hub` container — you do not
+need to build it yourself. Build a standalone static bundle only if you want to host the frontend
+elsewhere (CDN, separate static host):
 
 ```bash
-git clone https://github.com/Bee-Flow/hive.git
-cd hive
+# from the agent-hub/ directory of the source repo
 npm install
-VITE_API_URL=https://beeflow.example.com npm run build
-sudo cp -r dist/* /var/www/beeflow-frontend/
+VITE_API_URL=https://bee-flow.example.com npm run build   # outputs dist/
 ```
 
-Or pull the prebuilt npm package:
+Then serve `dist/` from any static host and point it at your server URL.
 
-```bash
-mkdir /var/www/beeflow-frontend
-cd /tmp && npm pack @beeflow/frontend
-tar -xzf beeflow-frontend-*.tgz
-cp -r package/dist/* /var/www/beeflow-frontend/
-```
+## Licence and Nextcloud
 
-## 7. Apply a licence key (optional)
-
-For premium features, paste your JWT licence key in **Settings → Organisation → License & usage**. See [Applying a licence key](../licensing/apply.md).
-
-## 8. Connect Nextcloud (optional)
-
-If you also run Nextcloud, install the Bee Flow connector:
-
-```bash
-sudo -u www-data php occ app_api:app:register bee_flow \
-  --info-xml https://raw.githubusercontent.com/Bee-Flow/connector/main/appinfo/info.xml \
-  --env BEEFLOW_API_BASE_URL=https://beeflow.example.com
-```
-
-The connector talks to your self-hosted server instead of the hosted SaaS.
+- **Unlock paid features:** see [Activate a licence](#activate-a-licence) above.
+- **Connect a Nextcloud:** see [Connect your Nextcloud](#connect-nextcloud) above — done from the
+  Nextcloud admin UI, no server env vars required.
 
 ## Backups
 
 Everything durable lives in Postgres. Back up daily with `pg_dump`:
 
 ```bash
-docker exec -t $(docker compose ps -q postgres) \
-  pg_dump -U beeflow -d beeflow -Fc > /backups/beeflow-$(date +%F).dump
+# back up each database (beeflow_core holds the bulk of state)
+docker exec -t beeflow-postgres \
+  pg_dump -U beeflow -d beeflow_core -Fc > /backups/beeflow_core-$(date +%F).dump
 ```
 
 Restore:
 
 ```bash
-cat backup.dump | docker exec -i $(docker compose ps -q postgres) \
-  pg_restore -U beeflow -d beeflow --clean --if-exists
+cat beeflow_core-YYYY-MM-DD.dump | docker exec -i beeflow-postgres \
+  pg_restore -U beeflow -d beeflow_core --clean --if-exists
 ```
 
-The `beeflow_data` volume holds short-lived state only — losing it is recoverable from Postgres on restart.
+The `beeflow-data` volume holds short-lived state only — losing it is recoverable from Postgres on restart.
 
 ## Swap Postgres for managed
 
@@ -256,12 +237,12 @@ docker compose logs -f beeflow-server
 
 ## Production hardening checklist
 
-- [ ] `JWT_SECRET` set to a fresh 64+ char random string
-- [ ] `DB_PASSWORD` set; Postgres not exposed publicly
-- [ ] HTTPS in front of `:3101` (the server speaks plain HTTP internally)
-- [ ] OAuth redirect URIs registered with each provider you enable
+- [ ] `SESSION_SECRET` and `MASTER_ENCRYPTION_KEY` set to fresh random values (`selfhost.sh` does this)
+- [ ] First admin password (`INIT_ADMIN_PASSWORD`) changed after first login
+- [ ] `DB_PASSWORD` / `RUSTFS_SECRET_KEY` set; Postgres and object storage not exposed publicly
+- [ ] HTTPS in front of the stack (`COOKIE_SECURE=true` once behind TLS)
+- [ ] `LICENSE_PUBLIC_KEY` set if you activate production licence keys
 - [ ] Daily `pg_dump` running and tested-restored at least once
-- [ ] At least one model provider key set
-- [ ] `LOG_LEVEL=info` (not `debug`) in production
+- [ ] At least one model provider key set (in-app, Admin → AI settings)
 - [ ] Rate limit at the reverse proxy (e.g. Caddy `request_body max_size 10MB`, Nginx `limit_req_zone`)
 - [ ] Audit log shipped off-host (Loki / ELK / Splunk) — see [Reference → Telemetry](../reference/telemetry.md)

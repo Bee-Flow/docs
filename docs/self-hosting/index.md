@@ -6,19 +6,32 @@ title: Self-hosting
 
 Bee Flow's server and frontend are open-source under the Sustainable Use Licence. You can run the entire stack on your own infrastructure for free, for your own organisation.
 
+## Fastest path
+
+```bash
+# with selfhost.sh, docker-compose.from-registry.yml and .env.selfhost.example present:
+./selfhost.sh
+```
+
+This pulls **public** images from `ghcr.io/bee-flow` (no login), generates secrets, starts the core
+stack, and prints your URL + admin password. Full walkthrough: [Docker Compose → Easy install](docker-compose.md#easy-install).
+Then [activate a licence](docker-compose.md#activate-a-licence) and [connect your Nextcloud](docker-compose.md#connect-nextcloud).
+
 ## What you'll run
 
-| Component | Image / package | Required? |
-|-----------|-----------------|:---------:|
-| Bee Flow server | `ghcr.io/bee-flow/beeflow:latest` | ✅ |
-| Bee Flow frontend (`hive`) | `@beeflow/frontend` (npm) or build from source | ✅ |
-| PostgreSQL 16+ | `postgres:16-alpine` | ✅ |
+| Component | Image | Required? |
+|-----------|-------|:---------:|
+| Bee Flow server | `ghcr.io/bee-flow/server:latest` | ✅ |
+| Bee Flow web UI (`agent-hub`) | `ghcr.io/bee-flow/agent-hub:latest` | ✅ |
+| PostgreSQL 15+ with pgvector | `pgvector/pgvector:pg15` | ✅ |
+| Object storage (S3-compatible) | `rustfs/rustfs:latest` (or any S3) | ✅ |
 | Redis 7 | `redis:7-alpine` | recommended |
 | Bee Flow Nextcloud connector | NC App Store (`bee_flow`) | optional |
-| Guard service (PII detection) | `ghcr.io/bee-flow/guard-service:latest` | optional |
-| Search service (KB ingestion + reranking) | `ghcr.io/bee-flow/search-service:latest` | optional |
+| Guard service (PII detection) | `ghcr.io/bee-flow/guard:latest` | optional |
+| Search service (KB ingestion + reranking) | `ghcr.io/bee-flow/search-api:latest` | optional |
 
-The minimum useful deployment is **server + Postgres**. Add Redis as soon as you scale to >1 server replica or >50 concurrent users.
+The minimum useful deployment is **server + Postgres + object storage** (the `core` profile). Add Redis
+as soon as you scale to >1 server replica or many concurrent users.
 
 ## Stack diagram
 
