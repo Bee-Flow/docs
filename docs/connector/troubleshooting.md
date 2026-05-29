@@ -6,6 +6,63 @@ title: Troubleshooting
 
 A reference of common problems with the connector. For each: symptom → cause → fix.
 
+## Some API calls intermittently stall or fail (only under load)
+
+Symptom: the app mostly works, but **some** requests randomly hang or return `502` — often on page load (when the app fires many requests at once) or while a chat is streaming. Reloading sometimes helps. The connector logs look clean; in the browser **Network** tab a handful of `…/apps/app_api/proxy/bee_flow/…` requests sit in **(pending)** or come back `502`, frequently while a `…/stream` request is open. It "should work exactly the same" for every call — and the connector does treat them identically.
+
+Cause: you're on a `docker-install` / Docker-Socket-Proxy daemon, where **every** browser→connector request is proxied **through a Nextcloud PHP-FPM worker**, held for the full lifetime of the request. A long-lived chat stream pins a worker for minutes; the burst of calls the app makes on load needs several more at once. When Nextcloud's PHP-FPM pool (often only 5–16 workers) is exhausted, whichever requests lose the race for a free worker stall → time out → `502`, non-deterministically. This is a property of the transport, not the connector.
+
+Confirm it (run during a reproduction — replace the container name as needed):
+
+```bash
+# Connector logs are quiet but the browser still got 502s → failure is upstream in PHP:
+docker logs nc_app_bee_flow --tail 500 2>&1 | grep -E "\[Proxy\]|User lookup failed|502"
+
+# PHP-FPM saturation is the smoking gun — look for "max children reached" / a non-zero listen queue
+# during the burst (path/method depends on your image's FPM status config):
+docker exec <nextcloud-container> sh -c 'ps -C php-fpm --no-headers | wc -l'   # sampled repeatedly during load
+```
+
+Fix: **[migrate to HaRP](#migrate-to-harp)** (Nextcloud 32+). HaRP routes browser→connector traffic directly, bypassing PHP, so concurrent requests and streams no longer compete for PHP workers.
+
+## Migrate to HaRP
+
+Moving the connector from a `docker-install` / Docker-Socket-Proxy daemon to [HaRP](../getting-started/nextcloud.md#2d-harp-recommended-for-nextcloud-32) (Nextcloud 32+) fixes the intermittent-dropped-calls problem above and improves streaming. The connector image is already HaRP-aware — it switches transport automatically when HaRP is in use; this is a **daemon change**, not an app change.
+
+:::warning[Capture your tenant key first]
+The tenant key lives in the connector's container-local `/data/tenant-key.json`. Re-deploying onto a new daemon starts a **fresh container with empty `/data`**, which would try to re-provision and hit `409 instance already provisioned`. Capture the key and re-inject it explicitly so your organisation and all its data are preserved.
+:::
+
+```bash
+# 0. Preconditions + capture state
+sudo -u www-data php occ status | grep versionstring          # must be 32+
+docker exec nc_app_bee_flow cat /data/tenant-key.json         # save the "tenantKey" value
+sudo -u www-data php occ app_api:daemon:list                  # note the CURRENT daemon (for rollback)
+
+# 1. Register the HaRP daemon (see Install guide §2d for the full command + UI path)
+#    occ app_api:daemon:register harp1 "HaRP" docker-install https <harp-host>:8780 ... --harp ...
+sudo -u www-data php occ app_api:daemon:test harp1
+
+# 2. Move bee_flow onto HaRP, re-injecting the captured key so bootstrap is a no-op
+sudo -u www-data php occ app_api:app:disable bee_flow
+sudo -u www-data php occ app_api:app:unregister bee_flow      # removes the old container
+sudo -u www-data php occ app_api:app:register bee_flow harp1 \
+  --info-xml https://raw.githubusercontent.com/Bee-Flow/connector/main/appinfo/info.xml \
+  --env "BEEFLOW_TENANT_KEY=<captured-tenant-key>" \
+  --env "BEEFLOW_API_BASE_URL=https://server.beeflow.nl" \
+  --env "BEEFLOW_NC_PUBLIC_URL=https://cloud.example.com"
+sudo -u www-data php occ app_api:app:enable bee_flow
+
+# 3. Verify
+sudo -u www-data php occ app_api:app:heartbeat bee_flow                       # → {"status":"ok"}
+docker inspect --format '{{.State.Health.Status}}' nc_app_bee_flow           # → healthy
+docker logs nc_app_bee_flow 2>&1 | grep -i "HaRP mode"                       # confirms socket transport
+```
+
+To prove the bug is fixed: open a chat (keep the stream running) and hard-reload a few times while watching the Network tab — every request should return `200`, even under the concurrent load that previously produced `502`s.
+
+**Rollback** (symmetric, no data loss — re-use the *same* captured key): `app:disable` → `app:unregister` → `app:register bee_flow <old-daemon>` with the same `--env BEEFLOW_TENANT_KEY=…` → `app:enable`. The HaRP daemon can stay registered (inert) for a later retry.
+
 ## "Install" button in the App Store does nothing
 
 The Nextcloud Apps page accepts the install request but no ExApp container ever appears:
@@ -116,6 +173,8 @@ Other users see this until the org admin completes the wizard. If you are the ad
 If the SaaS health is fine but the wizard still shows "Setup in progress", the tenant-key bootstrap probably ran but the SaaS didn't finish creating the org row. Restart the connector to force re-bootstrap.
 
 ## `ERR_INVALID_CHUNKED_ENCODING` on SSE responses
+
+This only affects the **`docker-install` / Docker-Socket-Proxy daemons**, where the SSE response passes through Nextcloud's PHP AppAPI proxy. (On [HaRP](#migrate-to-harp) the stream goes straight to the connector, so this can't happen — and the connector skips the workaround there to keep the tunnel connection alive.)
 
 When the browser shows `ERR_INVALID_CHUNKED_ENCODING` and the chat stream dies mid-reply, the issue is Nextcloud's AppAPI proxy stripping the `Transfer-Encoding: chunked` header from the connector's SSE response without rewriting the body. The connector works around this by forcing `useChunkedEncodingByDefault=false` and adding `Connection: close` on every SSE proxy hop, so plain `Content-Length`-less bodies flow through cleanly.
 

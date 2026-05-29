@@ -36,7 +36,11 @@ AppAPI deploys ExApps as Docker containers. Pick the daemon that matches your Ne
 | **Vanilla Nextcloud** (self-managed bare-metal or VM with Docker) | `docker-install` | See [§2a](#2a-vanilla-nextcloud) below |
 | **Nextcloud All-in-One** (AIO master container) | `docker-install` (auto-configured) | Usually nothing — see [§2b](#2b-nextcloud-all-in-one) |
 | **Behind reverse proxy / NAT** (NC not directly reachable from the public internet) | `docker-install` + `BEEFLOW_NC_PUBLIC_URL` | See [§2c](#2c-behind-reverse-proxy-or-nat) |
-| **Multi-tenant / shared hosting** | **HaRP** | See [HaRP setup guide](https://docs.nextcloud.com/server/latest/admin_manual/app_api/harp.html) |
+| **Nextcloud 32+, multi-tenant, or heavy chat/streaming use** | **HaRP** (recommended) | See [§2d](#2d-harp-recommended-for-nextcloud-32) |
+
+:::tip[Which daemon should I pick?]
+On **Nextcloud 32+, HaRP is the recommended daemon.** With the `docker-install` / Docker-Socket-Proxy daemons, every browser request to Bee Flow is proxied **through the Nextcloud PHP process** — so a busy chat (long-lived streaming responses) plus the burst of requests the app makes on load can saturate Nextcloud's PHP worker pool and cause **some API calls to stall or drop intermittently**. HaRP routes those requests straight to the connector, bypassing PHP, and natively supports streaming. If you see flaky/dropped calls under load, [migrate to HaRP](../connector/troubleshooting.md#migrate-to-harp).
+:::
 
 ### 2a. Vanilla Nextcloud
 
@@ -100,6 +104,39 @@ sudo -u www-data php occ app_api:app:setenv bee_flow \
 ```
 
 If you forget this, the install still completes but user-sync webhooks fail silently and Bee Flow shows a yellow "user sync degraded" banner. You can set it any time after the install and run `app_api:app:redeploy bee_flow` to apply.
+
+### 2d. HaRP (recommended for Nextcloud 32+)
+
+[HaRP](https://github.com/nextcloud/HaRP) (the High-availability Reverse Proxy for AppAPI) is a single container that bundles HAProxy + a Docker-socket proxy + an FRP server. Unlike the `docker-install` daemons, HaRP proxies browser/API traffic **directly to the ExApp container, bypassing the Nextcloud PHP process** — saving Nextcloud resources, supporting streaming/WebSockets, and removing the PHP-worker-pool bottleneck that causes intermittent dropped calls under load. The connector container needs no inbound ports: it dials out to HaRP over an FRP tunnel.
+
+**Requirements:** Nextcloud **32+** and the ability to run the HaRP container alongside Nextcloud.
+
+1. **Run the HaRP container** following the [official HaRP setup](https://github.com/nextcloud/HaRP). You choose an `HP_SHARED_KEY` (a secret the daemon and Nextcloud share) and expose HaRP's HAProxy port (default `8780`) and FRP port (default `8782`).
+
+2. **Register the HaRP daemon** in Nextcloud. In the admin UI: **Administration → AppAPI → Deploy Daemons → Register Daemon**, choose the **HaRP** template (the *"High-availability Reverse Proxy for Nextcloud ExApps"* option), and fill in the HaRP host, the shared key, and the FRP server address. The equivalent CLI form is:
+
+   ```bash
+   sudo -u www-data php occ app_api:daemon:register \
+     harp1 "HaRP" docker-install \
+     https <harp-host>:8780 "https://cloud.example.com" \
+     --harp --harp-shared-key "<HP_SHARED_KEY>" \
+     --harp-frp-address <harp-host> --harp-frp-port 8782
+   ```
+
+   :::note
+   The exact `--harp*` flag names vary by AppAPI version — run `occ app_api:daemon:register --help` on your instance to confirm, or use the admin UI form (the screenshot above), which always matches your version.
+   :::
+
+   Verify:
+
+   ```bash
+   sudo -u www-data php occ app_api:daemon:list
+   sudo -u www-data php occ app_api:daemon:test harp1
+   ```
+
+3. **Install Bee Flow onto the HaRP daemon** (step 3 below). If Bee Flow is already installed on another daemon, follow [Migrate to HaRP](../connector/troubleshooting.md#migrate-to-harp) instead — it preserves your tenant key so no re-provisioning happens.
+
+The same connector image runs under HaRP and the legacy daemons; it detects HaRP automatically (via the `HP_SHARED_KEY` HaRP injects) and switches to the FRP tunnel + Unix-socket transport with no extra configuration.
 
 ## 3. Install Bee Flow from the App Store
 

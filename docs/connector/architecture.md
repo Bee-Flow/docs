@@ -4,6 +4,17 @@ title: Architecture
 
 # Architecture
 
+## Transport (deploy daemon)
+
+AppAPI delivers browser/API traffic to the connector container in one of two ways, decided by the **deploy daemon** the admin registered. The same connector image supports both and selects its mode at startup from the `HP_SHARED_KEY` environment variable HaRP injects.
+
+| Mode | Path of a browser request | Listens on | Notes |
+|------|---------------------------|------------|-------|
+| **`manual-install` / Docker-Socket-Proxy** (legacy) | browser → Nextcloud `app_api/proxy` route → **Nextcloud PHP process** → connector (TCP `APP_PORT`) | TCP `0.0.0.0:$APP_PORT` | Every request occupies a PHP-FPM worker for its whole lifetime. Long-lived streams + bursts can exhaust the pool → intermittent stalled/`502` calls. Required for Nextcloud 31. |
+| **HaRP** (recommended, NC 32+) | browser → **HaRP HAProxy** → FRP tunnel → connector (Unix socket) | Unix socket `/tmp/exapp.sock`, tunnelled out via `frpc` | Bypasses the Nextcloud PHP process entirely; no inbound ports; native streaming/WebSockets. Removes the PHP-worker bottleneck. |
+
+In HaRP mode the entrypoint (`scripts/harp-start.sh`) writes an `frpc` config from the `HP_*` env vars and dials out to HaRP's FRP server; the connector binds `/tmp/exapp.sock` instead of a TCP port (`src/server.js`). The SSE chunked-encoding workaround (see below and [Troubleshooting](./troubleshooting.md#err_invalid_chunked_encoding-on-sse-responses)) is applied **only** on the legacy path, because the double-chunking it fixes happens inside Nextcloud's PHP proxy, which HaRP doesn't use. See the [install guide](../getting-started/nextcloud.md#2d-harp-recommended-for-nextcloud-32) to set up HaRP.
+
 ## Routes and access levels
 
 The connector serves a strict allow-list of paths declared in [`appinfo/info.xml`](https://github.com/Bee-Flow/connector/blob/main/appinfo/info.xml). Anything not matched is rejected by AppAPI before it reaches the connector.
