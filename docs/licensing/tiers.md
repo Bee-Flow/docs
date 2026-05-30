@@ -57,7 +57,6 @@ may move at any time.
 | Agent routines (scheduled) | — | ✅ | ✅ |
 | Skills marketplace | ✅ | ✅ | ✅ |
 | Projects | — | ✅ | ✅ |
-| Component Designer (custom UI) | — | ✅ | ✅ |
 | Notebooks (per-user research) | — | ✅ | ✅ |
 | **Productivity** |
 | Meeting notes | — | ✅ | ✅ |
@@ -65,9 +64,6 @@ may move at any time.
 | Privacy Shield — block PII | ✅ | ✅ | ✅ |
 | Privacy Shield — Tokenize & round-trip PII | — | ✅ | ✅ |
 | Web Search Guard (block PII in outbound search) | — | ✅ | ✅ |
-| Privacy Shield (Strict / Custom) | ✅ | ✅ | ✅ |
-| Guardrail DLP rules | — | ✅ | ✅ |
-| Guardrail audit log export | — | ✅ | ✅ |
 | **Admin** |
 | Org settings | ✅ | ✅ | ✅ |
 | User & group management | ✅ | ✅ | ✅ |
@@ -75,13 +71,6 @@ may move at any time.
 | Usage & Monitoring — Safety / Integrations / Feedback / Terminations tabs | — | ✅ | ✅ |
 | Beta features | — | ✅ | ✅ |
 | Themes | ✅ | ✅ | ✅ |
-| **Compliance** |
-| GDPR archive / DSR flows | — | ✅ | ✅ |
-| AI Act compliance hub | — | ✅ | ✅ |
-| SAML 2.0 SSO | — | ✅ | ✅ |
-| **Branding & resale** |
-| White-label (logo, colours, domain) | — | — | ✅ |
-| Sub-licence issuance (your own customers) | — | — | ✅ |
 
 Legend: ✅ available · — not available
 

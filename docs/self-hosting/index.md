@@ -120,13 +120,6 @@ The server is stateless when Redis is configured — scale horizontally. Postgre
 - **Postgres 16+** — primary store. Earlier versions lack required SQL features.
 - **DNS + TLS** for the hostname your users hit (Let's Encrypt via Caddy is the simplest path).
 
-Optional but commonly added:
-
-- **Azure AI Text Analytics** — for the higher-quality Privacy Shield path.
-- **Azure Content Safety** — for the moderation guardrail.
-- **Bing or Tavily** — for the web-search agent tool.
-- **Voxtral** / **ElevenLabs** — for voice features.
-
 ## What's next
 
 - [Docker Compose recipe](docker-compose.md) — full annotated stack.
