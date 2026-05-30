@@ -14,14 +14,24 @@ this page as the structure settles.
 
 Bee Flow ships in three tiers. **Community** is the default state of a fresh
 install — no licence key, no caps. Community covers the free self-hosted
-core: chat with agents, knowledge bases, the Nextcloud connector, multi-user
-with groups, themes, and the skills marketplace. **Enterprise** adds
-Studio-class capabilities (voice chat, webpage creation, automations, agent
-routines, meeting notes, notebooks, component designer, projects) plus the
+core: chat with agents, knowledge bases, the Nextcloud connector (including
+**signing in to Bee Flow from the Nextcloud App Store app**), multi-user with
+groups, themes, the skills marketplace, **all built-in integrations** (Google,
+Microsoft, AI image/music/video generation, third-party connectors and the
+Nextcloud module family) and the **MCP Server Marketplace** *(later
+implementation — see [Integrations → MCP](../integrations/index.md))*.
+
+**Enterprise** does **not** add the integrations themselves — those are free in
+Community. What Enterprise adds is the **orchestration** layer on top (the
+no-code [automation builder](../features/automations.md) and scheduled agent
+routines) together with the rest of the Studio-class capabilities (voice chat,
+webpage creation, meeting notes, notebooks, component designer, projects), the
 advanced Privacy Shield modes, guardrail DLP, the compliance hub (GDPR + AI
-Act) and SAML SSO — **all beta features also require Enterprise**.
-**Full** layers white-label branding and sub-licence issuance on top for
-resellers.
+Act) and SAML SSO — **all beta features also require Enterprise**. Enterprise
+also unlocks the paid **admin-dashboard surfaces** (Agents, Monitoring,
+Compliance, Support, Appearance/branding, Product Website) — see
+[Admin dashboard by tier](#admin-dashboard-by-tier) below. **Full** layers
+white-label branding and sub-licence issuance on top for resellers.
 
 Source of truth: [`server/license/tiers.js`](https://github.com/Bee-Flow/beeflow/blob/main/license/tiers.js).
 
@@ -52,9 +62,13 @@ may move at any time.
 | **Knowledge** |
 | Knowledge Bases | ✅ | ✅ | ✅ |
 | Webpage creation | — | ✅ | ✅ |
+| **Integrations** |
+| Built-in integrations — connect & use in chat (Google, Microsoft, AI generation, third-party, Nextcloud) | ✅ | ✅ | ✅ |
+| Nextcloud connector + sign-in to Bee Flow from the NC App Store app | ✅ | ✅ | ✅ |
+| MCP Server Marketplace *(later implementation)* | ✅ | ✅ | ✅ |
 | **Workflow** |
-| Automations | — | ✅ | ✅ |
-| Agent routines (scheduled) | — | ✅ | ✅ |
+| Automation builder (no-code orchestration) | — | ✅ | ✅ |
+| Agent routines (scheduled orchestration) | — | ✅ | ✅ |
 | Skills marketplace | ✅ | ✅ | ✅ |
 | Projects | — | ✅ | ✅ |
 | Notebooks (per-user research) | — | ✅ | ✅ |
@@ -64,15 +78,49 @@ may move at any time.
 | Privacy Shield — block PII | ✅ | ✅ | ✅ |
 | Privacy Shield — Tokenize & round-trip PII | — | ✅ | ✅ |
 | Web Search Guard (block PII in outbound search) | — | ✅ | ✅ |
-| **Admin** |
-| Org settings | ✅ | ✅ | ✅ |
-| User & group management | ✅ | ✅ | ✅ |
-| Usage & Monitoring — Overview tab | ✅ | ✅ | ✅ |
-| Usage & Monitoring — Safety / Integrations / Feedback / Terminations tabs | — | ✅ | ✅ |
+| **Admin dashboard** (full breakdown in [Admin dashboard by tier](#admin-dashboard-by-tier)) |
+| AI Config / Security / Integrations / Server licence / Languages tabs | ✅ | ✅ | ✅ |
+| User & group management (Security tab) | ✅ | ✅ | ✅ |
+| Agents / Monitoring / Compliance / Support / Appearance / Product Website tabs | — | ✅ | ✅ |
 | Beta features | — | ✅ | ✅ |
-| Themes | ✅ | ✅ | ✅ |
+| Theme picker (per user/org) | ✅ | ✅ | ✅ |
 
 Legend: ✅ available · — not available
+
+The **MCP Server Marketplace** is a Community feature but a *later
+implementation* — treat it as on the roadmap rather than fully stabilised. It
+lives in the (Community-visible) **Admin → Integrations** tab.
+
+## Admin dashboard by tier
+
+Admin dashboard tabs are gated by the install's **resolved tier**. The gate
+reads the real tier (there is no super-admin elevation in
+`LicenseContext.hasTier`), so a Community install shows the limited set even to
+its own operator. Tabs above the tier are **hidden** from the tab bar — not
+shown locked.
+
+| Admin tab | Community | Enterprise+ |
+|-----------|:---------:|:-----------:|
+| AI Config | ✅ | ✅ |
+| Security (incl. user & group management) | ✅ | ✅ |
+| Integrations (Global Defaults · MCP Marketplace · OAuth services) | ✅ | ✅ |
+| Server licence | ✅ | ✅ |
+| Languages | ✅ | ✅ |
+| Agents | — | ✅ |
+| Monitoring (Usage & Monitoring) | — | ✅ |
+| Compliance | — | ✅ |
+| Support (Bee Flow inbox) | — | ✅ |
+| Appearance (branding studio) | — | ✅ |
+| Product Website | — | ✅ |
+
+**Subscriptions** is a Bee Flow Cloud operator surface — it's cloud-only and
+never appears on a self-hosted install, so it carries no tier flag.
+
+Community keeps the **Integrations** tab on purpose: an operator needs it to
+wire up OAuth credentials and (later) install MCP servers — without it the free
+built-in integrations couldn't be configured. The gate lives in
+[`agent-hub/src/pages/AdminDashboard.jsx`](https://github.com/Bee-Flow/beeflow/blob/main/agent-hub/src/pages/AdminDashboard.jsx)
+(`minTier` per tab, enforced in `checkTabAccess`).
 
 ## Feature-flag names
 
@@ -96,6 +144,9 @@ you'll see in 403 responses:
 | `compliance_hub_aia` | Enterprise | AI Act compliance hub |
 | `sso_saml` | Enterprise | SAML 2.0 IdP config |
 | `guardrails_dlp` | Enterprise | DLP rule editor + enforcement |
+| `integrations` | Community | All built-in integrations (Google, Microsoft, AI generation, third-party, Nextcloud). **Capability marker, not a route gate** — integration tool usage in chat is ungated by design (`server/core/integrationTools.js` gates only on OAuth/credentials + org/user toggles) |
+| `mcp_marketplace` | Community | MCP Server Marketplace (later implementation). Marker — no tier check on MCP install or tool usage |
+| `nextcloud_oauth` | Community | Sign-in to Bee Flow from the Nextcloud App Store app + Nextcloud OAuth |
 | `custom_themes` | Community | Theme overrides beyond branding basics |
 | `white_label` | Full | Branding overrides (logo, colours, domain) |
 | `license_issuance` | Full | Sub-licence minting |
@@ -103,7 +154,13 @@ you'll see in 403 responses:
 Community-tier features (`chat_basic`, `kb_local_small`, `kb_unlimited`,
 `nextcloud_basic`, `nextcloud_oauth`, `multi_user`, `skills`) are still
 passed through `requireLicenseFeature` at their mount sites — the gate is
-a no-op because the feature lives in `TIER_FEATURES.community`. Beta
+a no-op because the feature lives in `TIER_FEATURES.community`. The
+`integrations` and `mcp_marketplace` flags are **capability markers** rather
+than mounted gates: built-in integrations and the MCP marketplace are
+deliberately ungated at runtime, and the flags exist so the UI/docs can
+reference them and so the community feature tests
+(`server/license/tiers.test.js`, `communityEnforcement.test.js`) fail loudly if
+a future change ever tries to move them behind Enterprise. Beta
 features (the entire `BETA_FEATURES` registry) require Enterprise or
 higher: on a Community install every `requireBetaFeature(...)` call
 short-circuits to a 403 with
@@ -131,8 +188,8 @@ Counters reset on the first day of each calendar month at 00:00 UTC.
 
 | Need | Suggested tier |
 |------|----------------|
-| Free self-hosted core — chat, KB, agents, skills | Community |
-| Team that wants Studio (voice, webpage creation, automations, agent routines, notebooks, meeting notes, projects, component designer), the advanced Privacy Shield modes (tokenize PII, web-search guard), the full Usage & Monitoring tabs, beta features, or compliance (SSO, GDPR/AI-Act) | Enterprise |
+| Free self-hosted core — chat, KB, agents, skills, **all built-in integrations + the MCP marketplace**, and the Nextcloud connector (incl. signing in from the NC App Store app) | Community |
+| Team that wants the orchestration layer (no-code automation builder, scheduled agent routines), the rest of Studio (voice, webpage creation, notebooks, meeting notes, projects, component designer), the advanced Privacy Shield modes (tokenize PII, web-search guard), the paid admin tabs (Agents, Monitoring, Compliance, Support, Appearance, Product Website), beta features, or compliance (SSO, GDPR/AI-Act) | Enterprise |
 | Reseller / private-label deployment | Full |
 
 Custom plans (e.g. capped seats, specific feature sets) are available —
