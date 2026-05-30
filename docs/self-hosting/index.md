@@ -15,7 +15,11 @@ Bee Flow's server and frontend are open-source under the Sustainable Use Licence
 
 This pulls **public** images from `ghcr.io/bee-flow` (no login), generates secrets, starts the core
 stack, and prints your URL + admin password. Full walkthrough: [Docker Compose → Easy install](docker-compose.md#easy-install).
-Then [activate a licence](docker-compose.md#activate-a-licence) and [connect your Nextcloud](docker-compose.md#connect-nextcloud).
+Then [connect your Nextcloud](docker-compose.md#connect-nextcloud).
+
+The **Community tier is free and the default — no licence key is required** (chat, knowledge bases,
+multi-user, and the Nextcloud connector all work out of the box). For premium features, [activate a
+licence](docker-compose.md#activate-a-licence); pricing and keys are at [beeflow.nl](https://beeflow.nl).
 
 ## What you'll run
 
