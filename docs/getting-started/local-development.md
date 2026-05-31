@@ -343,6 +343,8 @@ After it prints `✅ Browser-proxy returns 200`, hard-refresh Nextcloud (`Ctrl+S
 
 :::note[Caveats]
 The script recreates the `nextcloud-aio-harp` container — it's recoverable (restart the containers from the AIO interface and AIO rebuilds HaRP fresh). An AIO/Nextcloud update recreates these containers from stock config and drops the change, so **re-run the script** if the app goes blank again. For a fully production-like local env, use a real domain with a valid certificate (e.g. Caddy ACME DNS-01) instead — then no script is needed.
+
+**Caddy `tls internal` issues short-lived (~12 h) leaf certificates.** When the leaf expires, NC↔HaRP TLS breaks and the app goes blank — but you do **not** need to re-run this script (it trusts the long-lived root CA, which still signs the new leaf). Just renew the leaf with `docker restart aio-caddy`.
 :::
 
 ---
