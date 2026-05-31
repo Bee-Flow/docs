@@ -31,14 +31,13 @@ title: Glossary
 | **Hive** | The frontend repo (`Bee-Flow/hive`). React + Vite SPA. |
 | **HMAC** | Keyed hash used to sign requests between connector and Bee Flow service (SHA-256). |
 | **Idempotency key** | A client-supplied UUID on POST that lets the server cache the first response and replay it on duplicates. |
-| **Integration** | A connector to an external service (Gmail, Outlook, GitHub, n8n, …). Each exposes one or more tools. |
+| **Integration** | A connector to an external service (Gmail, Outlook, GitHub, …). Each exposes one or more tools. |
 | **JWT** | JSON Web Token. Used for sessions, NC handshakes, and licence keys. |
 | **Knowledge Base (KB)** | A document collection the agent can search. Local (Postgres) or vector (pgvector / Qdrant). |
 | **Licence key** | A signed JWT that unlocks premium tiers. Verified against `bundled-public-key.pem`. |
 | **Memory** | Per-user (or per-agent) facts the **Memory Extractor** system agent populates over time. |
 | **Moderation** | Post-generation safety check via Azure Content Safety. |
 | **NC** | Nextcloud. |
-| **n8n** | Workflow automation tool, fair-code, separately runnable. Bee Flow integrates via API. |
 | **OCS** | Open Collaboration Services — Nextcloud's REST API style for non-DAV endpoints. |
 | **Org / Organisation / Tenant** | A self-contained Bee Flow workspace. Has users, groups, agents, settings, licence. |
 | **PGVector** | Postgres extension providing native vector similarity search. Used for KBs in default deploys. |

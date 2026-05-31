@@ -51,7 +51,7 @@ The Nextcloud App Store requires AGPL or compatible licences. The connector is a
 
 ## Is the SUL OSI-approved?
 
-No. SUL is fair-code, not OSS. We picked fair-code consciously — see "Why not pure AGPL or MIT?" above. n8n, Plausible and several others use the same model.
+No. SUL is fair-code, not OSS. We picked fair-code consciously — see "Why not pure AGPL or MIT?" above. Plausible and several other projects use the same model.
 
 ## Can I use Bee Flow inside a commercial product I sell?
 
@@ -82,10 +82,6 @@ Yes — you must rename it (drop "Bee Flow" and the bee mark) and remove our tra
 ## Where do I email about licensing?
 
 [tomkooy@beeflow.nl](mailto:tomkooy@beeflow.nl) — we'll respond within 2 business days. For commercial / resale enquiries please mention your use case and expected scale.
-
-## What's the relationship to n8n's licence?
-
-Both are fair-code under the umbrella concept of the Sustainable Use Licence. The text in our repos is our own; we don't reference n8n in it. If you've used n8n's licence, the same intuitions apply: free for self-host, paid for resale.
 
 ## What happens if Bee Flow B.V. goes away?
 

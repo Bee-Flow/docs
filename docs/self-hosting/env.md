@@ -139,8 +139,6 @@ For each provider you enable, register an OAuth app with redirect URI `https://<
 |----------|-------------|
 | `YOUTRACK_BASE_URL` | YouTrack — instance URL |
 | `YOUTRACK_API_TOKEN` | YouTrack |
-| `N8N_BASE_URL` | n8n — instance URL |
-| `N8N_API_KEY` | n8n |
 | `SIGNREQUEST_API_KEY` | SignRequest |
 | `FIREFLIES_API_KEY` | Fireflies |
 | `GAMMA_API_KEY` | Gamma |

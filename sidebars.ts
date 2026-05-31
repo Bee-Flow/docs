@@ -150,7 +150,6 @@ const sidebars: SidebarsConfig = {
           label: 'DevOps & collaboration',
           items: [
             'integrations/github',
-            'integrations/n8n',
             'integrations/youtrack',
             'integrations/signrequest',
             'integrations/fireflies',

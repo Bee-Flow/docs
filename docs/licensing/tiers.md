@@ -21,13 +21,12 @@ built-in integrations** (Google, Microsoft, AI image/music/video generation,
 third-party connectors and the Nextcloud module family).
 
 Community also ships the **no-code [automation builder](../features/automations.md)
-and scheduled agent routines** — for free, the way **n8n** ships its workflow
-builder in the Community Edition. Building automations is free; what stays paid
-is **collaboration**: sharing an automation or routine across your team
-(`automation_sharing`) and **Projects** (team workspaces). On Community,
-automations and routines are private to the person who creates them — exactly
-n8n's model, where the Community edition doesn't include sharing of workflows
-and only the creator can access them.
+and scheduled agent routines** — for free. Building automations is free; what
+stays paid is **collaboration**: sharing an automation or routine across your
+team (`automation_sharing`) and **Projects** (team workspaces). On Community,
+automations and routines are private to the person who creates them — the
+Community tier doesn't include sharing them across a team, so only the creator
+can access them.
 
 **Enterprise** does **not** add the built-in integrations or the automation
 builder themselves — those are free in Community. What Enterprise adds is the
@@ -80,7 +79,7 @@ may move at any time.
 | SSO — Google / Microsoft / SAML | — | ✅ | ✅ |
 | MCP Server Marketplace *(Enterprise beta — later implementation)* | — | ✅ | ✅ |
 | **Workflow** |
-| Automation builder (no-code, personal) — *n8n-style free builder* | ✅ | ✅ | ✅ |
+| Automation builder (no-code, personal) | ✅ | ✅ | ✅ |
 | Agent routines (scheduled, personal) | ✅ | ✅ | ✅ |
 | Share automations / routines across a team | — | ✅ | ✅ |
 | Skills marketplace | ✅ | ✅ | ✅ |
@@ -145,13 +144,13 @@ you'll see in 403 responses:
 |------|:--------:|--------------------|
 | `voice_chat` | Enterprise | Realtime voice chat (Voxtral STT/TTS), `/ai/voice` |
 | `webpages` | Enterprise | AI-built static webpages, `/api/webpages` |
-| `automations` | Community | No-code automation builder, `/api/automation*`. **n8n-style free builder** — personal use is free; a GA beta that's Community-exempt from the beta tier floor |
+| `automations` | Community | No-code automation builder, `/api/automation*`. Personal use is free; a GA beta that's Community-exempt from the beta tier floor |
 | `agent_routines` | Community | Scheduled agent runs (Studio → Routines), `/api/ai-tasks`. Free personal use; GA beta, Community |
 | `automation_sharing` | Enterprise | Sharing automations/routines across a team. **Reserve gate** — pins the paid collaboration boundary for the free builder; no route consumes it yet |
 | `meeting_notes` | Enterprise | Transcription + summarisation, `/api/transcriptions`, `/api/meet-bot` |
 | `component_designer` | Enterprise | Custom UI components, `/components` |
 | `notebooks` | Enterprise | Per-user research notebooks, `/api/notebooks` |
-| `projects` | Enterprise | Projects / team workspaces (sidebar accordion + `/api/projects`) — Bee Flow's n8n-"Projects" equivalent |
+| `projects` | Enterprise | Projects / team workspaces (sidebar accordion + `/api/projects`) |
 | `pii_tokenize` | Enterprise | Privacy Shield "Tokenize & round-trip" PII action; community PUT clamps `piiDetectionAction` to `block` server-side |
 | `web_search_guard` | Enterprise | Privacy Shield Web Search Guard toggle + category filter; community PUT force-disables it server-side |
 | `advanced_usage_monitoring` | Enterprise | Usage & Monitoring tabs other than Overview — Safety, Integrations, Feedback, Terminations. Gates `/api/usage/{guardrails,integrations,azure-services}/*`, `/api/feedback`, `/api/terminations` |
@@ -180,7 +179,7 @@ higher: on a Community install every `requireBetaFeature(...)` call
 short-circuits to a 403 with
 `{ error: 'feature_locked', reason: 'beta_requires_enterprise', required:
 'enterprise', upgrade_url: … }` so the UI can route the user to the right
-CTA. **The exception is the n8n-style free builder:** `automations` and
+CTA. **The exception is the free automation builder:** `automations` and
 `agent_routines` are GA betas whose licence feature lives in Community, so they
 are *exempt* from the beta tier floor and work on a Community install
 (`server/core/betaFeatures.js` returns them below the floor). Super-admins bypass
@@ -205,7 +204,7 @@ Counters reset on the first day of each calendar month at 00:00 UTC.
 
 | Need | Suggested tier |
 |------|----------------|
-| Free self-hosted core — chat, KB, agents, skills, **all built-in integrations**, the **no-code automation builder + scheduled agent routines** (n8n-style, personal use), and the Nextcloud connector (incl. signing in from the NC App Store app) | Community |
+| Free self-hosted core — chat, KB, agents, skills, **all built-in integrations**, the **no-code automation builder + scheduled agent routines** (personal use), and the Nextcloud connector (incl. signing in from the NC App Store app) | Community |
 | Team that wants **collaboration** on top of the free builder (sharing automations/routines across a team, **Projects** team workspaces), the MCP Server Marketplace, the rest of Studio (voice, webpage creation, notebooks, meeting notes, component designer), the advanced Privacy Shield modes (tokenize PII, web-search guard), the paid admin tabs (Agents, Monitoring, Compliance, Support, Appearance, Product Website), the remaining beta features, or compliance (SSO, GDPR/AI-Act) | Enterprise |
 | Reseller / private-label deployment | Full |
 

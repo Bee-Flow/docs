@@ -40,7 +40,6 @@ Available via the [Nextcloud connector](../connector/index.md). The 11 integrati
 | Integration | What it does |
 |-------------|--------------|
 | [GitHub](github.md) | Repos, issues, PRs, code search |
-| [n8n](n8n.md) | Trigger workflows, execute nodes |
 | [YouTrack](youtrack.md) | Issue search, create, comment |
 | [SignRequest](signrequest.md) | E-signatures |
 | [Fireflies](fireflies.md) | Meeting transcripts |
@@ -85,7 +84,7 @@ These integrations are implicitly available to every user unless explicitly disa
 agent-search, workspace, image-gen, music-gen, video-gen, elevenlabs,
 google-maps, linkedin, github, google-contacts, google-keep, outlook,
 outlook-readonly, ms-calendar, onedrive, ms-contacts, google-groups,
-n8n, nextcloud, nextcloud-calendar, nextcloud-contacts, nextcloud-deck,
+nextcloud, nextcloud-calendar, nextcloud-contacts, nextcloud-deck,
 nextcloud-notifications, nextcloud-talk, nextcloud-tasks, nextcloud-notes,
 nextcloud-activity, nextcloud-status
 ```

@@ -12,7 +12,7 @@ Requires a Pro or higher licence key. See [Tiers](../getting-started/tiers.md).
 
 Automations (also called **routines**) are trigger-based workflows. When something happens — a cron tick, an inbound webhook, a Nextcloud event, or a button press — Bee Flow runs a graph of steps end-to-end and logs every input/output along the way.
 
-The same toolbox the chat assistant uses is available to automations: ~30 integrations, AI steps, generated media (image / video / audio / transcription), and a set of n8n-style utility nodes for shaping data without code.
+The same toolbox the chat assistant uses is available to automations: ~30 integrations, AI steps, generated media (image / video / audio / transcription), and a set of utility nodes for shaping data without code.
 
 ## Anatomy
 
@@ -59,7 +59,7 @@ The runner ([`server/core/automationRunner.js`](https://github.com/Bee-Flow/beef
 | `wait` | Pauses the run for a fixed duration or until an absolute timestamp. |
 | `stop_error` | Halts the run with a templated error message. Useful in a switch's `default` case to fail loudly when an unexpected value lands. |
 
-### Utility (n8n-style) nodes
+### Utility nodes
 
 These run with no LLM call and no integration tool — they exist to shape data between steps so simple workflows stay author-able by non-developers.
 
@@ -206,7 +206,7 @@ Every integration the chat assistant can call is also an `integration_action` st
 - **Google** — Gmail, Calendar, Drive, Docs, **Sheets**, **Slides**, Contacts, Keep, Groups, Maps.
 - **Microsoft** — Outlook (full + read-only), Calendar, OneDrive, Contacts.
 - **Generated media** — `generate_image`, `generate_video`, `elevenlabs_tts`, `elevenlabs_music`, `elevenlabs_sfx`, `transcribe_audio`.
-- **DevOps & collab** — GitHub, YouTrack, SignRequest, Fireflies, Gamma, n8n.
+- **DevOps & collab** — GitHub, YouTrack, SignRequest, Fireflies, Gamma.
 - **Data & search** — Web Search, Knowledge-base search, Webpages.
 
 Full list: [Integrations](../integrations/index.md).
