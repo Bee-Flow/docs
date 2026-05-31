@@ -15,19 +15,21 @@ this page as the structure settles.
 Bee Flow ships in three tiers. **Community** is the default state of a fresh
 install — no licence key, no caps. Community covers the free self-hosted
 core: chat with agents, knowledge bases, the Nextcloud connector (including
-**signing in to Bee Flow from the Nextcloud App Store app**), multi-user with
-groups, themes, the skills marketplace, **all built-in integrations** (Google,
-Microsoft, AI image/music/video generation, third-party connectors and the
-Nextcloud module family) and the **MCP Server Marketplace** *(later
-implementation — see [Integrations → MCP](../integrations/index.md))*.
+**signing in to Bee Flow from the Nextcloud App Store app** via Nextcloud
+OAuth), multi-user with groups, themes, the skills marketplace, and **all
+built-in integrations** (Google, Microsoft, AI image/music/video generation,
+third-party connectors and the Nextcloud module family).
 
-**Enterprise** does **not** add the integrations themselves — those are free in
-Community. What Enterprise adds is the **orchestration** layer on top (the
-no-code [automation builder](../features/automations.md) and scheduled agent
-routines) together with the rest of the Studio-class capabilities (voice chat,
+**Enterprise** does **not** add the built-in integrations themselves — those
+are free in Community. What Enterprise adds is the **orchestration** layer on
+top (the no-code [automation builder](../features/automations.md) and scheduled
+agent routines), the **MCP Server Marketplace** *(an Enterprise beta — a later
+implementation; see [Integrations → MCP](../integrations/index.md))*, **SSO
+beyond Nextcloud** (Google / Microsoft / SAML — Nextcloud OAuth login stays
+Community) together with the rest of the Studio-class capabilities (voice chat,
 webpage creation, meeting notes, notebooks, component designer, projects), the
 advanced Privacy Shield modes, guardrail DLP, the compliance hub (GDPR + AI
-Act) and SAML SSO — **all beta features also require Enterprise**. Enterprise
+Act) — **all beta features also require Enterprise**. Enterprise
 also unlocks the paid **admin-dashboard surfaces** (Agents, Monitoring,
 Compliance, Support, Appearance/branding, Product Website) — see
 [Admin dashboard by tier](#admin-dashboard-by-tier) below. **Full** layers
@@ -64,8 +66,9 @@ may move at any time.
 | Webpage creation | — | ✅ | ✅ |
 | **Integrations** |
 | Built-in integrations — connect & use in chat (Google, Microsoft, AI generation, third-party, Nextcloud) | ✅ | ✅ | ✅ |
-| Nextcloud connector + sign-in to Bee Flow from the NC App Store app | ✅ | ✅ | ✅ |
-| MCP Server Marketplace *(later implementation)* | ✅ | ✅ | ✅ |
+| Nextcloud connector + sign-in to Bee Flow from the NC App Store app (Nextcloud OAuth) | ✅ | ✅ | ✅ |
+| SSO — Google / Microsoft / SAML | — | ✅ | ✅ |
+| MCP Server Marketplace *(Enterprise beta — later implementation)* | — | ✅ | ✅ |
 | **Workflow** |
 | Automation builder (no-code orchestration) | — | ✅ | ✅ |
 | Agent routines (scheduled orchestration) | — | ✅ | ✅ |
@@ -103,7 +106,7 @@ shown locked.
 |-----------|:---------:|:-----------:|
 | AI Config | ✅ | ✅ |
 | Security (incl. user & group management) | ✅ | ✅ |
-| Integrations (Global Defaults · MCP Marketplace · OAuth services) | ✅ | ✅ |
+| Integrations (Global Defaults · OAuth services) | ✅ | ✅ |
 | Server licence | ✅ | ✅ |
 | Languages | ✅ | ✅ |
 | Agents | — | ✅ |
