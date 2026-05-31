@@ -219,3 +219,4 @@ If the install hangs, fails, or the heartbeat doesn't return: see [Connector →
 - Port 23000 already taken on the host
 - Nextcloud 33.0.0 (broken events listener — upgrade to 33.0.1+)
 - HaRP doesn't trust a local insecure registry (dev-only)
+- **Icon appears but the app is blank on a local AIO + HaRP with a self-signed certificate** — HaRP and Nextcloud's own PHP can't verify the cert, so the embedded app's requests 500. Run [`aio-trust-local-cert.sh`](local-development.md#testing-on-a-local-nextcloud-aio-harp--a-self-signed-certificate) (local testing only; a real/valid certificate needs no step).

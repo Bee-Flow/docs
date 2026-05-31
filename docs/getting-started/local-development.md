@@ -312,6 +312,41 @@ docker logs nc_app_bee_flow -f | grep -i bootstrap
 
 ---
 
+## Testing on a local Nextcloud AIO (HaRP + a self-signed certificate)
+
+The sandbox above uses a `manual-install` daemon and avoids HaRP entirely, so the certificate of your local Nextcloud never matters. If instead you want to test against a **local Nextcloud All-in-One with the HaRP daemon** — closer to a real production setup — and your AIO is served with a **self-signed or internal-CA certificate** (Caddy `tls internal`, a `*.nip.io` test domain, mkcert, …), there's one extra step.
+
+### Why
+
+On AIO, three different components call Nextcloud over HTTPS and **verify the TLS certificate**. With a self-signed cert, the ones that don't trust it fail and **every** ExApp browser request returns HTTP 500 — the Bee Flow icon appears in the top bar but clicking it shows a **blank page**. This is a Nextcloud-AIO/HaRP limitation that affects **all** ExApps, not just Bee Flow:
+
+| Hop | Trusts a self-signed cert? |
+|---|---|
+| Bee Flow connector → Nextcloud | ✅ **Automatic** — the connector detects an untrusted Nextcloud cert and trusts it for the Nextcloud origin only (the Bee Flow server channel stays verified). |
+| **HaRP → Nextcloud** | ❌ HaRP resolves every ExApp by calling back into Nextcloud over HTTPS; on a self-signed cert it errors `SSLCertVerificationError`. |
+| **Nextcloud PHP → its own URL** | ❌ AppAPI's proxy makes Nextcloud call its own public URL; PHP's cURL rejects the self-signed cert (`error 60`). |
+
+On a **production / real AIO with a valid (publicly-trusted) certificate, none of this applies** — every component trusts it and the released connector just works.
+
+### Fix it with one command
+
+The connector repo ships a helper that makes the AIO HaRP **and** Nextcloud containers trust your local CA:
+
+```bash
+# from a connector checkout (or the monorepo's nextcloud-connector/)
+./scripts/aio-trust-local-cert.sh
+```
+
+It auto-detects the CA (mkcert, or a Caddy `tls internal` root), adds it to the Nextcloud container's trust store, rebuilds the read-only HaRP container with `SSL_CERT_FILE` pointed at a CA bundle in its `/certs` volume, and verifies the browser-proxy returns `200`. Pass `--ca <root-ca.pem>` if your CA can't be auto-detected, and `--harp` / `--nc` / `--caddy` to override container names.
+
+After it prints `✅ Browser-proxy returns 200`, hard-refresh Nextcloud (`Ctrl+Shift+R`) and the embedded Bee Flow app loads.
+
+:::note[Caveats]
+The script recreates the `nextcloud-aio-harp` container — it's recoverable (restart the containers from the AIO interface and AIO rebuilds HaRP fresh). An AIO/Nextcloud update recreates these containers from stock config and drops the change, so **re-run the script** if the app goes blank again. For a fully production-like local env, use a real domain with a valid certificate (e.g. Caddy ACME DNS-01) instead — then no script is needed.
+:::
+
+---
+
 ## Where to next
 
 - [Connector → Architecture](../connector/architecture.md) — what's actually happening during `/init` + bootstrap.
