@@ -20,18 +20,28 @@ OAuth), multi-user with groups, themes, the skills marketplace, and **all
 built-in integrations** (Google, Microsoft, AI image/music/video generation,
 third-party connectors and the Nextcloud module family).
 
-**Enterprise** does **not** add the built-in integrations themselves — those
-are free in Community. What Enterprise adds is the **orchestration** layer on
-top (the no-code [automation builder](../features/automations.md) and scheduled
-agent routines), the **MCP Server Marketplace** *(an Enterprise beta — a later
-implementation; see [Integrations → MCP](../integrations/index.md))*, **SSO
-beyond Nextcloud** (Google / Microsoft / SAML — Nextcloud OAuth login stays
+Community also ships the **no-code [automation builder](../features/automations.md)
+and scheduled agent routines** — for free, the way **n8n** ships its workflow
+builder in the Community Edition. Building automations is free; what stays paid
+is **collaboration**: sharing an automation or routine across your team
+(`automation_sharing`) and **Projects** (team workspaces). On Community,
+automations and routines are private to the person who creates them — exactly
+n8n's model, where the Community edition doesn't include sharing of workflows
+and only the creator can access them.
+
+**Enterprise** does **not** add the built-in integrations or the automation
+builder themselves — those are free in Community. What Enterprise adds is the
+**collaboration** layer on top (sharing automations/routines across a team,
+**Projects** team workspaces), the **MCP Server Marketplace** *(an Enterprise
+beta — a later implementation; see [Integrations → MCP](../integrations/index.md))*,
+**SSO beyond Nextcloud** (Google / Microsoft / SAML — Nextcloud OAuth login stays
 Community) together with the rest of the Studio-class capabilities (voice chat,
-webpage creation, meeting notes, notebooks, component designer, projects), the
+webpage creation, meeting notes, notebooks, component designer), the
 advanced Privacy Shield modes, guardrail DLP, the compliance hub (GDPR + AI
-Act) — **all beta features also require Enterprise**. Enterprise
-also unlocks the paid **admin-dashboard surfaces** (Agents, Monitoring,
-Compliance, Support, Appearance/branding, Product Website) — see
+Act) — **the remaining beta features also require Enterprise** (the automation
+builder + agent routines are the exception: they are GA features free in
+Community). Enterprise also unlocks the paid **admin-dashboard surfaces** (Agents,
+Monitoring, Compliance, Support, Appearance/branding, Product Website) — see
 [Admin dashboard by tier](#admin-dashboard-by-tier) below. **Full** layers
 white-label branding and sub-licence issuance on top for resellers.
 
@@ -70,10 +80,11 @@ may move at any time.
 | SSO — Google / Microsoft / SAML | — | ✅ | ✅ |
 | MCP Server Marketplace *(Enterprise beta — later implementation)* | — | ✅ | ✅ |
 | **Workflow** |
-| Automation builder (no-code orchestration) | — | ✅ | ✅ |
-| Agent routines (scheduled orchestration) | — | ✅ | ✅ |
+| Automation builder (no-code, personal) — *n8n-style free builder* | ✅ | ✅ | ✅ |
+| Agent routines (scheduled, personal) | ✅ | ✅ | ✅ |
+| Share automations / routines across a team | — | ✅ | ✅ |
 | Skills marketplace | ✅ | ✅ | ✅ |
-| Projects | — | ✅ | ✅ |
+| Projects (team workspaces) | — | ✅ | ✅ |
 | Notebooks (per-user research) | — | ✅ | ✅ |
 | **Productivity** |
 | Meeting notes | — | ✅ | ✅ |
@@ -134,12 +145,13 @@ you'll see in 403 responses:
 |------|:--------:|--------------------|
 | `voice_chat` | Enterprise | Realtime voice chat (Voxtral STT/TTS), `/ai/voice` |
 | `webpages` | Enterprise | AI-built static webpages, `/api/webpages` |
-| `automations` | Enterprise | No-code automation builder, `/api/automation*` |
-| `agent_routines` | Enterprise | Scheduled agent runs (Studio → Routines) |
+| `automations` | Community | No-code automation builder, `/api/automation*`. **n8n-style free builder** — personal use is free; a GA beta that's Community-exempt from the beta tier floor |
+| `agent_routines` | Community | Scheduled agent runs (Studio → Routines), `/api/ai-tasks`. Free personal use; GA beta, Community |
+| `automation_sharing` | Enterprise | Sharing automations/routines across a team. **Reserve gate** — pins the paid collaboration boundary for the free builder; no route consumes it yet |
 | `meeting_notes` | Enterprise | Transcription + summarisation, `/api/transcriptions`, `/api/meet-bot` |
 | `component_designer` | Enterprise | Custom UI components, `/components` |
 | `notebooks` | Enterprise | Per-user research notebooks, `/api/notebooks` |
-| `projects` | Enterprise | Projects (sidebar accordion + `/api/projects`) |
+| `projects` | Enterprise | Projects / team workspaces (sidebar accordion + `/api/projects`) — Bee Flow's n8n-"Projects" equivalent |
 | `pii_tokenize` | Enterprise | Privacy Shield "Tokenize & round-trip" PII action; community PUT clamps `piiDetectionAction` to `block` server-side |
 | `web_search_guard` | Enterprise | Privacy Shield Web Search Guard toggle + category filter; community PUT force-disables it server-side |
 | `advanced_usage_monitoring` | Enterprise | Usage & Monitoring tabs other than Overview — Safety, Integrations, Feedback, Terminations. Gates `/api/usage/{guardrails,integrations,azure-services}/*`, `/api/feedback`, `/api/terminations` |
@@ -155,22 +167,24 @@ you'll see in 403 responses:
 | `license_issuance` | Full | Sub-licence minting |
 
 Community-tier features (`chat_basic`, `kb_local_small`, `kb_unlimited`,
-`nextcloud_basic`, `nextcloud_oauth`, `multi_user`, `skills`) are still
-passed through `requireLicenseFeature` at their mount sites — the gate is
-a no-op because the feature lives in `TIER_FEATURES.community`. The
-`integrations` and `mcp_marketplace` flags are **capability markers** rather
-than mounted gates: built-in integrations and the MCP marketplace are
-deliberately ungated at runtime, and the flags exist so the UI/docs can
-reference them and so the community feature tests
+`nextcloud_basic`, `nextcloud_oauth`, `multi_user`, `skills`, `automations`,
+`agent_routines`) are still passed through `requireLicenseFeature` at their mount
+sites — the gate is a no-op because the feature lives in `TIER_FEATURES.community`.
+The `integrations` flag is a **capability marker** rather than a mounted gate:
+built-in integrations are deliberately ungated at runtime, and the flag exists so
+the UI/docs can reference it and so the community feature tests
 (`server/license/tiers.test.js`, `communityEnforcement.test.js`) fail loudly if
 a future change ever tries to move them behind Enterprise. Beta
-features (the entire `BETA_FEATURES` registry) require Enterprise or
+features (the `BETA_FEATURES` registry) generally require Enterprise or
 higher: on a Community install every `requireBetaFeature(...)` call
 short-circuits to a 403 with
 `{ error: 'feature_locked', reason: 'beta_requires_enterprise', required:
 'enterprise', upgrade_url: … }` so the UI can route the user to the right
-CTA. Super-admins bypass the tier check (same exemption that already
-exists for licensed-feature gates).
+CTA. **The exception is the n8n-style free builder:** `automations` and
+`agent_routines` are GA betas whose licence feature lives in Community, so they
+are *exempt* from the beta tier floor and work on a Community install
+(`server/core/betaFeatures.js` returns them below the floor). Super-admins bypass
+the tier check (same exemption that already exists for licensed-feature gates).
 
 ## Limit enforcement
 
@@ -191,8 +205,8 @@ Counters reset on the first day of each calendar month at 00:00 UTC.
 
 | Need | Suggested tier |
 |------|----------------|
-| Free self-hosted core — chat, KB, agents, skills, **all built-in integrations + the MCP marketplace**, and the Nextcloud connector (incl. signing in from the NC App Store app) | Community |
-| Team that wants the orchestration layer (no-code automation builder, scheduled agent routines), the rest of Studio (voice, webpage creation, notebooks, meeting notes, projects, component designer), the advanced Privacy Shield modes (tokenize PII, web-search guard), the paid admin tabs (Agents, Monitoring, Compliance, Support, Appearance, Product Website), beta features, or compliance (SSO, GDPR/AI-Act) | Enterprise |
+| Free self-hosted core — chat, KB, agents, skills, **all built-in integrations**, the **no-code automation builder + scheduled agent routines** (n8n-style, personal use), and the Nextcloud connector (incl. signing in from the NC App Store app) | Community |
+| Team that wants **collaboration** on top of the free builder (sharing automations/routines across a team, **Projects** team workspaces), the MCP Server Marketplace, the rest of Studio (voice, webpage creation, notebooks, meeting notes, component designer), the advanced Privacy Shield modes (tokenize PII, web-search guard), the paid admin tabs (Agents, Monitoring, Compliance, Support, Appearance, Product Website), the remaining beta features, or compliance (SSO, GDPR/AI-Act) | Enterprise |
 | Reseller / private-label deployment | Full |
 
 Custom plans (e.g. capped seats, specific feature sets) are available —
